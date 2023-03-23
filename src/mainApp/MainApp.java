@@ -12,21 +12,6 @@ import utils.Profiler;
 
 public class MainApp {
 
-	/*
-	 * TODO Add selenium entry in profiles.ini. Folders:
-	 * 
-	 * %APPDATA%/Roaming/Mozilla/Firefox for windows
-	 * 
-	 * $HOME/.mozilla/firefox for linux
-	 * 
-	 * [Profile69]
-	 * 
-	 * Name=selenium
-	 * 
-	 * IsRelative=0
-	 * 
-	 * Path=6wr009zz.selenium
-	 */
 	public static void main(String[] args) {
 		Thread[] hilos;
 		BufferedReader br;
@@ -50,7 +35,7 @@ public class MainApp {
 			br = new BufferedReader(new FileReader(source));
 
 			while ((linea = br.readLine()) != null)
-				if (!linea.isBlank() && !linea.isEmpty()) {
+				if (!linea.isEmpty()) {
 					urls.add(linea);
 				}
 			br.close();
