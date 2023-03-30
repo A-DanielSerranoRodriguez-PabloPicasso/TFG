@@ -1,4 +1,4 @@
-package mainApp;
+package grabberApp;
 
 import java.io.File;
 

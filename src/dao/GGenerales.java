@@ -11,14 +11,23 @@ import models.Generales;
 
 public class GGenerales implements Gestor<Generales> {
 
+	public static Gestor<Generales> gestor;
+
 	private Connection conn;
 
-	public GGenerales() {
+	private GGenerales() {
 		try {
 			conn = new SQLiteDAO().getConn();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Gestor<Generales> getGestor() {
+		if (gestor == null)
+			gestor = new GGenerales();
+
+		return gestor;
 	}
 
 	@Override

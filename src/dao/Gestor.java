@@ -3,6 +3,8 @@ package dao;
 import java.util.List;
 
 public interface Gestor<T> {
+	
+	public static Gestor gestor = null;
 
 	public T getById(String id);
 
