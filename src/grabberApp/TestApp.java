@@ -17,9 +17,12 @@ public class TestApp {
 //			System.out.println(generales2.getUrl());
 //		}
 		
-		System.out.println(new File("resources/web/uBlock0_1.46.1b8.firefox.signed.xpi").exists());
+//		System.out.println(new File("resources/web/uBlock0_1.46.1b8.firefox.signed.xpi").exists());
+//		
+//		FirefoxDriver fDriver = new FirefoxDriver();
+//		fDriver.getTitle();
 		
-		FirefoxDriver fDriver = new FirefoxDriver();
-		fDriver.getTitle();
+		System.out.println(System.getProperty("os.name"));
+		System.out.println(System.getProperty("user.name"));
 	}
 }

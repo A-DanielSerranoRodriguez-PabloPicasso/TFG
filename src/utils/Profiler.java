@@ -64,18 +64,25 @@ public class Profiler {
 	}
 
 	public static FirefoxDriver setFirefoxOptions(String path) {
+		writeProfile();
 		ProfilesIni profile = new ProfilesIni();
 		FirefoxProfile testprofile = profile.getProfile("selenium-profile");
+		File file = new File(path);
+		if(!file.exists())
+			file.mkdirs();
 		try {
-			if(!isWritten()) {
+			Thread.sleep(100);
+			if (!isWritten()) {
 				testprofile.setPreference("browser.download.dir", path);
 				testprofile.setPreference("browser.download.folderList", 2);
 				testprofile.addExtension(new File("resources/web/uBlock0_1.46.1b8.firefox.signed.xpi"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-		
+
 		FirefoxOptions fOptions = new FirefoxOptions();
 
 		if (System.getProperty("os.name").contains("Windows")) {
@@ -83,7 +90,7 @@ public class Profiler {
 //			fBinary.addCommandLineOptions("-headless");
 //			fOptions.setBinary(fBinary);
 		} else {
-			fOptions.setHeadless(true);
+//			fOptions.setHeadless(true);
 		}
 
 		fOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);

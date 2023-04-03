@@ -1,6 +1,5 @@
 package grabberApp.javafx.fxmls;
 
-import java.awt.Checkbox;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,17 +8,21 @@ import grabberApp.GrabberApp;
 import grabberApp.Util;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import utils.FileUtils;
+import utils.Grabber;
 
 public class BasicController {
 
 	private GrabberApp gapp;
 
-	private File fs;
+	private File fs, ds;
 
 	@FXML
 	private AnchorPane apArchivo;
@@ -40,13 +43,16 @@ public class BasicController {
 	private Label lblUrl;
 
 	@FXML
-	private Checkbox cbxArchivoQ;
+	private CheckBox cbxArchivoQ;
 
 	@FXML
 	private TextField txfArchivo;
 
 	@FXML
 	private TextField txfUrl;
+
+	@FXML
+	private TextField txfDestinationDirectory;
 
 	@FXML
 	private Button btnSelArchivo;
@@ -60,13 +66,13 @@ public class BasicController {
 
 	@FXML
 	public void initialize() {
-//		apArchivo.setVisible(false);
-		cbxArchivoQ.setState(false);
+		cbxArchivoQ.setSelected(false);
+		apArchivo.setVisible(false);
 	}
 
 	@FXML
 	private void handleCbxArchivoQ() {
-		if (cbxArchivoQ.getState()) {
+		if (cbxArchivoQ.isSelected()) {
 			apArchivo.setVisible(true);
 			apUrl.setVisible(false);
 			txfUrl.clear();
@@ -86,14 +92,41 @@ public class BasicController {
 		FileChooser fc = new FileChooser();
 		fc.setSelectedExtensionFilter(ef);
 		fs = fc.showOpenDialog(gapp.getStage());
+		txfArchivo.setText(fs.getAbsolutePath());
+	}
+
+	@FXML
+	private void handleBtnDestination() {
+		DirectoryChooser dc = new DirectoryChooser();
+		ds = dc.showDialog(gapp.getStage());
+		txfDestinationDirectory.setText(ds.getAbsolutePath());
 	}
 
 	@FXML
 	private void handleBtnAceptar() {
-		if (cbxArchivoQ.getState())
-			System.out.println("elegiste archivo: " + fs.getAbsolutePath());
-		else
-			System.out.println("elegiste url");
+		if (txfDestinationDirectory.getText().isEmpty()) {
+			System.out.println("Ruta de descarga obligatoria");
+		} else {
+			System.out.println("ruta de descarga: " + txfDestinationDirectory.getText());
+			if (cbxArchivoQ.isSelected()) {
+				int nThreads = FileUtils.getNumberOfLines(txfArchivo.getText());
+				List<String> lines = FileUtils.getLines(txfArchivo.getText());
+				System.out.println("elegiste archivo: " + txfArchivo.getText());
+				Thread[] threads = new Thread[nThreads];
+
+				for (int i = 0; i < nThreads; i++) {
+					threads[i] = new Grabber(lines.get(i), txfDestinationDirectory.getText(), i);
+				}
+
+				for (int i = 0; i < nThreads; i++) {
+					threads[i].start();
+				}
+			} else {
+				System.out.println("elegiste url: " + txfUrl.getText());
+				Thread thread = new Grabber(txfUrl.getText(), txfDestinationDirectory.getText(), 0);
+				thread.start();
+			}
+		}
 	}
 
 }

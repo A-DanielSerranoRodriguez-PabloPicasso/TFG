@@ -6,17 +6,35 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19">
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grabberApp.javafx.fxmls.BasicController">
    <children>
       <Label layoutX="388.0" layoutY="76.0" prefHeight="132.0" prefWidth="339.0" text="Grabber" />
-      <Label layoutX="110.0" layoutY="245.0" prefHeight="132.0" prefWidth="339.0" text="Archivo?" />
-      <CheckBox layoutX="292.0" layoutY="303.0" mnemonicParsing="false" />
-      <Label layoutX="95.0" layoutY="343.0" prefHeight="132.0" prefWidth="339.0" text="Archivo" />
-      <TextField editable="false" layoutX="292.0" layoutY="397.0" />
-      <Button layoutX="458.0" layoutY="397.0" mnemonicParsing="false" text="Seleccionar" />
-      <Label layoutX="102.0" layoutY="475.0" prefHeight="132.0" prefWidth="339.0" text="Url" />
-      <TextField layoutX="292.0" layoutY="529.0" />
-      <Button layoutX="524.0" layoutY="621.0" mnemonicParsing="false" text="Lanzar" />
+      <Button fx:id="btnAceptar" layoutX="524.0" layoutY="621.0" mnemonicParsing="false" onAction="#handleBtnAceptar" text="Lanzar" />
+      <AnchorPane layoutX="70.0" layoutY="239.0" prefHeight="91.0" prefWidth="433.0">
+         <children>
+            <Label prefHeight="132.0" prefWidth="339.0" text="Archivo?" />
+            <CheckBox fx:id="cbxArchivoQ" layoutX="101.0" layoutY="57.0" mnemonicParsing="false" onAction="#handleCbxArchivoQ" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="apArchivo" layoutX="78.0" layoutY="321.0" prefHeight="132.0" prefWidth="519.0">
+         <children>
+            <Label layoutX="14.0" layoutY="34.0" prefHeight="132.0" prefWidth="339.0" text="Archivo" />
+            <TextField fx:id="txfArchivo" editable="false" layoutX="91.0" layoutY="88.0" />
+            <Button fx:id="btnSelArchivo" layoutX="272.0" layoutY="88.0" mnemonicParsing="false" onAction="#handleBtnArchivo" text="Seleccionar" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="apUrl" layoutX="78.0" layoutY="500.0" prefHeight="83.0" prefWidth="417.0">
+         <children>
+            <Label prefHeight="132.0" prefWidth="339.0" text="Url" />
+            <TextField fx:id="txfUrl" layoutX="218.0" layoutY="54.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="630.0" layoutY="258.0" prefHeight="94.0" prefWidth="382.0">
+         <children>
+            <Label layoutX="27.0" layoutY="39.0" text="Ruta destino" />
+            <TextField fx:id="txfDestinationDirectory" layoutX="120.0" layoutY="35.0" />
+            <Button layoutX="306.0" layoutY="35.0" mnemonicParsing="false" onAction="#handleBtnDestination" text="Seleccionar" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
