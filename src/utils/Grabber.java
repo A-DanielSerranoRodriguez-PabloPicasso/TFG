@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.attribute.standard.PrinterLocation;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -82,26 +85,35 @@ public class Grabber extends Thread {
 				}
 
 			btnDownload = findElement(driver, By.cssSelector("a.flex:nth-child(3)"));
-			btnDownload.click();
-			closeUnwanted(auida, driver);
 			txtDownloadProcess = driver.findElement(By.cssSelector("p.text-sm:nth-child(4)"));
 
-			while (!cached) {
+			Thread.sleep(100);
+
+			if (!btnDownload.getText().matches(".*(Descargar|Download).*")) {
+				btnDownload.click();
 				closeUnwanted(auida, driver);
-				try {
-					if (!txtDownloadProcess.getText().matches(".*(A partir|%).*"))
+
+				while (!cached) {
+					closeUnwanted(auida, driver);
+					try {
+						if (!txtDownloadProcess.getText().matches(".*(A partir|%).*"))
+							cached = true;
+						Thread.sleep(1000);
+					} catch (Exception e) {
 						cached = true;
-					Thread.sleep(1000);
-				} catch (Exception e) {
-					cached = true;
+					}
 				}
 			}
 
 			if (!fileFolder.exists())
 				fileFolder.mkdir();
 
-			btnDownload.click();
-			closeUnwanted(auida, driver);
+			if (txtDownloadProcess.getText().matches(".*(clic|click).*")) {
+				System.out.println("Sin soporte");
+			} else {
+				btnDownload.click();
+				closeUnwanted(auida, driver);
+			}
 
 			files = fileFolder.list();
 
@@ -129,6 +141,12 @@ public class Grabber extends Thread {
 			e.printStackTrace();
 			errors.add("Don't know fam");
 			driver.quit();
+		}
+
+		try {
+			Profiler.removeProfile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 
 		driver.quit();

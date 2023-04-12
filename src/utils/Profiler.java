@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
@@ -68,21 +69,19 @@ public class Profiler {
 		ProfilesIni profile = new ProfilesIni();
 		FirefoxProfile testprofile = profile.getProfile("selenium-profile");
 		File file = new File(path);
-		if(!file.exists())
+		if (!file.exists())
 			file.mkdirs();
 		try {
 			Thread.sleep(100);
-			if (!isWritten()) {
-				testprofile.setPreference("browser.download.dir", path);
-				testprofile.setPreference("browser.download.folderList", 2);
-				testprofile.addExtension(new File("resources/web/uBlock0_1.46.1b8.firefox.signed.xpi"));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+//			if (!isWritten()) {
+////				testprofile.addExtension(new File("resources/web/uBlock0_1.46.1b8.firefox.signed.xpi"));
+//			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
+		testprofile.setPreference("browser.download.dir", path);
+		testprofile.setPreference("browser.download.folderList", 2);
 		FirefoxOptions fOptions = new FirefoxOptions();
 
 		if (System.getProperty("os.name").contains("Windows")) {
@@ -101,9 +100,10 @@ public class Profiler {
 
 	public static void removeProfile() throws IOException {
 		File bak = new File(pilBackup), prof = new File(profileIniLocation);
+		Path profPath = prof.toPath();
 		prof.delete();
-		Files.copy(bak.toPath(), prof.toPath());
-		bak.delete();
+		Files.copy(bak.toPath(), profPath);
+		new File(pilBackup).delete();
 	}
 
 	private static boolean isWritten() throws IOException {
