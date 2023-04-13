@@ -15,10 +15,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import utils.FileUtils;
+import utils.AbstractController;
+import utils.ArchivoUtils;
 import utils.Grabber;
 
-public class BasicController {
+public class BasicController extends AbstractController {
 
 	private GrabberApp gapp;
 
@@ -59,6 +60,9 @@ public class BasicController {
 
 	@FXML
 	private Button btnAceptar;
+
+	@FXML
+	private Button btnAcceder;
 
 	public BasicController() {
 		this.gapp = Util.gapp;
@@ -109,8 +113,8 @@ public class BasicController {
 		} else {
 			System.out.println("ruta de descarga: " + txfDestinationDirectory.getText());
 			if (cbxArchivoQ.isSelected()) {
-				int nThreads = FileUtils.getNumberOfLines(txfArchivo.getText());
-				List<String> lines = FileUtils.getLines(txfArchivo.getText());
+				int nThreads = ArchivoUtils.getNumberOfLines(txfArchivo.getText());
+				List<String> lines = ArchivoUtils.getLines(txfArchivo.getText());
 				System.out.println("elegiste archivo: " + txfArchivo.getText());
 				Thread[] threads = new Thread[nThreads];
 
@@ -127,6 +131,11 @@ public class BasicController {
 				thread.start();
 			}
 		}
+	}
+
+	@FXML
+	private void handleBtnAcceder() {
+		gApp.viewSwapMiddle("/grabberApp/javafx/fxmls/Blank.fxml");
 	}
 
 }

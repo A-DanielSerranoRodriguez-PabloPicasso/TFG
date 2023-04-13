@@ -36,5 +36,6 @@
             <Button layoutX="306.0" layoutY="35.0" mnemonicParsing="false" onAction="#handleBtnDestination" text="Seleccionar" />
          </children>
       </AnchorPane>
+      <Button layoutX="769.0" layoutY="620.0" mnemonicParsing="false" onAction="#handleBtnAcceder" text="Acceder" />
    </children>
 </AnchorPane>

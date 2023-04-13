@@ -10,10 +10,13 @@ public class SQLiteDAO {
 	private Connection conn;
 
 	public SQLiteDAO() throws SQLException {
-		File file = new File("db");
-		String url = "jdbc:sqlite://" + file.getAbsolutePath();
+		File file = new File("/db/db.db");
+		System.out.println(file.exists());
+		if (file.exists()) {
+			String url = "jdbc:sqlite://" + file.getAbsolutePath();
 
-		conn = DriverManager.getConnection(url);
+			conn = DriverManager.getConnection(url);
+		}
 	}
 
 	public Connection getConn() throws SQLException {

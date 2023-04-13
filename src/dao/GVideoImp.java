@@ -9,13 +9,13 @@ import java.util.List;
 
 import models.Generales;
 
-public class GGenerales implements Gestor<Generales> {
+public class GVideoImp implements GVideo<Generales> {
 
-	public static Gestor<Generales> gestor;
+	public static GVideo<Generales> gestor;
 
 	private Connection conn;
 
-	private GGenerales() {
+	private GVideoImp() {
 		try {
 			conn = new SQLiteDAO().getConn();
 		} catch (SQLException e) {
@@ -23,9 +23,9 @@ public class GGenerales implements Gestor<Generales> {
 		}
 	}
 
-	public Gestor<Generales> getGestor() {
+	public GVideo<Generales> getGestor() {
 		if (gestor == null)
-			gestor = new GGenerales();
+			gestor = new GVideoImp();
 
 		return gestor;
 	}
@@ -48,7 +48,6 @@ public class GGenerales implements Gestor<Generales> {
 		return general;
 	}
 
-	@Override
 	public Generales getByUrl(String url) {
 		Generales general = null;
 
@@ -84,7 +83,6 @@ public class GGenerales implements Gestor<Generales> {
 		return generales;
 	}
 
-	@Override
 	public List<Generales> getByNotDownloaded() {
 		List<Generales> generales = new ArrayList<>();
 

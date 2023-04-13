@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileUtils {
-
+public class ArchivoUtils {
 	public static int getNumberOfLines(String path) {
 		int lines = 0;
 		File file = new File(path);
