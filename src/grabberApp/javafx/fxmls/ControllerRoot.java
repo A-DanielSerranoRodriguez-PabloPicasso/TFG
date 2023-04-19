@@ -1,15 +1,15 @@
 package grabberApp.javafx.fxmls;
 
-import utils.AbstractController;
+import models.AbstractController;
+import utils.Utils;
 
 public class ControllerRoot extends AbstractController {
 
 	public ControllerRoot() {
-		System.out.println(getGrabberApp() != null);
-//		gApp = getGrabberApp();
-//		gApp.getLibrary().insert("asmodeus");
+		gApp = Utils.gapp;
 	}
 
 	public void initialize() {
+
 	}
 }

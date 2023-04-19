@@ -2,14 +2,18 @@ package dao;
 
 import java.util.List;
 
-public interface GLibrary<T> {
+public interface GLibrary<Library> {
 
 	public static GLibrary<?> gestor = null;
 
-	public T getByPath(T path);
+	public Library getByPath(String path);
 
-	public List<T> getAll();
+	public List<Library> getAll();
 
-	public boolean insert(T path);
+	public boolean insert(Library library);
+
+	public boolean update(Library library);
+
+	public boolean delete(Library library);
 
 }

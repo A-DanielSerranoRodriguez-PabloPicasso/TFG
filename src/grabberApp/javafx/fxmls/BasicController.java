@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import grabberApp.GrabberApp;
-import grabberApp.Util;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -15,9 +14,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import utils.AbstractController;
+import models.AbstractController;
 import utils.ArchivoUtils;
 import utils.Grabber;
+import utils.Utils;
 
 public class BasicController extends AbstractController {
 
@@ -65,7 +65,7 @@ public class BasicController extends AbstractController {
 	private Button btnAcceder;
 
 	public BasicController() {
-		this.gapp = Util.gapp;
+		this.gapp = Utils.gapp;
 	}
 
 	@FXML

@@ -2,35 +2,37 @@ package dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GLibraryImp implements GLibrary<String> {
+import models.Library;
 
-	private String table = "library";
-	private Statement stmt;
+public class GLibraryImp extends GGeneral implements GLibrary<Library> {
+
+	public GLibraryImp() {
+		table = "library";
+	}
 
 	@Override
-	public String getByPath(final String id) {
-		String result = "";
+	public Library getByPath(final String id) {
+		Library library = null;
 		try {
 			ResultSet rs = stmt.executeQuery("select path from " + table + " where path = '" + id + "'");
 			rs.next();
-			result = rs.getString(1);
+			library = new Library(rs.getString(1), rs.getString(2), rs.getString(3));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return result;
+		return library;
 	}
 
 	@Override
-	public List<String> getAll() {
-		List<String> result = new ArrayList<>();
+	public List<Library> getAll() {
+		List<Library> result = new ArrayList<>();
 		try {
 			ResultSet rs = stmt.executeQuery("select path from " + table);
 			while (rs.next())
-				result.add(rs.getString(1));
+				result.add(new Library(rs.getString(1), rs.getString(2), rs.getString(3)));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -38,12 +40,33 @@ public class GLibraryImp implements GLibrary<String> {
 	}
 
 	@Override
-	public boolean insert(final String path) {
+	public boolean insert(final Library library) {
 		try {
-			System.out.println("Insertando");
-			return stmt.execute("insert into " + table + " values ('" + path + "')");
+			return stmt.execute("insert into " + table + " values ('" + library.getPath() + "', '" + library.getName()
+					+ "', '" + library.getCategory() + "')");
 		} catch (SQLException e) {
-			System.out.println("Algo salio mal");
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean update(final Library library) {
+		try {
+			return stmt
+					.execute("update " + table + " set path = '" + library.getPath() + "', name = '" + library.getName()
+							+ "', category = '" + library.getCategory() + "' where path = '" + library.getPath() + "'");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean delete(final Library library) {
+		try {
+			return stmt.execute("delete from " + table + " where path = '" + library.getPath() + "'");
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;

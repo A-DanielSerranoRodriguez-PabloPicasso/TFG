@@ -2,18 +2,18 @@ package dao;
 
 import java.util.List;
 
-public interface GVideo<T> {
+public interface GVideo<Video> {
 
 	public static GVideo<?> gestor = null;
 
-	public T getById(String id);
+	public Video getById(String id);
 
-	public T getByUrl(String url);
+	public Video getByUrl(String url);
 
-	public List<T> getAll();
+	public List<Video> getAll();
 
-	public List<T> getByNotDownloaded();
+	public List<Video> getByNotDownloaded();
 
-	public boolean insert(T object);
+	public boolean insert(Video video);
 
 }

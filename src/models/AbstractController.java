@@ -1,4 +1,4 @@
-package utils;
+package models;
 
 import grabberApp.GrabberApp;
 
@@ -10,7 +10,6 @@ public abstract class AbstractController {
 	}
 
 	public GrabberApp getGrabberApp() {
-		System.out.println("Abstract: " + gApp != null);
 		return gApp;
 	}
 }

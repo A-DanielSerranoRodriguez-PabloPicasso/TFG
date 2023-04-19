@@ -8,28 +8,29 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import utils.AbstractController;
+import models.AbstractController;
+import models.Library;
+import utils.Utils;
 
 public class GrabberApp extends Application {
 	private Stage primaryStage;
 	private AnchorPane centerPane;
 	private BorderPane rootPane;
-	private GLibrary<String> gLibrary;
+	private GLibrary<Library> gLibrary;
 
 	public static void main(String[] args) {
 		launch(args);
 	}
 
-	public GLibrary<String> getLibrary() {
+	public GLibrary<Library> getLibrary() {
 		return gLibrary;
 	}
 
 	@Override
 	public void start(Stage arg0) throws Exception {
-//		Gestor<Generales> g = GGenerales.gestor;
 		gLibrary = new GLibraryImp();
 		primaryStage = arg0;
-		Util.gapp = this;
+		Utils.gapp = this;
 		initLayout();
 	}
 
@@ -45,7 +46,18 @@ public class GrabberApp extends Application {
 				controller.setGrabberApp(this);
 
 			primaryStage.setScene(new Scene(rootPane));
-			viewSwapMiddle("/grabberApp/javafx/fxmls/Basic.fxml");
+			
+			Stage preparing = new Stage();
+			
+			preparing.setResizable(false);
+
+			if (Utils.firstStart()) {
+				System.out.println("Firs");
+				viewSwapMiddle("/grabberApp/javafx/fxmls/Blank.fxml");
+			} else {
+				System.out.println("No first");
+				viewSwapMiddle("/grabberApp/javafx/fxmls/Basic.fxml");
+			}
 
 			primaryStage.show();
 		} catch (Exception e) {
@@ -60,8 +72,8 @@ public class GrabberApp extends Application {
 	public void viewSwapMiddle(String view) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-
 			loader.setLocation(GrabberApp.class.getResource(view));
+
 			centerPane = (AnchorPane) loader.load();
 
 			AbstractController controller = loader.getController();
