@@ -65,7 +65,7 @@ public class BasicController extends AbstractController {
 	private Button btnAcceder;
 
 	public BasicController() {
-		this.gapp = Utils.gapp;
+		this.gapp = Utils.gApp;
 	}
 
 	@FXML
@@ -135,7 +135,7 @@ public class BasicController extends AbstractController {
 
 	@FXML
 	private void handleBtnAcceder() {
-		gApp.viewSwapMiddle("/grabberApp/javafx/fxmls/Blank.fxml");
+		gApp.viewSetCenter("/grabberApp/javafx/fxmls/Blank.fxml");
 	}
 
 }

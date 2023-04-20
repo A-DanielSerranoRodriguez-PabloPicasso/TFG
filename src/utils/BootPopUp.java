@@ -1,36 +1,27 @@
-package grabberApp;
+package utils;
 
-import dao.GLibrary;
-import dao.GLibraryImp;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.AbstractController;
-import models.Library;
-import utils.Utils;
 
-public class GrabberApp extends Application {
+public class BootPopUp {
 	private Stage primaryStage;
 	private BorderPane rootPane;
 	private AnchorPane centerPane;
-	private GLibrary<Library> gLibrary;
 
-	public static void main(String[] args) {
-		launch(args);
+	public BootPopUp() {
+		primaryStage = new Stage();
+		primaryStage.setResizable(false);
+		primaryStage.initModality(Modality.APPLICATION_MODAL);
+		primaryStage.initOwner(Utils.gApp.getStage());
+		Utils.bootPopUp = this;
 	}
 
-	public GLibrary<Library> getLibrary() {
-		return gLibrary;
-	}
-
-	@Override
-	public void start(Stage arg0) throws Exception {
-		gLibrary = new GLibraryImp();
-		primaryStage = arg0;
-		Utils.gApp = this;
+	public void start() {
 		initLayout();
 	}
 
@@ -38,22 +29,16 @@ public class GrabberApp extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 
-			loader.setLocation(GrabberApp.class.getResource("/grabberApp/javafx/fxmls/Root.fxml"));
+			loader.setLocation(BootPopUp.class.getResource("/grabberApp/javafx/fxmls/popup/Root.fxml"));
 			rootPane = (BorderPane) loader.load();
 
 			AbstractController controller = loader.getController();
 			if (controller != null)
-				controller.setGrabberApp(this);
+				controller.setBootPopUp(this);
 
 			primaryStage.setScene(new Scene(rootPane));
 
-			if (Utils.firstStart()) {
-				System.out.println("Firs");
-				viewSetCenter("/grabberApp/javafx/fxmls/Blank.fxml");
-			} else {
-				System.out.println("No first");
-				viewSetCenter("/grabberApp/javafx/fxmls/Basic.fxml");
-			}
+			viewSetCenter("/grabberApp/javafx/fxmls/popup/Preparing.fxml");
 
 			primaryStage.show();
 		} catch (Exception e) {
@@ -64,13 +49,13 @@ public class GrabberApp extends Application {
 	public void viewSetCenter(String view) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GrabberApp.class.getResource(view));
+			loader.setLocation(BootPopUp.class.getResource(view));
 
 			centerPane = (AnchorPane) loader.load();
 
 			AbstractController controller = loader.getController();
 			if (controller != null)
-				controller.setGrabberApp(this);
+				controller.setBootPopUp(this);
 
 			rootPane.setCenter(centerPane);
 		} catch (Exception e) {

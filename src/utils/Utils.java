@@ -3,9 +3,16 @@ package utils;
 import java.io.File;
 
 import grabberApp.GrabberApp;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 public class Utils {
-	public static GrabberApp gapp;
+
+	public static GrabberApp gApp;
+
+	public static BootPopUp bootPopUp;
+
 	private static String system = System.getProperty("os.name"), user = System.getProperty("user.name"), folderPath,
 			path;
 
@@ -40,4 +47,23 @@ public class Utils {
 		else
 			return true;
 	}
+
+	public static void viewBorderPaneSetCenter(BorderPane pane, String view) {
+		AnchorPane centerPane;
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GrabberApp.class.getResource(view));
+
+			centerPane = (AnchorPane) loader.load();
+//			AbstractController controller = loader.getController();
+
+//			if (controller != null)
+//				controller.setGrabberApp(this);
+
+			pane.setCenter(centerPane);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

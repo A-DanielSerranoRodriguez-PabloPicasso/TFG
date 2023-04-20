@@ -1,15 +1,13 @@
-package grabberApp.javafx.fxmls;
+package grabberApp.javafx.fxmls.popup;
 
 import models.AbstractController;
-import utils.Utils;
 
 public class ControllerRoot extends AbstractController {
 
 	public ControllerRoot() {
-		gApp = Utils.gApp;
 	}
 
 	public void initialize() {
-
 	}
+
 }
