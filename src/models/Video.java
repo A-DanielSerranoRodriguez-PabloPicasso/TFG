@@ -1,7 +1,6 @@
 package models;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Video {
@@ -9,18 +8,18 @@ public class Video {
 	private Library library;
 	private String name, fileName;
 	private File image, video;
-	private List<String> categories;
+	private List<Category> categories;
 	private boolean downloaded;
 
-	public Video(Library library, String name, String fileName, File image, File video, boolean downloaded) {
+	public Video(Library library, String name, String fileName, File image, File video, List<Category> categories,
+			boolean downloaded) {
 		this.library = library;
 		this.name = name;
 		this.fileName = name;
 		this.image = image;
 		this.video = video;
+		this.categories = categories;
 		this.downloaded = downloaded;
-		categories = new ArrayList<>();
-		categories.add(library.getCategory());
 	}
 
 	public Library getLibrary() {
@@ -43,7 +42,7 @@ public class Video {
 		return video;
 	}
 
-	public List<String> getCategories() {
+	public List<Category> getCategories() {
 		return categories;
 	}
 

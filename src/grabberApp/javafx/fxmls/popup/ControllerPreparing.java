@@ -16,7 +16,6 @@ public class ControllerPreparing extends AbstractController {
 
 	public void initialize() {
 		bootPopUp.getStage().setOnShown(event -> {
-			System.out.println("blyat");
 			File configFolder = new File(Utils.getFolderPath()), configFile = new File(Utils.getPath());
 
 			while (!configFile.exists()) {

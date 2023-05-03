@@ -2,9 +2,10 @@ package models;
 
 public class Library {
 
-	private String name, path, category;
+	private String name, path;
+	private Category category;
 
-	public Library(String path, String name, String category) {
+	public Library(String path, String name, Category category) {
 		this.path = path;
 		this.name = name;
 		this.category = category;
@@ -17,8 +18,8 @@ public class Library {
 	public String getPath() {
 		return path;
 	}
-	
-	public String getCategory() {
+
+	public Category getCategory() {
 		return category;
 	}
 

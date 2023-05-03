@@ -1,12 +1,5 @@
 package grabberApp.javafx.fxmls;
 
-import grabberApp.GrabberApp;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import models.AbstractController;
 import utils.BootPopUp;
 import utils.Utils;

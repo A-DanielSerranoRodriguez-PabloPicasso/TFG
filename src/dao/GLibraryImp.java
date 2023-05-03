@@ -19,7 +19,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		try {
 			ResultSet rs = stmt.executeQuery("select path from " + table + " where path = '" + id + "'");
 			rs.next();
-			library = new Library(rs.getString(1), rs.getString(2), rs.getString(3));
+			library = new Library(rs.getString(1), rs.getString(2), null);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -32,7 +32,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		try {
 			ResultSet rs = stmt.executeQuery("select path from " + table);
 			while (rs.next())
-				result.add(new Library(rs.getString(1), rs.getString(2), rs.getString(3)));
+				result.add(new Library(rs.getString(1), rs.getString(2), null));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
