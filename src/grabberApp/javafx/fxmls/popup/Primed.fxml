@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="200.0" maxWidth="600.0" minHeight="200.0" minWidth="600.0" prefHeight="200.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="200.0" maxWidth="600.0" minHeight="200.0" minWidth="600.0" prefHeight="200.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grabberApp.javafx.fxmls.popup.ControllerPrimed">
    <children>
       <Text layoutX="286.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Listo" />
-      <Button layoutX="261.0" layoutY="113.0" mnemonicParsing="false" text="Continuar" />
+      <Button layoutX="261.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleOk" text="Continuar" />
    </children>
 </AnchorPane>

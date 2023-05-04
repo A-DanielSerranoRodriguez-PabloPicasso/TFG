@@ -1,7 +1,6 @@
 package grabberApp;
 
 import dao.GLibrary;
-import dao.GLibraryImp;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
+import utils.Routes;
 import utils.Utils;
 
 public class GrabberApp extends Application {
@@ -28,9 +28,9 @@ public class GrabberApp extends Application {
 
 	@Override
 	public void start(Stage arg0) throws Exception {
-		gLibrary = new GLibraryImp();
 		primaryStage = arg0;
 		Utils.gApp = this;
+		Routes.fillRoutes();
 		initLayout();
 	}
 
@@ -38,7 +38,7 @@ public class GrabberApp extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 
-			loader.setLocation(GrabberApp.class.getResource("/grabberApp/javafx/fxmls/Root.fxml"));
+			loader.setLocation(GrabberApp.class.getResource(Routes.getRoute("root")));
 			rootPane = (BorderPane) loader.load();
 
 			AbstractController controller = loader.getController();
@@ -47,12 +47,13 @@ public class GrabberApp extends Application {
 
 			primaryStage.setScene(new Scene(rootPane));
 
+			// TODO remove syso
 			if (Utils.firstStart()) {
 				System.out.println("Firs");
-				viewSetCenter("/grabberApp/javafx/fxmls/Blank.fxml");
+				viewSetCenter(Routes.getRoute("blank"));
 			} else {
 				System.out.println("No first");
-				viewSetCenter("/grabberApp/javafx/fxmls/Basic.fxml");
+				viewSetCenter(Routes.getRoute("basic"));
 			}
 
 			primaryStage.show();

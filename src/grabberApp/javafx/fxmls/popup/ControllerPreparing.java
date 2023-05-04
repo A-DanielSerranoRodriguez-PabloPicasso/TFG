@@ -11,32 +11,23 @@ import utils.Utils;
 public class ControllerPreparing extends AbstractController {
 
 	public ControllerPreparing() {
-		bootPopUp = Utils.bootPopUp;
+		gApp = Utils.gApp;
 	}
 
 	public void initialize() {
-		bootPopUp.getStage().setOnShown(event -> {
-			File configFolder = new File(Utils.getFolderPath()), configFile = new File(Utils.getPath());
+		File configFolder = new File(Utils.getFolderPath()), configFile = new File(Utils.getPath());
 
-			while (!configFile.exists()) {
-				if (!configFolder.exists())
-					configFolder.mkdirs();
+		if (!configFile.exists()) {
+			if (!configFolder.exists())
+				configFolder.mkdirs();
 
-				try {
-					Files.copy(new File(bootPopUp.getClass().getResource("/boot.properties").getFile()), configFile);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			try {
+				Files.copy(new File(gApp.getClass().getResource("/boot.properties").getFile()), configFile);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+		}
 
-			bootPopUp.viewSetCenter("/grabberApp/javafx/fxmls/popup/Primed.fxml");
-		});
 	}
 
 }

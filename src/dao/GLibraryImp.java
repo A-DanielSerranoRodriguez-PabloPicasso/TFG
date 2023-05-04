@@ -9,8 +9,26 @@ import models.Library;
 
 public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 
-	public GLibraryImp() {
+	private static GLibraryImp gestor;
+
+	private SQLiteDAO sqlDao;
+
+	private GLibraryImp() {
 		table = "library";
+		sqlDao = new SQLiteDAO();
+		try {
+			conn = sqlDao.getConn();
+			stmt = conn.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static GLibraryImp gestor() {
+		if (gestor == null)
+			gestor = new GLibraryImp();
+
+		return gestor;
 	}
 
 	@Override
@@ -18,8 +36,8 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		Library library = null;
 		try {
 			ResultSet rs = stmt.executeQuery("select path from " + table + " where path = '" + id + "'");
-			rs.next();
-			library = new Library(rs.getString(1), rs.getString(2), null);
+			if (rs.next())
+				library = new Library(rs.getString(1), rs.getString(2), null);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

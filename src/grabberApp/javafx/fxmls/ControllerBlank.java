@@ -1,7 +1,9 @@
 package grabberApp.javafx.fxmls;
 
+import java.io.File;
+
 import models.AbstractController;
-import utils.BootPopUp;
+import utils.Routes;
 import utils.Utils;
 
 public class ControllerBlank extends AbstractController {
@@ -12,7 +14,18 @@ public class ControllerBlank extends AbstractController {
 
 	public void initialize() {
 		gApp.getStage().setOnShown(arg0 -> {
-			new BootPopUp().start();
+			File configFile = new File(Utils.getPath());
+			gApp.viewSetCenter(Routes.getRoute("fl-preparing"));
+			while (!configFile.exists()) {
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			gApp.viewSetCenter(Routes.getRoute("fl-prepared"));
+//			new BootPopUp().start();
 //			Stage stage = new Stage();;
 //			BorderPane bp;
 //

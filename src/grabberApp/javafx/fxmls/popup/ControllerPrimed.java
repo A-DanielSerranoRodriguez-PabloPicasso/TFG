@@ -1,20 +1,22 @@
 package grabberApp.javafx.fxmls.popup;
 
+import javafx.fxml.FXML;
 import models.AbstractController;
+import utils.Routes;
 import utils.Utils;
 
 public class ControllerPrimed extends AbstractController {
 
 	public ControllerPrimed() {
 		gApp = Utils.gApp;
-		bootPopUp = Utils.bootPopUp;
 	}
 
 	public void initialize() {
-		bootPopUp.getStage().setOnShown(event -> {
-			gApp.viewSetCenter("/grabberApp/javafx/fxmls/Basic.fxml");
-		});
-//		bootPopUp.getStage().close();
+	}
+
+	@FXML
+	private void handleOk() {
+		gApp.viewSetCenter(Routes.getRoute("landpage"));
 	}
 
 }

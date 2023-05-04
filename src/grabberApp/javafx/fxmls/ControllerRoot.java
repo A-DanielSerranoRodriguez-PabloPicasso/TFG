@@ -10,6 +10,6 @@ public class ControllerRoot extends AbstractController {
 	}
 
 	public void initialize() {
-
 	}
+
 }

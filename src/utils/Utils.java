@@ -3,9 +3,6 @@ package utils;
 import java.io.File;
 
 import grabberApp.GrabberApp;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 
 public class Utils {
 
@@ -32,6 +29,7 @@ public class Utils {
 		return !isInWindows();
 	}
 
+	// TODO configurar base de datos
 	public static boolean firstStart() {
 		if (isInWindows())
 			folderPath = "C:/Users/" + user + "/AppData/Local/JGrabber";
@@ -48,22 +46,22 @@ public class Utils {
 			return true;
 	}
 
-	public static void viewBorderPaneSetCenter(BorderPane pane, String view) {
-		AnchorPane centerPane;
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GrabberApp.class.getResource(view));
-
-			centerPane = (AnchorPane) loader.load();
-//			AbstractController controller = loader.getController();
-
-//			if (controller != null)
-//				controller.setGrabberApp(this);
-
-			pane.setCenter(centerPane);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void viewBorderPaneSetCenter(BorderPane pane, String view) {
+//		AnchorPane centerPane;
+//		try {
+//			FXMLLoader loader = new FXMLLoader();
+//			loader.setLocation(GrabberApp.class.getResource(view));
+//
+//			centerPane = (AnchorPane) loader.load();
+////			AbstractController controller = loader.getController();
+//
+////			if (controller != null)
+////				controller.setGrabberApp(this);
+//
+//			pane.setCenter(centerPane);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }

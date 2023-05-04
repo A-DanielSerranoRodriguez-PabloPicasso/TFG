@@ -5,17 +5,23 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import utils.Utils;
+
 public class SQLiteDAO {
 
 	private Connection conn;
 
-	public SQLiteDAO() throws SQLException {
-		File file = new File("/db/db.db");
+	public SQLiteDAO() {
+		File file = new File(Utils.getFolderPath() + "/db.db");
 		System.out.println(file.exists());
 		if (file.exists()) {
 			String url = "jdbc:sqlite://" + file.getAbsolutePath();
 
-			conn = DriverManager.getConnection(url);
+			try {
+				conn = DriverManager.getConnection(url);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
