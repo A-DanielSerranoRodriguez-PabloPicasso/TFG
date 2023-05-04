@@ -6,18 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Library;
+import utils.Utils;
 
 public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 
 	private static GLibraryImp gestor;
 
-	private SQLiteDAO sqlDao;
-
 	private GLibraryImp() {
 		table = "library";
-		sqlDao = new SQLiteDAO();
 		try {
-			conn = sqlDao.getConn();
+			conn = Utils.sqlDao.getConn();
 			stmt = conn.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();

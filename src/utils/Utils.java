@@ -2,11 +2,14 @@ package utils;
 
 import java.io.File;
 
+import dao.SQLiteDAO;
 import grabberApp.GrabberApp;
 
 public class Utils {
 
 	public static GrabberApp gApp;
+	
+	public static SQLiteDAO sqlDao;
 
 	public static BootPopUp bootPopUp;
 

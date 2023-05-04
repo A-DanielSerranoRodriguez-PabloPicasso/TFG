@@ -1,6 +1,7 @@
 package grabberApp;
 
 import dao.GLibrary;
+import dao.SQLiteDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,6 +31,7 @@ public class GrabberApp extends Application {
 	public void start(Stage arg0) throws Exception {
 		primaryStage = arg0;
 		Utils.gApp = this;
+		Utils.sqlDao = SQLiteDAO.getDao();
 		Routes.fillRoutes();
 		initLayout();
 	}

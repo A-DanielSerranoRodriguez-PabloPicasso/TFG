@@ -11,7 +11,9 @@ public class SQLiteDAO {
 
 	private Connection conn;
 
-	public SQLiteDAO() {
+	private static SQLiteDAO dao;
+
+	private SQLiteDAO() {
 		File file = new File(Utils.getFolderPath() + "/db.db");
 		System.out.println(file.exists());
 		if (file.exists()) {
@@ -23,6 +25,13 @@ public class SQLiteDAO {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static SQLiteDAO getDao() {
+		if (dao == null)
+			dao = new SQLiteDAO();
+
+		return dao;
 	}
 
 	public Connection getConn() throws SQLException {
