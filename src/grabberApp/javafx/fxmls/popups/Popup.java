@@ -1,16 +1,19 @@
-package grabberApp;
+package grabberApp.javafx.fxmls.popups;
 
+import grabberApp.GrabberApp;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import models.AbstractController;
+import models.AbstractPopupController;
 import utils.Routes;
 import utils.Utils;
+import utils.UtilsPopup;
 
-public class GrabberApp extends Application {
+public class Popup extends Application {
 	private Stage primaryStage;
 	private BorderPane rootPane;
 	private AnchorPane centerPane;
@@ -22,8 +25,12 @@ public class GrabberApp extends Application {
 	@Override
 	public void start(Stage arg0) throws Exception {
 		primaryStage = arg0;
-		Utils.gApp = this;
-		Routes.fillRoutes();
+		UtilsPopup.popup = this;
+		
+		primaryStage.initModality(Modality.APPLICATION_MODAL);
+		primaryStage.initOwner(Utils.gApp.getStage());
+		primaryStage.setResizable(false);
+		
 		initLayout();
 	}
 
@@ -31,20 +38,29 @@ public class GrabberApp extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 
-			loader.setLocation(GrabberApp.class.getResource(Routes.getRoute("root")));
+			loader.setLocation(GrabberApp.class.getResource(Routes.getRoute("popup-root")));
 			rootPane = (BorderPane) loader.load();
 
-			AbstractController controller = loader.getController();
+			AbstractPopupController controller = loader.getController();
 			if (controller != null)
-				controller.setGrabberApp(this);
+				controller.setPopup(this);
 
 			primaryStage.setScene(new Scene(rootPane));
+			
+			switch (UtilsPopup.page) {
+			case LIBRARY:
+				viewSetCenter(Routes.getRoute("popup-library-create"));
+				break;
 
-			if (Utils.firstStart()) {
-				viewSetCenter(Routes.getRoute("blank"));
-			} else {
-				viewSetCenter(Routes.getRoute("landpage"));
+			default:
+				break;
 			}
+
+//			if (Utils.firstStart()) {
+//				viewSetCenter(Routes.getRoute("blank"));
+//			} else {
+//				viewSetCenter(Routes.getRoute("landpage"));
+//			}
 
 			primaryStage.show();
 		} catch (Exception e) {
@@ -59,9 +75,9 @@ public class GrabberApp extends Application {
 
 			centerPane = (AnchorPane) loader.load();
 
-			AbstractController controller = loader.getController();
+			AbstractPopupController controller = loader.getController();
 			if (controller != null)
-				controller.setGrabberApp(this);
+				controller.setPopup(this);
 
 			rootPane.setCenter(centerPane);
 		} catch (Exception e) {

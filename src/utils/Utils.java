@@ -11,8 +11,6 @@ public class Utils {
 	
 	public static SQLiteDAO sqlDao;
 
-	public static BootPopUp bootPopUp;
-
 	private static String system = System.getProperty("os.name"), user = System.getProperty("user.name"), folderPath,
 			path;
 

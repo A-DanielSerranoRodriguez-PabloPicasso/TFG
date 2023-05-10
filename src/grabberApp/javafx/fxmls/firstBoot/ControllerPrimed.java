@@ -1,4 +1,4 @@
-package grabberApp.javafx.fxmls.popup;
+package grabberApp.javafx.fxmls.firstBoot;
 
 import javafx.fxml.FXML;
 import models.AbstractController;

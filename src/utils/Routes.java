@@ -11,11 +11,12 @@ public class Routes {
 		routes = new HashMap<>();
 		String baseRoute = "/grabberApp/javafx/fxmls/";
 		routes.put("root", baseRoute + "Root.fxml");
-		routes.put("basic", baseRoute + "Basic.fxml");
 		routes.put("blank", baseRoute + "Blank.fxml");
-		routes.put("fl-preparing", baseRoute + "popup/Preparing.fxml");
-		routes.put("fl-prepared", baseRoute + "popup/Primed.fxml");
 		routes.put("landpage", baseRoute + "LandPage.fxml");
+		routes.put("fl-preparing", baseRoute + "firstBoot/Preparing.fxml");
+		routes.put("fl-prepared", baseRoute + "firstBoot/Primed.fxml");
+		routes.put("popup-root", baseRoute + "popups/Root.fxml");
+		routes.put("popup-library-create", baseRoute + "popups/library/Create.fxml");
 	}
 
 	public static String getRoute(String route) {

@@ -9,13 +9,13 @@ import utils.Utils;
 
 public class SQLiteDAO {
 
-	private Connection conn;
+	private static Connection conn;
 
 	private static SQLiteDAO dao;
 
 	private SQLiteDAO() {
 		File file = new File(Utils.getFolderPath() + "/db.db");
-		System.out.println(file.exists());
+
 		if (file.exists()) {
 			String url = "jdbc:sqlite://" + file.getAbsolutePath();
 
@@ -34,7 +34,8 @@ public class SQLiteDAO {
 		return dao;
 	}
 
-	public Connection getConn() throws SQLException {
+	public static Connection getConn() throws SQLException {
+		getDao();
 		return conn;
 	}
 

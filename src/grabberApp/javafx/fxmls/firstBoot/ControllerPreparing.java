@@ -1,4 +1,4 @@
-package grabberApp.javafx.fxmls.popup;
+package grabberApp.javafx.fxmls.firstBoot;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +23,8 @@ public class ControllerPreparing extends AbstractController {
 
 			try {
 				Files.copy(new File(gApp.getClass().getResource("/boot.properties").getFile()), configFile);
+				Files.copy(new File(gApp.getClass().getResource("/db/db.db").getFile()),
+						new File(Utils.getFolderPath() + "/db.db"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

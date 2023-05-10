@@ -10,6 +10,11 @@ public class Library {
 		this.name = name;
 		this.category = category;
 	}
+	
+	public Library(String path, String name) {
+		this.path = path;
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;

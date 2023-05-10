@@ -25,35 +25,6 @@ public class ControllerBlank extends AbstractController {
 			}
 
 			gApp.viewSetCenter(Routes.getRoute("fl-prepared"));
-//			new BootPopUp().start();
-//			Stage stage = new Stage();;
-//			BorderPane bp;
-//
-//			stage.setResizable(false);
-//			stage.initModality(Modality.APPLICATION_MODAL);
-//			stage.initOwner(gApp.getStage());
-//
-//			try {
-//				FXMLLoader loader = new FXMLLoader();
-//
-//				loader.setLocation(GrabberApp.class.getResource("/grabberApp/javafx/fxmls/popup/Root.fxml"));
-//				bp = (BorderPane) loader.load();
-//
-//				AbstractController controller = loader.getController();
-//				if (controller != null)
-//					controller.setGrabberApp(Utils.gApp);
-//
-//				stage.setScene(new Scene(bp));
-//
-//				loader = new FXMLLoader();
-//				loader.setLocation(GrabberApp.class.getResource("/grabberApp/javafx/fxmls/popup/Preparing.fxml"));
-//
-//				bp.setCenter((AnchorPane) loader.load());
-//
-//				stage.show();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
 		});
 	}
 }

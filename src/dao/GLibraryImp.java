@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Library;
-import utils.Utils;
 
 public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 
@@ -15,7 +14,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	private GLibraryImp() {
 		table = "library";
 		try {
-			conn = Utils.sqlDao.getConn();
+			conn = SQLiteDAO.getConn();
 			stmt = conn.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,7 +45,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	public List<Library> getAll() {
 		List<Library> result = new ArrayList<>();
 		try {
-			ResultSet rs = stmt.executeQuery("select path from " + table);
+			ResultSet rs = stmt.executeQuery("select * from " + table);
 			while (rs.next())
 				result.add(new Library(rs.getString(1), rs.getString(2), null));
 		} catch (SQLException e) {
@@ -58,8 +57,12 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	@Override
 	public boolean insert(final Library library) {
 		try {
-			return stmt.execute("insert into " + table + " values ('" + library.getPath() + "', '" + library.getName()
-					+ "', '" + library.getCategory() + "')");
+			if (library.getCategory() == null)
+				return stmt.execute(
+						"insert into " + table + " values ('" + library.getPath() + "', '" + library.getName() + "')");
+			else
+				return stmt.execute("insert into " + table + " values ('" + library.getPath() + "', '"
+						+ library.getName() + "', '" + library.getCategory() + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
