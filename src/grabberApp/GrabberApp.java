@@ -13,7 +13,7 @@ import utils.Utils;
 public class GrabberApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootPane;
-	private AnchorPane centerPane;
+	private AnchorPane centerPane, topPane;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -40,6 +40,8 @@ public class GrabberApp extends Application {
 
 			primaryStage.setScene(new Scene(rootPane));
 
+			viewSetTop(Routes.getRoute("topBar"));
+
 			if (Utils.firstStart()) {
 				viewSetCenter(Routes.getRoute("blank"));
 			} else {
@@ -47,6 +49,23 @@ public class GrabberApp extends Application {
 			}
 
 			primaryStage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void viewSetTop(String view) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GrabberApp.class.getResource(view));
+
+			topPane = (AnchorPane) loader.load();
+
+			AbstractController controller = loader.getController();
+			if (controller != null)
+				controller.setGrabberApp(this);
+
+			rootPane.setTop(topPane);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

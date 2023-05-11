@@ -2,3 +2,21 @@
     -fx-background-color: #05000d;
     background-color: #05000d;
 }
+
+AnchorPane{
+	-fx-background-color: #000009;
+}
+
+Label{
+	-fx-text-fill: #FFFFFF;
+}
+
+.topBar{
+	-fx-background-color: #141418;
+}
+
+.icon{
+	-fx-background-color: #29292A;
+	-fx-border-style: none;
+	-fx-border-radius: 100;
+}

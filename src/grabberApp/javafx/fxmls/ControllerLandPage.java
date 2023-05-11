@@ -8,7 +8,6 @@ import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
@@ -47,18 +46,10 @@ public class ControllerLandPage extends AbstractController {
 	}
 
 	public void initialize() {
-		Button btnLibrary;
 		GLibrary<Library> gLibrary = GLibraryImp.gestor();
 		libraries = gLibrary.getAll();
 
-		for (Library library : libraries) {
-			btnLibrary = new Button(library.getName());
-			hBoxLibraries.getChildren().add(btnLibrary);
-			btnLibrary.setOnMouseClicked(event -> {
-				Utils.selectedLibrary = library;
-				gApp.viewSetCenter(Routes.getRoute("library"));
-			});
-		}
+		fillLibraries();
 
 		hBoxLibraries.getChildren().add(btnAddLibrary);
 	}
@@ -74,11 +65,21 @@ public class ControllerLandPage extends AbstractController {
 		hBoxLibraries.getChildren().clear();
 		libraries = gLibrary.getAll();
 
-		for (Library library : libraries) {
-			hBoxLibraries.getChildren().add(new Text(library.getName()));
-		}
+		fillLibraries();
 
 		hBoxLibraries.getChildren().add(btnAddLibrary);
+	}
+
+	private void fillLibraries() {
+		Button btnLibrary;
+		for (Library library : libraries) {
+			btnLibrary = new Button(library.getName());
+			hBoxLibraries.getChildren().add(btnLibrary);
+			btnLibrary.setOnMouseClicked(event -> {
+				Utils.selectedLibrary = library;
+				gApp.viewSetCenter(Routes.getRoute("library"));
+			});
+		}
 	}
 
 }

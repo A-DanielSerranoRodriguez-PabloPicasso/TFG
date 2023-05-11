@@ -6,14 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Category;
-import utils.Utils;
 
 public class GCategoryImp extends GGeneral implements GCategory<Category> {
 
 	public GCategoryImp() {
 		table = "category";
 		try {
-			conn = Utils.sqlDao.getConn();
+			conn = SQLiteDAO.getConn();
 			stmt = conn.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();

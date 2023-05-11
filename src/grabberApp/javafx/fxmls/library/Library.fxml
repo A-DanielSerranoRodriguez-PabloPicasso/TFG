@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane minHeight="700.0" minWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grabberApp.javafx.fxmls.library.ControllerLibrary">
    <children>
-      <Text fx:id="txtLibrary" layoutX="454.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Label fx:id="lblLibrary" layoutX="482.0" layoutY="64.0" />
       <HBox fx:id="hBoxFolders" layoutX="354.0" layoutY="146.0" prefHeight="100.0" prefWidth="200.0" />
       <HBox layoutX="370.0" layoutY="322.0" prefHeight="100.0" prefWidth="200.0" />
    </children>

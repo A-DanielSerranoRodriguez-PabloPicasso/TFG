@@ -48,7 +48,7 @@ public class ControllerLibraryCreate extends AbstractPopupController {
 		btnAceptar.setOnMouseClicked(event -> {
 			String folderRoute = folder.getAbsolutePath(), folderName = txfNombre.getText();
 			GLibrary<Library> gLibrary = getLibrary();
-			gLibrary.insert(new Library(folderRoute, folderName));
+			gLibrary.insert(new Library(folderRoute + "/" + folderName, folderName));
 			FileUtils.createFolder(folderRoute + "/" + folderName);
 			popup.getStage().close();
 		});

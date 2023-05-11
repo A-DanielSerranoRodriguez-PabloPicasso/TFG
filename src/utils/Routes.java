@@ -11,6 +11,7 @@ public class Routes {
 		routes = new HashMap<>();
 		String baseRoute = "/grabberApp/javafx/fxmls/";
 		routes.put("root", baseRoute + "Root.fxml");
+		routes.put("topBar", baseRoute + "TopBar.fxml");
 		routes.put("blank", baseRoute + "Blank.fxml");
 		routes.put("landpage", baseRoute + "LandPage.fxml");
 		routes.put("fl-preparing", baseRoute + "firstBoot/Preparing.fxml");

@@ -34,7 +34,8 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		try {
 			ResultSet rs = stmt.executeQuery("select * from " + table + " where path = '" + id + "'");
 			if (rs.next())
-				library = new Library(rs.getString(1), rs.getString(2), rs.getString(3));
+				library = new Library(rs.getString(1), rs.getString(2),
+						rs.getString(3) == null ? null : rs.getString(3));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -46,12 +47,22 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		List<Library> result = new ArrayList<>();
 		try {
 			ResultSet rs = stmt.executeQuery("select * from " + table);
-			while (rs.next())
-				result.add(new Library(rs.getString(1), rs.getString(2), rs.getString(3)));
+			while (rs.next()) {
+				result.add(constructLibrary(rs));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	private Library constructLibrary(ResultSet rs) {
+		try {
+			return new Library(rs.getString(1), rs.getString(2), rs.getString(3));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
@@ -70,12 +81,12 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	@Override
 	public boolean insert(final Library library) {
 		try {
-			if (library.getCategory() == null)
-				return stmt.execute(
-						"insert into " + table + " values ('" + library.getPath() + "', '" + library.getName() + "')");
-			else
-				return stmt.execute("insert into " + table + " values ('" + library.getPath() + "', '"
-						+ library.getName() + "', '" + library.getCategory() + "')");
+//			if (library.getCategory() == null)
+			return stmt.execute("insert into " + table + " values ('" + library.getPath() + "', '" + library.getName()
+					+ "', '" + library.getParent() + "')");
+//			else
+//				return stmt.execute("insert into " + table + " values ('" + library.getPath() + "', '"
+//						+ library.getName() + "', '" + library.getCategory() + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
