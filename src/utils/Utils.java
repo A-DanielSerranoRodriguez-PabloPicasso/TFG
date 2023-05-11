@@ -4,12 +4,15 @@ import java.io.File;
 
 import dao.SQLiteDAO;
 import grabberApp.GrabberApp;
+import models.Library;
 
 public class Utils {
 
 	public static GrabberApp gApp;
-	
+
 	public static SQLiteDAO sqlDao;
+	
+	public static Library selectedLibrary;
 
 	private static String system = System.getProperty("os.name"), user = System.getProperty("user.name"), folderPath,
 			path;
@@ -30,7 +33,6 @@ public class Utils {
 		return !isInWindows();
 	}
 
-	// TODO configurar base de datos
 	public static boolean firstStart() {
 		if (isInWindows())
 			folderPath = "C:/Users/" + user + "/AppData/Local/JGrabber";
@@ -46,23 +48,5 @@ public class Utils {
 		else
 			return true;
 	}
-
-//	public static void viewBorderPaneSetCenter(BorderPane pane, String view) {
-//		AnchorPane centerPane;
-//		try {
-//			FXMLLoader loader = new FXMLLoader();
-//			loader.setLocation(GrabberApp.class.getResource(view));
-//
-//			centerPane = (AnchorPane) loader.load();
-////			AbstractController controller = loader.getController();
-//
-////			if (controller != null)
-////				controller.setGrabberApp(this);
-//
-//			pane.setCenter(centerPane);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 }

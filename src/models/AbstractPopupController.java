@@ -1,6 +1,7 @@
 package models;
 
 import dao.GLibrary;
+import dao.GLibraryImp;
 import grabberApp.javafx.fxmls.popups.Popup;
 
 public abstract class AbstractPopupController {
@@ -13,7 +14,7 @@ public abstract class AbstractPopupController {
 	}
 
 	public GLibrary<Library> getLibrary() {
-		return gLibrary;
+		return GLibraryImp.gestor();
 	}
 
 }

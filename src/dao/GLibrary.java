@@ -10,6 +10,8 @@ public interface GLibrary<Library> {
 
 	public List<Library> getAll();
 
+	public List<Library> getChildren(Library library);
+
 	public boolean insert(Library library);
 
 	public boolean update(Library library);

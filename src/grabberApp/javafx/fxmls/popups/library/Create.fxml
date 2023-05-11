@@ -12,5 +12,7 @@
       <Text layoutX="44.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lugar reside" />
       <TextField fx:id="txfRuta" disable="true" layoutX="178.0" layoutY="146.0" />
       <Button fx:id="btnElegirCarpeta" layoutX="394.0" layoutY="146.0" mnemonicParsing="false" text="Elegir" />
+      <Button fx:id="btnCancelar" layoutX="322.0" layoutY="247.0" mnemonicParsing="false" text="Cancelar" />
+      <Button fx:id="btnAceptar" layoutX="404.0" layoutY="247.0" mnemonicParsing="false" text="Aceptar" />
    </children>
 </AnchorPane>

@@ -32,9 +32,9 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	public Library getByPath(final String id) {
 		Library library = null;
 		try {
-			ResultSet rs = stmt.executeQuery("select path from " + table + " where path = '" + id + "'");
+			ResultSet rs = stmt.executeQuery("select * from " + table + " where path = '" + id + "'");
 			if (rs.next())
-				library = new Library(rs.getString(1), rs.getString(2), null);
+				library = new Library(rs.getString(1), rs.getString(2), rs.getString(3));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -47,7 +47,20 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		try {
 			ResultSet rs = stmt.executeQuery("select * from " + table);
 			while (rs.next())
-				result.add(new Library(rs.getString(1), rs.getString(2), null));
+				result.add(new Library(rs.getString(1), rs.getString(2), rs.getString(3)));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Library> getChildren(Library library) {
+		List<Library> result = new ArrayList<>();
+		try {
+			ResultSet rs = stmt.executeQuery("select * from " + table + " where parent = '" + library.getPath() + "'");
+			while (rs.next())
+				result.add(new Library(rs.getString(1), rs.getString(2), rs.getString(3)));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

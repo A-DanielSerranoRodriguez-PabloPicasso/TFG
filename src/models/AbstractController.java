@@ -1,6 +1,7 @@
 package models;
 
 import dao.GLibrary;
+import dao.GLibraryImp;
 import grabberApp.GrabberApp;
 
 public abstract class AbstractController {
@@ -13,7 +14,7 @@ public abstract class AbstractController {
 	}
 
 	public GLibrary<Library> getLibrary() {
-		return gLibrary;
+		return GLibraryImp.gestor();
 	}
 
 }

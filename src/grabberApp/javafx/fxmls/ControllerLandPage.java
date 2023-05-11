@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
+import utils.Routes;
 import utils.Utils;
 import utils.UtilsPopup;
 
@@ -46,25 +47,31 @@ public class ControllerLandPage extends AbstractController {
 	}
 
 	public void initialize() {
+		Button btnLibrary;
 		GLibrary<Library> gLibrary = GLibraryImp.gestor();
 		libraries = gLibrary.getAll();
 
 		for (Library library : libraries) {
-			hBoxLibraries.getChildren().add(new Text(library.getName()));
+			btnLibrary = new Button(library.getName());
+			hBoxLibraries.getChildren().add(btnLibrary);
+			btnLibrary.setOnMouseClicked(event -> {
+				Utils.selectedLibrary = library;
+				gApp.viewSetCenter(Routes.getRoute("library"));
+			});
 		}
 
 		hBoxLibraries.getChildren().add(btnAddLibrary);
 	}
 
 	private void reloadLibraryList() {
-		hBoxLibraries.getChildren().clear();
 		try {
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.LIBRARY;
 			new Popup().start(new Stage());
 		} catch (Exception e) {
 			e.printStackTrace();
-		};
-//		gLibrary.insert(new Library("/", "Root"));
+		}
+
+		hBoxLibraries.getChildren().clear();
 		libraries = gLibrary.getAll();
 
 		for (Library library : libraries) {

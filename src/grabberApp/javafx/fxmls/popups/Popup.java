@@ -26,11 +26,11 @@ public class Popup extends Application {
 	public void start(Stage arg0) throws Exception {
 		primaryStage = arg0;
 		UtilsPopup.popup = this;
-		
+
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
 		primaryStage.initOwner(Utils.gApp.getStage());
 		primaryStage.setResizable(false);
-		
+
 		initLayout();
 	}
 
@@ -46,7 +46,7 @@ public class Popup extends Application {
 				controller.setPopup(this);
 
 			primaryStage.setScene(new Scene(rootPane));
-			
+
 			switch (UtilsPopup.page) {
 			case LIBRARY:
 				viewSetCenter(Routes.getRoute("popup-library-create"));
@@ -56,13 +56,7 @@ public class Popup extends Application {
 				break;
 			}
 
-//			if (Utils.firstStart()) {
-//				viewSetCenter(Routes.getRoute("blank"));
-//			} else {
-//				viewSetCenter(Routes.getRoute("landpage"));
-//			}
-
-			primaryStage.show();
+			primaryStage.showAndWait();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

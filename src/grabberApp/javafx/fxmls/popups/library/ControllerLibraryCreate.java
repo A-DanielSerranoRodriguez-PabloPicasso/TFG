@@ -2,18 +2,19 @@ package grabberApp.javafx.fxmls.popups.library;
 
 import java.io.File;
 
+import dao.GLibrary;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import models.AbstractPopupController;
+import models.Library;
+import utils.FileUtils;
 import utils.UtilsPopup;
 
 public class ControllerLibraryCreate extends AbstractPopupController {
 
 	private File folder;
-
-//	private String folderName;
 
 	@FXML
 	private TextField txfNombre;
@@ -24,14 +25,32 @@ public class ControllerLibraryCreate extends AbstractPopupController {
 	@FXML
 	private Button btnElegirCarpeta;
 
-	public ControllerLibraryCreate() {
+	@FXML
+	private Button btnCancelar;
 
+	@FXML
+	private Button btnAceptar;
+
+	public ControllerLibraryCreate() {
+		popup = UtilsPopup.popup;
 	}
 
 	public void initialize() {
 		btnElegirCarpeta.setOnMouseClicked(event -> {
 			folder = new DirectoryChooser().showDialog(UtilsPopup.popup.getStage());
 			txfRuta.setText(folder.getAbsolutePath());
+		});
+
+		btnCancelar.setOnMouseClicked(event -> {
+			popup.getStage().close();
+		});
+
+		btnAceptar.setOnMouseClicked(event -> {
+			String folderRoute = folder.getAbsolutePath(), folderName = txfNombre.getText();
+			GLibrary<Library> gLibrary = getLibrary();
+			gLibrary.insert(new Library(folderRoute, folderName));
+			FileUtils.createFolder(folderRoute + "/" + folderName);
+			popup.getStage().close();
 		});
 	}
 }
