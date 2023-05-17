@@ -18,13 +18,17 @@ Label{
 .icon{
 	-fx-background-color: #29292A;
 	-fx-border-style: none;
-  	-fx-border-radius: 100.0;
-  	-fx-background-radius: 100.0;
+  	-fx-border-radius: 500.0;
+  	-fx-background-radius: 500.0;
 	-fx-background-position: center;
 }
 
 .no-bg{
 	-fx-background-color: none;
+}
+
+.bordered{
+	-fx-border-color: white;
 }
 
 TextField{

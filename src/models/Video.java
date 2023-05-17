@@ -5,25 +5,25 @@ import java.util.List;
 
 public class Video {
 
+	private int id;
+	private String name, fileName, path, strLibrary;
 	private Library library;
-	private String name, fileName;
 	private File image, video;
 	private List<Category> categories;
 	private boolean downloaded;
 
-	public Video(Library library, String name, String fileName, File image, File video, List<Category> categories,
-			boolean downloaded) {
-		this.library = library;
+	public Video(int id, String name, String fileName, String path, String strLibrary, boolean downloaded) {
+		super();
+		this.id = id;
 		this.name = name;
-		this.fileName = name;
-		this.image = image;
-		this.video = video;
-		this.categories = categories;
+		this.fileName = fileName;
+		this.path = path;
+		this.strLibrary = strLibrary;
 		this.downloaded = downloaded;
 	}
 
-	public Library getLibrary() {
-		return library;
+	public int getId() {
+		return id;
 	}
 
 	public String getName() {
@@ -32,6 +32,18 @@ public class Video {
 
 	public String getFileName() {
 		return fileName;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public String getStrLibrary() {
+		return strLibrary;
+	}
+
+	public Library getLibrary() {
+		return library;
 	}
 
 	public File getImage() {

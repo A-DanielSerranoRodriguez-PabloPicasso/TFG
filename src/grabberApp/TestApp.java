@@ -1,9 +1,5 @@
 package grabberApp;
 
-import java.io.File;
-
-import org.openqa.selenium.firefox.FirefoxDriver;
-
 public class TestApp {
 	public static void main(String[] args) {
 //		Gestor<Generales> gestor = new GGenerales();
