@@ -51,6 +51,10 @@ public class Popup extends Application {
 			case LIBRARY:
 				viewSetCenter(Routes.getRoute("popup-library-create"));
 				break;
+				
+			case DOWNLOAD:
+				viewSetCenter(Routes.getRoute("popup-download"));
+				break;
 
 			default:
 				break;

@@ -24,7 +24,7 @@ public class ControllerLibrary extends AbstractController {
 	private HBox hBoxVideos;
 
 	public ControllerLibrary() {
-		gLibrary = getLibrary();
+		gLibrary = getGLibrary();
 		library = Utils.selectedLibrary;
 	}
 

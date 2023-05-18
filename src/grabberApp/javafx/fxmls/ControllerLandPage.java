@@ -2,8 +2,6 @@ package grabberApp.javafx.fxmls;
 
 import java.util.List;
 
-import dao.GLibrary;
-import dao.GLibraryImp;
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -41,7 +39,9 @@ public class ControllerLandPage extends AbstractController {
 
 	public ControllerLandPage() {
 		gApp = Utils.gApp;
-		gLibrary = GLibraryImp.gestor();
+		gLibrary = getGLibrary();
+
+		Utils.libraries = gLibrary.getAll();
 
 		btnAddLibrary = new Button("Añadir");
 		btnAddLibrary.setOnMousePressed(event -> {
@@ -50,8 +50,7 @@ public class ControllerLandPage extends AbstractController {
 	}
 
 	public void initialize() {
-		GLibrary<Library> gLibrary = GLibraryImp.gestor();
-		libraries = gLibrary.getAll();
+		libraries = Utils.libraries;
 
 		fillLibraries();
 
@@ -80,7 +79,6 @@ public class ControllerLandPage extends AbstractController {
 		for (Library library : libraries) {
 			btnLibrary = new Button(library.getName());
 			gpLibraries.add(btnLibrary, i, 0);
-//			gpLibraries.getChildren().add(btnLibrary);
 			btnLibrary.setOnMouseClicked(event -> {
 				Utils.selectedLibrary = library;
 				gApp.viewSetCenter(Routes.getRoute("library"));

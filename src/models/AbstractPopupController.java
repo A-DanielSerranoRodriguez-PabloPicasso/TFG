@@ -13,7 +13,7 @@ public abstract class AbstractPopupController {
 		this.popup = popup;
 	}
 
-	public GLibrary<Library> getLibrary() {
+	public GLibrary<Library> getGLibrary() {
 		return GLibraryImp.gestor();
 	}
 

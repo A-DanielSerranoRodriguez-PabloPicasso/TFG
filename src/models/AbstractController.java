@@ -13,7 +13,7 @@ public abstract class AbstractController {
 		this.gApp = gApp;
 	}
 
-	public GLibrary<Library> getLibrary() {
+	public GLibrary<Library> getGLibrary() {
 		return GLibraryImp.gestor();
 	}
 

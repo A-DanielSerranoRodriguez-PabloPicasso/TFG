@@ -10,6 +10,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import com.google.common.io.Files;
 
@@ -36,7 +37,7 @@ public class Grabber extends Thread {
 		FFDriver ffDriver = new FFDriver(fileFolder.getAbsolutePath());
 
 		WebDriver driver = ffDriver.getWebDriver();
-		WebElement txfUrl, btnUrl, btnDownload, txtDownloadProcess;
+		WebElement txfUrl, btnUrl, sepConverter, choiceFormat, btnDownload, txtDownloadProcess;
 
 		if (!outFolder.exists())
 			outFolder.mkdirs();
@@ -81,12 +82,20 @@ public class Grabber extends Thread {
 					prepared = true;
 				}
 
-			btnDownload = findElement(driver, By.cssSelector("a.flex:nth-child(3)"));
-			txtDownloadProcess = driver.findElement(By.cssSelector("p.text-sm:nth-child(4)"));
+			sepConverter = findElement(driver, By.xpath("//*[@id=\"react-tabs-10\"]"));
+
+			sepConverter.click();
+
+			Select selectFormat = new Select(findElement(driver, By.id("convert-format")));
+			selectFormat.selectByValue("mp4");
+//			choiceFormat.get
+
+			btnDownload = findElement(driver, By.xpath("/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div[2]/div[2]/div/a[1]"));
+			txtDownloadProcess = driver.findElement(By.xpath("/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div[2]/div[2]/div/p"));
 
 			Thread.sleep(100);
 
-			if (!btnDownload.getText().matches(".*(Descargar|Download).*")) {
+			if (!btnDownload.getText().matches(".*(Descargar|Download).*") || !btnDownload.getText().matches(".*(Haga click|click|Click).*")) {
 				btnDownload.click();
 				closeUnwanted(auida, driver);
 
@@ -95,7 +104,7 @@ public class Grabber extends Thread {
 					try {
 						if (!txtDownloadProcess.getText().matches(".*(A partir|%).*"))
 							cached = true;
-						Thread.sleep(1000);
+						Thread.sleep(100);
 					} catch (Exception e) {
 						cached = true;
 					}

@@ -18,6 +18,7 @@ public class Routes {
 		routes.put("fl-prepared", baseRoute + "firstBoot/Primed.fxml");
 		routes.put("popup-root", baseRoute + "popups/Root.fxml");
 		routes.put("popup-library-create", baseRoute + "popups/library/Create.fxml");
+		routes.put("popup-download", baseRoute + "popups/download/Download.fxml");
 		routes.put("library", baseRoute + "library/Library.fxml");
 	}
 

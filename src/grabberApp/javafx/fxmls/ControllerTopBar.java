@@ -4,14 +4,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import models.AbstractController;
 import utils.Routes;
 import utils.Utils;
+import utils.UtilsPopup;
 
 public class ControllerTopBar extends AbstractController {
 
@@ -77,6 +80,16 @@ public class ControllerTopBar extends AbstractController {
 	private void handleHome() {
 		Utils.selectedLibrary = null;
 		gApp.viewSetCenter(Routes.getRoute("landpage"));
+	}
+	
+	@FXML
+	private void handleNewDownload() {
+		UtilsPopup.page = UtilsPopup.POPUP_PAGE.DOWNLOAD;
+		try {
+			new Popup().start(new Stage());;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -1,6 +1,7 @@
 package utils;
 
 import java.io.File;
+import java.util.List;
 
 import dao.SQLiteDAO;
 import grabberApp.GrabberApp;
@@ -13,6 +14,8 @@ public class Utils {
 	public static SQLiteDAO sqlDao;
 	
 	public static Library selectedLibrary;
+	
+	public static List<Library> libraries;
 
 	private static String system = System.getProperty("os.name"), user = System.getProperty("user.name"), folderPath,
 			path;
