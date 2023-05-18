@@ -10,4 +10,6 @@ public class UtilsPopup {
 	public static Popup popup;
 	
 	public static POPUP_PAGE page;
+	
+	public static String downloadedVideoPath;
 }

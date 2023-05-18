@@ -59,7 +59,9 @@ public class ControllerDownload extends AbstractPopupController {
 		}
 
 		Grabber grabber = new Grabber(txfUrl.getText(), library.getPath(), 0);
-		grabber.start();
+		grabber.run(Utils.mbDownloads);
+
+		handleCancelar();
 	}
 
 }

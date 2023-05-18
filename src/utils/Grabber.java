@@ -14,9 +14,12 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.google.common.io.Files;
 
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import models.FFDriver;
 
-public class Grabber extends Thread {
+//public class Grabber extends Thread {
+public class Grabber {
 	private String url, outputFolder;
 	private int threadNumber;
 	private List<String> errors;
@@ -28,8 +31,9 @@ public class Grabber extends Thread {
 		errors = new ArrayList<>();
 	}
 
-	@Override
-	public void run() {
+//	@Override
+//	public void run() {
+	public void run(MenuButton menuButton) {
 		String selectorCssButtonUrl = "#gatsby-focus-wrapper > main > section:nth-child(1) > div > div.sm\\:text-center.md\\:max-w-2xl.md\\:mx-auto.lg\\:mx-0.lg\\:col-span-8.lg\\:text-left > div.mt-8.sm\\:mx-auto.sm\\:text-center.lg\\:mx-0.lg\\:text-left > form > button";
 		boolean prepared = false, cached = false, downloaded = false;
 		File outFolder = new File(outputFolder), fileFolder = new File(outputFolder + "/" + threadNumber);
@@ -37,7 +41,9 @@ public class Grabber extends Thread {
 		FFDriver ffDriver = new FFDriver(fileFolder.getAbsolutePath());
 
 		WebDriver driver = ffDriver.getWebDriver();
-		WebElement txfUrl, btnUrl, sepConverter, choiceFormat, btnDownload, txtDownloadProcess;
+		WebElement txfUrl, btnUrl, sepConverter, btnDownload, txtDownloadProcess;
+
+		MenuItem menuItem = new MenuItem();
 
 		if (!outFolder.exists())
 			outFolder.mkdirs();
@@ -80,22 +86,23 @@ public class Grabber extends Thread {
 					btnUrl.findElement(By.name("svg"));
 				} catch (Exception e) {
 					prepared = true;
+					Thread.sleep(1000);
 				}
 
-			sepConverter = findElement(driver, By.xpath("//*[@id=\"react-tabs-10\"]"));
+			sepConverter = findElement(driver, By.id("react-tabs-2"));
 
 			sepConverter.click();
 
 			Select selectFormat = new Select(findElement(driver, By.id("convert-format")));
 			selectFormat.selectByValue("mp4");
-//			choiceFormat.get
 
-			btnDownload = findElement(driver, By.xpath("/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div[2]/div[2]/div/a[1]"));
-			txtDownloadProcess = driver.findElement(By.xpath("/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div[2]/div[2]/div/p"));
+			btnDownload = findElement(driver, By.cssSelector("a.flex:nth-child(3)"));
+			txtDownloadProcess = driver.findElement(By.cssSelector("p.text-sm:nth-child(4)"));
 
 			Thread.sleep(100);
 
-			if (!btnDownload.getText().matches(".*(Descargar|Download).*") || !btnDownload.getText().matches(".*(Haga click|click|Click).*")) {
+			if (!btnDownload.getText().matches(".*(Descargar|Download).*")
+					|| !btnDownload.getText().matches(".*(Haga click|click|Click).*")) {
 				btnDownload.click();
 				closeUnwanted(auida, driver);
 
@@ -114,22 +121,21 @@ public class Grabber extends Thread {
 			if (!fileFolder.exists())
 				fileFolder.mkdir();
 
-			if (txtDownloadProcess.getText().matches(".*(clic|click).*")) {
-				System.out.println("Sin soporte");
-			} else {
-				btnDownload.click();
-				closeUnwanted(auida, driver);
-			}
+			btnDownload.click();
+			closeUnwanted(auida, driver);
 
 			files = fileFolder.list();
 
 			while (!downloaded) {
 				boolean finished = true;
 
-				for (String f : files) {
-					if (f.matches(".*part$"))
-						finished = false;
-				}
+				if (files.length != 0)
+					for (String f : files) {
+						if (f.matches(".*part$"))
+							finished = false;
+					}
+				else
+					finished = false;
 
 				if (!finished)
 					Thread.sleep(1000);
@@ -141,6 +147,10 @@ public class Grabber extends Thread {
 
 			File file = new File(fileFolder.getAbsoluteFile() + "/" + files[0]);
 			Files.move(file, new File(outputFolder + "/" + file.getName()));
+
+			menuItem.setText(files[0]);
+
+			menuButton.getItems().add(0, menuItem);
 
 			fileFolder.delete();
 		} catch (Exception e) {
@@ -157,12 +167,12 @@ public class Grabber extends Thread {
 
 		driver.quit();
 
-		try {
-			if (errors.size() > 0)
-				writeErrorsLog();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+//		try {
+//			if (errors.size() > 0)
+//				writeErrorsLog();
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
 	}
 
 	private WebElement findElement(WebDriver driver, By by) {
@@ -173,6 +183,7 @@ public class Grabber extends Thread {
 		} catch (Exception e) {
 			try {
 				Thread.sleep(500);
+				errors.add("Error waiting for element");
 			} catch (InterruptedException e1) {
 				e1.getStackTrace();
 				errors.add("Error waiting for element");

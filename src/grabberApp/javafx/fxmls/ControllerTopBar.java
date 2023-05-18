@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,6 +38,9 @@ public class ControllerTopBar extends AbstractController {
 	private Button btnSearch;
 
 	@FXML
+	private MenuButton btnDownloads;
+
+	@FXML
 	private TextField txfSearch;
 
 	public ControllerTopBar() {
@@ -44,6 +48,7 @@ public class ControllerTopBar extends AbstractController {
 	}
 
 	public void initialize() {
+		Utils.mbDownloads = btnDownloads;
 		FileInputStream fis = null;
 		File file = new File(gApp.getClass().getResource("/img/icon/home.png").getPath());
 
@@ -81,12 +86,12 @@ public class ControllerTopBar extends AbstractController {
 		Utils.selectedLibrary = null;
 		gApp.viewSetCenter(Routes.getRoute("landpage"));
 	}
-	
+
 	@FXML
 	private void handleNewDownload() {
 		UtilsPopup.page = UtilsPopup.POPUP_PAGE.DOWNLOAD;
 		try {
-			new Popup().start(new Stage());;
+			new Popup().start(new Stage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
