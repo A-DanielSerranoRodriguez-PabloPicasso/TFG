@@ -57,7 +57,7 @@ public class ControllerDownload extends AbstractPopupController {
 	private void handleAceptar() {
 		popup.getStage().close();
 		Library library = null;
-		String namePath = choiceLibrary.getSelectionModel().getSelectedItem();
+		String namePath = choiceLibrary.getSelectionModel().getSelectedItem(), videoName = txfVideoName.getText();
 		HBox hBox = new HBox();
 		Button btnRemove = new Button("X"), btnVer = new Button("Ver");
 		CustomMenuItem cmi;
@@ -75,7 +75,7 @@ public class ControllerDownload extends AbstractPopupController {
 
 		Utils.mbDownloads.getItems().add(0, cmi);
 
-		Grabber grabber = new Grabber(txfUrl.getText(), library.getPath(), 0, gVideo);
+		Grabber grabber = new Grabber(txfUrl.getText(), library.getPath(), gVideo, videoName);
 		grabber.run(cmi);
 
 		hBox.getChildren().add(btnVer);
@@ -96,7 +96,7 @@ public class ControllerDownload extends AbstractPopupController {
 //			}
 
 		});
-		
+
 		Utils.controllerLandPage.fillRecentVideos();
 
 		handleCancelar();

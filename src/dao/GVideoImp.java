@@ -40,8 +40,8 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 			ResultSet rs = stmt.executeQuery("select * from video where id = " + Integer.parseInt(id));
 			rs.next();
 
-			video = new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"), rs.getString("path"),
-					rs.getString("library"), rs.getBoolean("downloaded"));
+			video = new Video(rs.getInt("id"), rs.getString("name"), rs.getString("path"), rs.getString("library"),
+					rs.getBoolean("downloaded"));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -76,8 +76,8 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 			ResultSet rs = stmt.executeQuery("select * from video");
 
 			while (rs.next())
-				generales.add(new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"),
-						rs.getString("path"), rs.getString("library"), rs.getBoolean("downloaded")));
+				generales.add(new Video(rs.getInt("id"), rs.getString("name"), rs.getString("path"),
+						rs.getString("library"), rs.getBoolean("downloaded")));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -97,9 +97,8 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 
 			System.out.println("existo");
 			while (rs.next() && i <= amount) {
-				videos.add(
-						new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"), rs.getString("url"),
-								rs.getString("library"), rs.getBoolean("downloaded"), rs.getLong("last_date")));
+				videos.add(new Video(rs.getInt("id"), rs.getString("name"), rs.getString("url"),
+						rs.getString("library"), rs.getBoolean("downloaded"), rs.getLong("last_date")));
 				i++;
 			}
 
@@ -118,8 +117,8 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 			ResultSet rs = stmt.executeQuery("select * from video where downloaded = 0");
 
 			while (rs.next())
-				generales.add(new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"),
-						rs.getString("path"), rs.getString("library"), rs.getBoolean("downloaded")));
+				generales.add(new Video(rs.getInt("id"), rs.getString("name"), rs.getString("path"),
+						rs.getString("library"), rs.getBoolean("downloaded")));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -134,9 +133,38 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 
 		try {
 			Statement stmt = conn.createStatement();
-			ok = stmt.execute("insert into video(name, file_name, url, library, downloaded, last_date) values ('"
-					+ video.getName() + "', '" + video.getFileName() + "', '" + video.getUrl() + "', '"
-					+ video.getLibrary().getPath() + "', " + 1 + ", " + Instant.now().getEpochSecond() + ");");
+			ok = stmt.execute("insert into video(name, url, library, downloaded, last_date) values ('" + video.getName()
+					+ "', '" + video.getUrl() + "', '" + video.getLibrary().getPath() + "', " + 1 + ", "
+					+ Instant.now().getEpochSecond() + ");");
+		} catch (SQLException e) {
+			System.err.println("URL already exists");
+		}
+
+		return ok;
+	}
+
+	@Override
+	public boolean update(Video video) {
+		boolean ok = false;
+
+		try {
+			Statement stmt = conn.createStatement();
+			ok = stmt.execute("update video set name = '" + video.getName() + "', library = '" + video.getLibrary()
+					+ "' where id = " + video.getId() + ";");
+		} catch (SQLException e) {
+			System.err.println("URL already exists");
+		}
+
+		return ok;
+	}
+
+	@Override
+	public boolean delete(Video video) {
+		boolean ok = false;
+
+		try {
+			Statement stmt = conn.createStatement();
+			ok = stmt.execute("delete from video where id = " + video.getId() + ";");
 		} catch (SQLException e) {
 			System.err.println("URL already exists");
 		}

@@ -1,5 +1,11 @@
 package models.javafx;
 
+import java.util.List;
+
+import dao.GVideo;
+import dao.GVideoImp;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,10 +14,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import models.Library;
 import models.Video;
+import utils.Utils;
 
 public class CardVideo extends AnchorPane {
 
+	private Video video;
 	private HBox hbContent, hbEdit, hbDelete;
 	private Label lblName, lblPath, lblDate;
 	private Button btnEdit, btnDelete, btnAcceptEdit, btnCancelEdit, btnAcceptDelete, btnCancelDelete;
@@ -19,12 +28,13 @@ public class CardVideo extends AnchorPane {
 	private ChoiceBox<String> choiceLibrary;
 
 	public CardVideo(Video video) {
+		this.video = video;
+
 		hbContent = new HBox(10);
 		hbContent.setPadding(new Insets(20));
 		hbContent.setAlignment(Pos.CENTER);
 
 		lblName = new Label(video.getName());
-		lblName.setText(video.getName());
 		lblPath = new Label(video.getStrLibrary() + " - " + video.getPath());
 		lblDate = new Label(Long.toString(video.getDateCreated()));
 		btnEdit = new Button("Editar");
@@ -62,6 +72,16 @@ public class CardVideo extends AnchorPane {
 
 		buttonFunctions();
 
+		ObservableList<String> olLibraries = FXCollections.observableArrayList();
+
+		List<Library> libraries = Utils.libraries;
+
+		for (Library library : libraries) {
+			olLibraries.add(library.getName());
+		}
+
+		choiceLibrary.setItems(olLibraries);
+
 		this.getChildren().add(hbContent);
 		this.setVisible(true);
 	}
@@ -82,13 +102,35 @@ public class CardVideo extends AnchorPane {
 		});
 
 		btnAcceptEdit.setOnAction(event -> {
-			this.getChildren().remove(hbContent);
-			this.getChildren().add(hbEdit);
+			this.getChildren().remove(hbEdit);
+			GVideo<Video> gVideo = GVideoImp.getGestor();
+			Library library = null;
+			List<Library> libraries = Utils.libraries;
+			video.setName(txfName.getText());
+			for (int i = 0; i < libraries.size() && library == null; i++) {
+				Library lib = libraries.get(i);
+
+				library = choiceLibrary.getSelectionModel().getSelectedItem().equals(lib.getName()) ? lib : null;
+			}
+			video.setLibrary(library);
+			gVideo.update(video);
+			lblName.setText(video.getName());
+			lblPath.setText(video.getStrLibrary() + " - " + video.getPath());
+			hbContent.getChildren().add(2, lblDate);
+			this.getChildren().add(hbContent);
 		});
 
 		btnCancelEdit.setOnAction(event -> {
 			this.getChildren().remove(hbEdit);
 			hbContent.getChildren().add(2, lblDate);
+			this.getChildren().add(hbContent);
+		});
+
+		btnAcceptDelete.setOnAction(event -> {
+			this.getChildren().remove(hbDelete);
+			GVideo<Video> gVideo = GVideoImp.getGestor();
+			gVideo.delete(video);
+			Utils.controllerLandPage.fillRecentVideos();
 			this.getChildren().add(hbContent);
 		});
 

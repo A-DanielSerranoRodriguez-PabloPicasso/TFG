@@ -17,5 +17,9 @@ public interface GVideo<Video> {
 	public List<Video> getByNotDownloaded();
 
 	public boolean insert(Video video);
+	
+	public boolean update(Video video);
+	
+	public boolean delete(Video video);
 
 }

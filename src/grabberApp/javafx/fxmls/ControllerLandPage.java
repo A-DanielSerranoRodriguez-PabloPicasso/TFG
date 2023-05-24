@@ -89,6 +89,8 @@ public class ControllerLandPage extends AbstractController {
 
 	@FXML
 	public void fillRecentVideos() {
+		gpRecentVideos.getChildren().clear();
+//		gpLibraries.;
 		recentVideos = gVideo.getRecent(10);
 		CardVideo cardVideo;
 		int i = 0;
