@@ -55,6 +55,10 @@ public class Popup extends Application {
 			case DOWNLOAD:
 				viewSetCenter(Routes.getRoute("popup-download"));
 				break;
+				
+			case VIDEO:
+				viewSetCenter(Routes.getRoute("popup-video"));
+				break;
 
 			default:
 				break;

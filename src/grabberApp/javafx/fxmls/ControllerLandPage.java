@@ -10,6 +10,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
+import models.Video;
+import models.javafx.CardVideo;
 import utils.Routes;
 import utils.Utils;
 import utils.UtilsPopup;
@@ -17,6 +19,8 @@ import utils.UtilsPopup;
 public class ControllerLandPage extends AbstractController {
 
 	private List<Library> libraries;
+
+	private List<Video> recentVideos;
 
 	@FXML
 	private HBox hBoxLibraries;
@@ -27,19 +31,14 @@ public class ControllerLandPage extends AbstractController {
 	@FXML
 	private GridPane gpLibraries;
 
-	/*
-	 * TODO
-	 * 
-	 * - crear lista bibliotecas generales
-	 * 
-	 * - crear lista recientes de cada biblioteca
-	 * 
-	 * - permitir usuario esconder listas
-	 */
+	@FXML
+	private GridPane gpRecentVideos;
 
 	public ControllerLandPage() {
+		Utils.controllerLandPage = this;
 		gApp = Utils.gApp;
 		gLibrary = getGLibrary();
+		gVideo = getGVideo();
 
 		Utils.libraries = gLibrary.getAll();
 
@@ -53,6 +52,7 @@ public class ControllerLandPage extends AbstractController {
 		libraries = Utils.libraries;
 
 		fillLibraries();
+		fillRecentVideos();
 
 		hBoxLibraries.getChildren().add(btnAddLibrary);
 	}
@@ -84,6 +84,18 @@ public class ControllerLandPage extends AbstractController {
 				gApp.viewSetCenter(Routes.getRoute("library"));
 			});
 			i++;
+		}
+	}
+
+	@FXML
+	public void fillRecentVideos() {
+		recentVideos = gVideo.getRecent(10);
+		CardVideo cardVideo;
+		int i = 0;
+
+		for (Video video : recentVideos) {
+			cardVideo = new CardVideo(video);
+			gpRecentVideos.add(cardVideo, 0, i);
 		}
 	}
 

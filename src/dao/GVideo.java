@@ -12,8 +12,10 @@ public interface GVideo<Video> {
 
 	public List<Video> getAll();
 
+	public List<Video> getRecent(int amount);
+
 	public List<Video> getByNotDownloaded();
 
-//	public boolean insert(Video video);
+	public boolean insert(Video video);
 
 }

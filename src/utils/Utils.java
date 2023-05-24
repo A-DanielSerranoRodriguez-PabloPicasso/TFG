@@ -5,6 +5,7 @@ import java.util.List;
 
 import dao.SQLiteDAO;
 import grabberApp.GrabberApp;
+import grabberApp.javafx.fxmls.ControllerLandPage;
 import javafx.scene.control.MenuButton;
 import models.Library;
 
@@ -19,6 +20,8 @@ public class Utils {
 	public static Library selectedLibrary;
 
 	public static List<Library> libraries;
+	
+	public static ControllerLandPage controllerLandPage;
 
 	private static String system = System.getProperty("os.name"), user = System.getProperty("user.name"), folderPath,
 			path;

@@ -4,7 +4,7 @@ import dao.GLibrary;
 import dao.GLibraryImp;
 import grabberApp.javafx.fxmls.popups.Popup;
 
-public abstract class AbstractPopupController {
+public abstract class AbstractPopupController extends AbstractController {
 	public Popup popup;
 
 	public GLibrary<Library> gLibrary;

@@ -1,9 +1,8 @@
 package utils;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,26 +13,32 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.google.common.io.Files;
 
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import dao.GVideo;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import models.FFDriver;
+import models.Library;
+import models.Video;
+import models.javafx.CustomMenuItem;
 
 //public class Grabber extends Thread {
 public class Grabber {
 	private String url, outputFolder;
 	private int threadNumber;
 	private List<String> errors;
+	private GVideo<Video> gVideo;
 
-	public Grabber(String url, String outputFolder, int number) {
+	public Grabber(String url, String outputFolder, int number, GVideo<Video> gVideo) {
 		this.url = url;
 		this.outputFolder = outputFolder;
 		threadNumber = number;
 		errors = new ArrayList<>();
+		this.gVideo = gVideo;
 	}
 
 //	@Override
 //	public void run() {
-	public void run(MenuButton menuButton) {
+	public void run(CustomMenuItem cmi) {
 		String selectorCssButtonUrl = "#gatsby-focus-wrapper > main > section:nth-child(1) > div > div.sm\\:text-center.md\\:max-w-2xl.md\\:mx-auto.lg\\:mx-0.lg\\:col-span-8.lg\\:text-left > div.mt-8.sm\\:mx-auto.sm\\:text-center.lg\\:mx-0.lg\\:text-left > form > button";
 		boolean prepared = false, cached = false, downloaded = false;
 		File outFolder = new File(outputFolder), fileFolder = new File(outputFolder + "/" + threadNumber);
@@ -43,7 +48,11 @@ public class Grabber {
 		WebDriver driver = ffDriver.getWebDriver();
 		WebElement txfUrl, btnUrl, sepConverter, btnDownload, txtDownloadProcess;
 
-		MenuItem menuItem = new MenuItem();
+		HBox hBox = (HBox) cmi.getContent();
+
+		Text text = (Text) hBox.getChildren().get(0);
+
+		text.setText("Procesando...");
 
 		if (!outFolder.exists())
 			outFolder.mkdirs();
@@ -70,6 +79,8 @@ public class Grabber {
 
 			btnUrl = findElement(driver, By.cssSelector(selectorCssButtonUrl));
 			btnUrl.click();
+
+			text.setText("Esperando descarga");
 
 			closeUnwanted(auida, driver);
 
@@ -101,6 +112,8 @@ public class Grabber {
 
 			Thread.sleep(100);
 
+			text.setText("Procesando descarga");
+
 			if (!btnDownload.getText().matches(".*(Descargar|Download).*")
 					|| !btnDownload.getText().matches(".*(Haga click|click|Click).*")) {
 				btnDownload.click();
@@ -124,6 +137,8 @@ public class Grabber {
 			btnDownload.click();
 			closeUnwanted(auida, driver);
 
+			text.setText("Descargando");
+
 			files = fileFolder.list();
 
 			while (!downloaded) {
@@ -145,12 +160,19 @@ public class Grabber {
 				files = fileFolder.list();
 			}
 
-			File file = new File(fileFolder.getAbsoluteFile() + "/" + files[0]);
+			File file = new File(fileFolder.getAbsolutePath() + "/" + files[0]);
 			Files.move(file, new File(outputFolder + "/" + file.getName()));
 
-			menuItem.setText(files[0]);
+			text.setText(files[0]);
 
-			menuButton.getItems().add(0, menuItem);
+			Video video = new Video(1, "test", files[0], outputFolder + "/" + files[0],
+					new Library(outputFolder, outputFolder), url, true, Instant.now().getEpochSecond());
+
+			cmi.setVideo(video);
+
+			gVideo.insert(video);
+
+//			menuItem.setText(files[0]);
 
 			fileFolder.delete();
 		} catch (Exception e) {
@@ -166,13 +188,6 @@ public class Grabber {
 		}
 
 		driver.quit();
-
-//		try {
-//			if (errors.size() > 0)
-//				writeErrorsLog();
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
 	}
 
 	private WebElement findElement(WebDriver driver, By by) {
@@ -193,17 +208,6 @@ public class Grabber {
 		}
 
 		return element;
-	}
-
-	private void writeErrorsLog() throws IOException {
-		File errorLog = new File("./" + url.split("=")[1] + "-error_log.txt");
-		BufferedWriter bw = new BufferedWriter(new FileWriter(errorLog));
-
-		for (String line : errors) {
-			bw.write(line + "\n");
-		}
-
-		bw.close();
 	}
 
 	private void closeUnwanted(String page, WebDriver driver) {

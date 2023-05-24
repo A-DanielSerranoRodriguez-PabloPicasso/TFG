@@ -10,6 +10,7 @@ import javafx.stage.DirectoryChooser;
 import models.AbstractPopupController;
 import models.Library;
 import utils.FileUtils;
+import utils.Utils;
 import utils.UtilsPopup;
 
 public class ControllerLibraryCreate extends AbstractPopupController {
@@ -49,6 +50,7 @@ public class ControllerLibraryCreate extends AbstractPopupController {
 			String folderRoute = folder.getAbsolutePath(), folderName = txfNombre.getText();
 			GLibrary<Library> gLibrary = getGLibrary();
 			gLibrary.insert(new Library(folderRoute + "/" + folderName, folderName));
+			Utils.libraries = gLibrary.getAll();
 			FileUtils.createFolder(folderRoute + "/" + folderName);
 			popup.getStage().close();
 		});
