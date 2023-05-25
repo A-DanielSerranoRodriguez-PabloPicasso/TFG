@@ -5,7 +5,7 @@ import models.Video;
 
 public class UtilsPopup {
 	public enum POPUP_PAGE {
-		NONE, LIBRARY, DOWNLOAD, VIDEO
+		NONE, LIBRARY, DOWNLOAD, VIDEO, ERR_VLC
 	}
 
 	public static Popup popup;

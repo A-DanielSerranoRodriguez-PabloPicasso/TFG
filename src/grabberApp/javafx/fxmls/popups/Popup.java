@@ -51,13 +51,17 @@ public class Popup extends Application {
 			case LIBRARY:
 				viewSetCenter(Routes.getRoute("popup-library-create"));
 				break;
-				
+
 			case DOWNLOAD:
 				viewSetCenter(Routes.getRoute("popup-download"));
 				break;
-				
+
 			case VIDEO:
 				viewSetCenter(Routes.getRoute("popup-video"));
+				break;
+
+			case ERR_VLC:
+				viewSetCenter(Routes.getRoute("popup-error-no-vlc"));
 				break;
 
 			default:
