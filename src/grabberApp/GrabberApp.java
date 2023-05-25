@@ -24,6 +24,9 @@ public class GrabberApp extends Application {
 		primaryStage = arg0;
 		Utils.gApp = this;
 		Routes.fillRoutes();
+		
+		primaryStage.setMinWidth(1200);
+		primaryStage.setMinHeight(500);
 		initLayout();
 	}
 

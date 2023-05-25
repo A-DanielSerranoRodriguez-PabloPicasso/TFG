@@ -3,7 +3,7 @@
     background-color: #05000d;
 }
 
-AnchorPane{
+AnchorPane, ScrollPane{
 	-fx-background-color: #000009;
 }
 
@@ -13,6 +13,11 @@ Label{
 
 .topBar{
 	-fx-background-color: #141418;
+}
+
+.slightRadius{
+	-fx-border-radius: 10.0;
+  	-fx-background-radius: 10.0;
 }
 
 .icon{

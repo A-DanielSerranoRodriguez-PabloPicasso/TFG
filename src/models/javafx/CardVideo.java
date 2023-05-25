@@ -1,6 +1,9 @@
 package models.javafx;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import dao.GVideo;
@@ -37,7 +40,9 @@ public class CardVideo extends AnchorPane {
 
 		lblName = new Label(video.getName());
 		lblPath = new Label(video.getLibrary().getName());
-		lblDate = new Label(Long.toString(video.getDateCreated()));
+		Date date = new Date(video.getDateCreated() * 1000);
+		DateFormat df = new SimpleDateFormat("dd/M/yyyy H:mm");
+		lblDate = new Label(df.format(date));
 		btnEdit = new Button("Editar");
 		btnDelete = new Button("Eliminar");
 
