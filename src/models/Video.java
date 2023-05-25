@@ -10,57 +10,32 @@ public class Video {
 	}
 
 	private int id;
-	private String name, path, strLibrary, url;
+	private String name, fileName, strLibrary, url;
 	private Library library;
 	private File image, video;
 	private List<Category> categories;
 	private boolean downloaded;
 	private long dateCreated;
 
-	public Video(int id, String name, String path, String strLibrary, boolean downloaded) {
+	public Video(int id, String name, String fileName, Library library, String url, boolean downloaded,
+			long dateCreated) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.path = path;
-		this.strLibrary = strLibrary;
-		this.downloaded = downloaded;
-		video = new File(path);
-		dateCreated = 0;
-	}
-
-	public Video(int id, String name, String path, String strLibrary, boolean downloaded, long dateCreated) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.path = path;
-		this.strLibrary = strLibrary;
-		this.downloaded = downloaded;
-		this.dateCreated = dateCreated;
-		video = new File(path);
-	}
-
-	public Video(int id, String name, String path, String strLibrary, String url, boolean downloaded) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.path = path;
-		this.strLibrary = strLibrary;
-		this.downloaded = downloaded;
-		video = new File(path);
-		dateCreated = 0;
-		this.url = url;
-	}
-
-	public Video(int id, String name, String path, Library library, String url, boolean downloaded, long dateCreated) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.path = path;
+		this.fileName = fileName;
 		this.library = library;
 		this.downloaded = downloaded;
-		video = new File(path);
+		video = new File(library.getPath() + "/" + fileName);
 		this.dateCreated = dateCreated;
 		this.url = url;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public String getUrl() {
@@ -73,10 +48,6 @@ public class Video {
 
 	public String getName() {
 		return name;
-	}
-
-	public String getPath() {
-		return path;
 	}
 
 	public String getStrLibrary() {

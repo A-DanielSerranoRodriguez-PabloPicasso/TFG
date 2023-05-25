@@ -35,7 +35,7 @@ public class CardVideo extends AnchorPane {
 		hbContent.setAlignment(Pos.CENTER);
 
 		lblName = new Label(video.getName());
-		lblPath = new Label(video.getStrLibrary() + " - " + video.getPath());
+		lblPath = new Label(video.getLibrary().getName());
 		lblDate = new Label(Long.toString(video.getDateCreated()));
 		btnEdit = new Button("Editar");
 		btnDelete = new Button("Eliminar");
@@ -115,7 +115,7 @@ public class CardVideo extends AnchorPane {
 			video.setLibrary(library);
 			gVideo.update(video);
 			lblName.setText(video.getName());
-			lblPath.setText(video.getStrLibrary() + " - " + video.getPath());
+			lblPath.setText(video.getLibrary().getName());
 			hbContent.getChildren().add(2, lblDate);
 			this.getChildren().add(hbContent);
 		});

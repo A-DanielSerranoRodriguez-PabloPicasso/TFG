@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.google.common.io.Files;
 
+import dao.GLibraryImp;
 import dao.GVideo;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -154,12 +155,14 @@ public class Grabber {
 			}
 
 			File file = new File(fileFolder.getAbsolutePath() + "/" + files[0]);
-			Files.move(file, new File(outputFolder + "/" + videoName));
+			Files.move(file, new File(outputFolder + "/" + videoName + ".mp4"));
+
+			Library library = GLibraryImp.gestor().getByPath(outputFolder);
 
 			text.setText(videoName);
 
-			Video video = new Video(1, videoName, outputFolder + "/" + videoName,
-					new Library(outputFolder, outputFolder), url, true, Instant.now().getEpochSecond());
+			Video video = new Video(1, videoName, videoName + ".mp4", library, url, true,
+					Instant.now().getEpochSecond());
 
 			cmi.setVideo(video);
 
