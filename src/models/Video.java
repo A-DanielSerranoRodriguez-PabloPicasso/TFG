@@ -79,8 +79,7 @@ public class Video {
 	}
 
 	public void setName(String name) {
-		// TODO ver que es nulo
-		video.renameTo(new File(library.getPath() + "/" + name));
+		video.renameTo(new File(library.getPath() + "/" + name + ".mp4"));
 		this.name = name;
 	}
 

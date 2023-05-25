@@ -160,13 +160,15 @@ public class Grabber {
 			Library library = GLibraryImp.gestor().getByPath(outputFolder);
 
 			text.setText(videoName);
+			
+			System.out.println(library.getPath());
 
 			Video video = new Video(1, videoName, videoName + ".mp4", library, url, true,
 					Instant.now().getEpochSecond());
 
 			cmi.setVideo(video);
 
-			gVideo.insert(video);
+			System.out.println(gVideo.insert(video));
 
 			fileFolder.delete();
 		} catch (Exception e) {

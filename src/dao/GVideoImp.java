@@ -140,8 +140,8 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 		try {
 			Statement stmt = conn.createStatement();
 			ok = stmt.execute("insert into video(name, file_name, url, library, downloaded, last_date) values ('"
-					+ video.getName() + "', '" + video.getUrl() + "', '" + video.getLibrary().getPath() + "', " + 1
-					+ ", " + Instant.now().getEpochSecond() + ");");
+					+ video.getName() + "','" + video.getFileName() + "', '" + video.getUrl() + "', '"
+					+ video.getLibrary().getPath() + "', " + 1 + ", " + Instant.now().getEpochSecond() + ");");
 		} catch (SQLException e) {
 			System.err.println("URL already exists");
 		}
