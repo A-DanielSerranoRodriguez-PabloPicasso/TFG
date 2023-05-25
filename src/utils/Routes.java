@@ -18,6 +18,7 @@ public class Routes {
 		routes.put("fl-prepared", baseRoute + "firstBoot/Primed.fxml");
 		routes.put("popup-root", baseRoute + "popups/Root.fxml");
 		routes.put("popup-library-create", baseRoute + "popups/library/Create.fxml");
+		routes.put("popup-library-select", baseRoute + "popups/library/Select.fxml");
 		routes.put("popup-download", baseRoute + "popups/download/Download.fxml");
 		routes.put("popup-video", baseRoute + "popups/video/Video.fxml");
 		routes.put("popup-error-no-vlc", baseRoute + "popups/error/NoVLC.fxml");

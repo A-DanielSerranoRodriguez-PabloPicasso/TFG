@@ -64,6 +64,10 @@ public class Popup extends Application {
 				viewSetCenter(Routes.getRoute("popup-error-no-vlc"));
 				break;
 
+			case SELECT_LIBRARY:
+				viewSetCenter(Routes.getRoute("popup-library-select"));
+				break;
+
 			default:
 				break;
 			}

@@ -8,6 +8,7 @@ import java.util.List;
 
 import dao.GVideo;
 import dao.GVideoImp;
+import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -18,9 +19,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import models.Library;
 import models.Video;
 import utils.Utils;
+import utils.UtilsPopup;
 
 public class CardVideo extends AnchorPane {
 
@@ -51,6 +54,12 @@ public class CardVideo extends AnchorPane {
 			try {
 				runtime.exec("vlc " + video.getVideo().getAbsolutePath());
 			} catch (IOException e) {
+				UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR_VLC;
+				try {
+					new Popup().start(new Stage());
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 				e.printStackTrace();
 			}
 		});
