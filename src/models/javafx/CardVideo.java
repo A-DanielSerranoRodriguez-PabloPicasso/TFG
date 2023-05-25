@@ -1,5 +1,6 @@
 package models.javafx;
 
+import java.io.IOException;
 import java.util.List;
 
 import dao.GVideo;
@@ -39,6 +40,15 @@ public class CardVideo extends AnchorPane {
 		lblDate = new Label(Long.toString(video.getDateCreated()));
 		btnEdit = new Button("Editar");
 		btnDelete = new Button("Eliminar");
+
+		lblName.setOnMouseClicked(event -> {
+			Runtime runtime = Runtime.getRuntime();
+			try {
+				runtime.exec("vlc " + video.getVideo().getAbsolutePath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 
 		hbContent.getChildren().add(lblName);
 		hbContent.getChildren().add(lblPath);
@@ -108,22 +118,6 @@ public class CardVideo extends AnchorPane {
 			GVideo<Video> gVideo = GVideoImp.getGestor();
 			Library library = null;
 			List<Library> libraries = Utils.libraries;
-
-			/*
-			 * TODO
-			 * 
-			 * Cambiar nombre de archivo
-			 */
-//			video.setName(txfName.getText());
-//			for (int i = 0; i < libraries.size() && library == null; i++) {
-//				Library lib = libraries.get(i);
-//
-//				library = choiceLibrary.getSelectionModel().getSelectedItem().equals(lib.getName()) ? lib : null;
-//			}
-//			if (!video.getLibrary().equals(library)) {
-//				video.moveVideo(video.getLibrary().getPath() + "/" + oldFileName);
-//			}
-//			video.setLibrary(library);
 
 			video.setName(txfName.getText());
 			while (!video.getVideo().getName().equals(video.getFileName())) {

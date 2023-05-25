@@ -98,6 +98,7 @@ public class ControllerLandPage extends AbstractController {
 		for (Video video : recentVideos) {
 			cardVideo = new CardVideo(video);
 			gpRecentVideos.add(cardVideo, 0, i);
+			i++;
 		}
 	}
 

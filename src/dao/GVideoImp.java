@@ -98,9 +98,7 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 			ResultSet rs = stmt.executeQuery("select * from video");
 			int i = 0;
 
-			System.out.println(amount);
 			while (rs.next() && i <= amount) {
-				System.out.println(i);
 				Library library = GLibraryImp.gestor().getByPath(rs.getString("library"));
 				videos.add(new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"), library,
 						rs.getString("url"), rs.getBoolean("downloaded"), rs.getLong("last_date")));
