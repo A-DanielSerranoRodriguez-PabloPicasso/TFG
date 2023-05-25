@@ -69,6 +69,7 @@ public class ControllerLandPage extends AbstractController {
 		libraries = gLibrary.getAll();
 
 		fillLibraries();
+		fillRecentVideos();
 
 		hBoxLibraries.getChildren().add(btnAddLibrary);
 	}

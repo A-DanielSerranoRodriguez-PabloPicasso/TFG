@@ -82,6 +82,8 @@ public class CardVideo extends AnchorPane {
 
 		choiceLibrary.setItems(olLibraries);
 
+		choiceLibrary.getSelectionModel().select(video.getLibrary().getName());
+
 		this.getChildren().add(hbContent);
 		this.setVisible(true);
 	}
@@ -106,13 +108,36 @@ public class CardVideo extends AnchorPane {
 			GVideo<Video> gVideo = GVideoImp.getGestor();
 			Library library = null;
 			List<Library> libraries = Utils.libraries;
+
+			/*
+			 * TODO
+			 * 
+			 * Cambiar nombre de archivo
+			 */
+//			video.setName(txfName.getText());
+//			for (int i = 0; i < libraries.size() && library == null; i++) {
+//				Library lib = libraries.get(i);
+//
+//				library = choiceLibrary.getSelectionModel().getSelectedItem().equals(lib.getName()) ? lib : null;
+//			}
+//			if (!video.getLibrary().equals(library)) {
+//				video.moveVideo(video.getLibrary().getPath() + "/" + oldFileName);
+//			}
+//			video.setLibrary(library);
+
 			video.setName(txfName.getText());
+			while (!video.getVideo().getName().equals(video.getFileName())) {
+			}
 			for (int i = 0; i < libraries.size() && library == null; i++) {
 				Library lib = libraries.get(i);
-
 				library = choiceLibrary.getSelectionModel().getSelectedItem().equals(lib.getName()) ? lib : null;
 			}
-			video.setLibrary(library);
+
+			if (!video.getLibrary().equals(library)) {
+				video.moveVideo(library);
+				video.setLibrary(library);
+			}
+
 			gVideo.update(video);
 			lblName.setText(video.getName());
 			lblPath.setText(video.getLibrary().getName());

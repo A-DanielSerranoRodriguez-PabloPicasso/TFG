@@ -1,6 +1,10 @@
 package models;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 public class Video {
@@ -79,8 +83,25 @@ public class Video {
 	}
 
 	public void setName(String name) {
-		video.renameTo(new File(library.getPath() + "/" + name + ".mp4"));
+		this.fileName = name + ".mp4";
 		this.name = name;
+		moveVideo(library);
+	}
+
+	public void renameVideo() {
+		video.renameTo(new File(library.getPath() + "/" + fileName));
+	}
+
+	public void moveVideo(Library newLibrary) {
+		try {
+			File newFile = new File(newLibrary.getPath() + "/" + getFileName());
+			newFile.createNewFile();
+			Files.move(Paths.get(library.getPath() + "/" + video.getName()), newFile.toPath(),
+					StandardCopyOption.ATOMIC_MOVE);
+			video = newFile;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
