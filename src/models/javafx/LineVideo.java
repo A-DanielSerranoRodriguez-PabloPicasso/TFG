@@ -25,16 +25,16 @@ import models.Video;
 import utils.Utils;
 import utils.UtilsPopup;
 
-public class CardVideo extends AnchorPane {
+public class LineVideo extends AnchorPane {
 
 	private Video video;
 	private HBox hbContent, hbEdit, hbDelete;
 	private Label lblName, lblPath, lblDate;
-	private Button btnEdit, btnDelete, btnAcceptEdit, btnCancelEdit, btnAcceptDelete, btnCancelDelete;
+	private Button btnEdit, btnDelete, btnAcceptEdit, btnSelectLibrary, btnCancelEdit, btnAcceptDelete, btnCancelDelete;
 	private TextField txfName;
 	private ChoiceBox<String> choiceLibrary;
 
-	public CardVideo(Video video) {
+	public LineVideo(Video video) {
 		this.video = video;
 
 		hbContent = new HBox(10);
@@ -76,11 +76,14 @@ public class CardVideo extends AnchorPane {
 
 		txfName = new TextField(video.getName());
 		choiceLibrary = new ChoiceBox<>();
+		btnSelectLibrary = new Button("Seleccionar biblioteca");
 		btnAcceptEdit = new Button("Confirmar cambios");
 		btnCancelEdit = new Button("Cancelar");
 
 		hbEdit.getChildren().add(txfName);
-		hbEdit.getChildren().add(choiceLibrary);
+		hbEdit.getChildren().add(new LineLibrary(video.getLibrary()));
+//		hbEdit.getChildren().add(choiceLibrary);
+		hbEdit.getChildren().add(btnSelectLibrary);
 		hbEdit.getChildren().add(btnAcceptEdit);
 		hbEdit.getChildren().add(btnCancelEdit);
 
@@ -127,6 +130,15 @@ public class CardVideo extends AnchorPane {
 			this.getChildren().add(hbDelete);
 		});
 
+		btnSelectLibrary.setOnAction(event -> {
+			UtilsPopup.page = UtilsPopup.POPUP_PAGE.SELECT_LIBRARY;
+			try {
+				new Popup().start(new Stage());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+
 		btnAcceptEdit.setOnAction(event -> {
 			this.getChildren().remove(hbEdit);
 			GVideo<Video> gVideo = GVideoImp.getGestor();
@@ -136,10 +148,12 @@ public class CardVideo extends AnchorPane {
 			video.setName(txfName.getText());
 			while (!video.getVideo().getName().equals(video.getFileName())) {
 			}
-			for (int i = 0; i < libraries.size() && library == null; i++) {
-				Library lib = libraries.get(i);
-				library = choiceLibrary.getSelectionModel().getSelectedItem().equals(lib.getName()) ? lib : null;
-			}
+
+			library = UtilsPopup.selectedLibrary;
+//			for (int i = 0; i < libraries.size() && library == null; i++) {
+//				Library lib = libraries.get(i);
+//				library = choiceLibrary.getSelectionModel().getSelectedItem().equals(lib.getName()) ? lib : null;
+//			}
 
 			if (!video.getLibrary().equals(library)) {
 				video.moveVideo(library);

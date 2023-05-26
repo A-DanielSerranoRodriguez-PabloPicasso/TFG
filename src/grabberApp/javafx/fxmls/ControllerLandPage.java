@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
 import models.Video;
-import models.javafx.CardVideo;
+import models.javafx.LineVideo;
 import utils.Routes;
 import utils.Utils;
 import utils.UtilsPopup;
@@ -77,6 +77,7 @@ public class ControllerLandPage extends AbstractController {
 	private void fillLibraries() {
 		Button btnLibrary;
 		int i = 0;
+		System.out.println(libraries.size());
 		for (Library library : libraries) {
 			btnLibrary = new Button(library.getName());
 			gpLibraries.add(btnLibrary, i, 0);
@@ -92,11 +93,11 @@ public class ControllerLandPage extends AbstractController {
 	public void fillRecentVideos() {
 		gpRecentVideos.getChildren().clear();
 		recentVideos = gVideo.getRecent(10);
-		CardVideo cardVideo;
+		LineVideo cardVideo;
 		int i = 0;
 
 		for (Video video : recentVideos) {
-			cardVideo = new CardVideo(video);
+			cardVideo = new LineVideo(video);
 			gpRecentVideos.add(cardVideo, 0, i);
 			i++;
 		}

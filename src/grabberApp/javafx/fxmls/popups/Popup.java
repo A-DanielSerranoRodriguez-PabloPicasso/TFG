@@ -49,10 +49,12 @@ public class Popup extends Application {
 
 			switch (UtilsPopup.page) {
 			case LIBRARY:
+				primaryStage.setTitle("Crear biblioteca");
 				viewSetCenter(Routes.getRoute("popup-library-create"));
 				break;
 
 			case DOWNLOAD:
+				primaryStage.setTitle("Descargar video");
 				viewSetCenter(Routes.getRoute("popup-download"));
 				break;
 
@@ -61,10 +63,12 @@ public class Popup extends Application {
 				break;
 
 			case ERR_VLC:
+				primaryStage.setTitle("ERROR VLC");
 				viewSetCenter(Routes.getRoute("popup-error-no-vlc"));
 				break;
 
 			case SELECT_LIBRARY:
+				primaryStage.setTitle("Seleccionar biblioteca");
 				viewSetCenter(Routes.getRoute("popup-library-select"));
 				break;
 

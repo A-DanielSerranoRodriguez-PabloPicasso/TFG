@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="grabberApp.javafx.fxmls.popups.library.ControllerLibrarySelect">
+   <children>
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox fillHeight="false" spacing="30.0">
+               <children>
+                  <Button fx:id="btnBack" mnemonicParsing="false" text="Atras" />
+                  <VBox />
+                  <TextField fx:id="txfSearchBar" />
+                  <ImageView fx:id="imgSearch" pickOnBounds="true" preserveRatio="true" />
+               </children>
+               <padding>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </padding>
+            </HBox>
+            <HBox fillHeight="false">
+               <children>
+                  <GridPane fx:id="gvLibraries">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <styleClass>
+                        <String fx:value="topBar" />
+                        <String fx:value="slightRadius" />
+                     </styleClass>
+                  </GridPane>
+                  <VBox fillWidth="false" spacing="30.0">
+                     <padding>
+                        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                     </padding>
+                     <children>
+                        <ToggleButton fx:id="togChildren" mnemonicParsing="false" text="Ver todos" />
+                        <Button fx:id="btnListChildren" mnemonicParsing="false" text="Ver hijos" />
+                        <Button fx:id="btnSelectThis" mnemonicParsing="false" text="Seleccionar" />
+                        <Button fx:id="btnCancel" mnemonicParsing="false" text="Cancelar" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

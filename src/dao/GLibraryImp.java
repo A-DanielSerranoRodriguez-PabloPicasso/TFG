@@ -46,7 +46,21 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	public List<Library> getAll() {
 		List<Library> result = new ArrayList<>();
 		try {
-			ResultSet rs = stmt.executeQuery("select * from " + table);
+			ResultSet rs = stmt.executeQuery("select * from " + table + ";");
+			while (rs.next()) {
+				result.add(constructLibrary(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Library> getChildless() {
+		List<Library> result = new ArrayList<>();
+		try {
+			ResultSet rs = stmt.executeQuery("select * from " + table + " where parent is 'null'");
 			while (rs.next()) {
 				result.add(constructLibrary(rs));
 			}
@@ -81,12 +95,8 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	@Override
 	public boolean insert(final Library library) {
 		try {
-//			if (library.getCategory() == null)
 			return stmt.execute("insert into " + table + " values ('" + library.getPath() + "', '" + library.getName()
 					+ "', '" + library.getParent() + "')");
-//			else
-//				return stmt.execute("insert into " + table + " values ('" + library.getPath() + "', '"
-//						+ library.getName() + "', '" + library.getCategory() + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -96,9 +106,8 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	@Override
 	public boolean update(final Library library) {
 		try {
-			return stmt
-					.execute("update " + table + " set path = '" + library.getPath() + "', name = '" + library.getName()
-							+ "', category = '" + library.getCategory() + "' where path = '" + library.getPath() + "'");
+			return stmt.execute("update " + table + " set path = '" + library.getPath() + "', name = '"
+					+ library.getName() + "', '" + library.getParent() + "' where path = '" + library.getPath() + "'");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

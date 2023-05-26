@@ -1,24 +1,28 @@
 package grabberApp;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import dao.SQLiteDAO;
+
 public class TestApp {
 	public static void main(String[] args) {
-//		Gestor<Generales> gestor = new GGenerales();
-//		Generales general = new Generales("https://es.pornhub.com/view_video.php?viewkey=ph628b6da0c2ec8");
-//		List<Generales> generales;
+		SQLiteDAO sqlDao = SQLiteDAO.getDao();
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:///home/danielsr/.config/jgrabber/db.db");
+			System.out.println(conn == null);
+			ResultSet test = conn.createStatement().executeQuery("select * from library;");
+			while (test.next()) {
+				System.out.println(test.getString(1));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+//		GLibrary<Library> gLibrary = GLibraryImp.gestor();
 //
-//		gestor.insert(general);
-//		generales = gestor.getByNotDownloaded();
-//
-//		for (Generales generales2 : generales) {
-//			System.out.println(generales2.getUrl());
-//		}
-		
-//		System.out.println(new File("resources/web/uBlock0_1.46.1b8.firefox.signed.xpi").exists());
-//		
-//		FirefoxDriver fDriver = new FirefoxDriver();
-//		fDriver.getTitle();
-		
-		System.out.println(System.getProperty("os.name"));
-		System.out.println(System.getProperty("user.name"));
+//		System.out.println(gLibrary.getAll().size());
 	}
 }

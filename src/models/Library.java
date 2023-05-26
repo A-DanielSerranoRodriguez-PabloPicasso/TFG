@@ -1,16 +1,11 @@
 package models;
 
+import dao.GLibraryImp;
+
 public class Library {
 
 	private String name, path, parent, namePath;
-	private Category category;
-
-	public Library(String path, String name, Category category) {
-		this.path = path;
-		this.name = name;
-		this.category = category;
-		namePath = name + " - " + path;
-	}
+	private Library libParent;
 
 	public Library(String path, String name) {
 		this.path = path;
@@ -23,6 +18,7 @@ public class Library {
 		this.name = name;
 		this.parent = parent;
 		namePath = name + " - " + path;
+		libParent = GLibraryImp.gestor().getByPath(parent);
 	}
 
 	public String getName() {
@@ -41,8 +37,18 @@ public class Library {
 		return namePath;
 	}
 
-	public Category getCategory() {
-		return category;
+	public Library getLibParent() {
+		return libParent;
+	}
+
+	public String getTree() {
+		String tree = name;
+		if (libParent != null) {
+			String parentTree = libParent.getTree();
+			if (!parentTree.equals(null))
+				tree = parentTree + " > " + tree;
+		}
+		return tree;
 	}
 
 }

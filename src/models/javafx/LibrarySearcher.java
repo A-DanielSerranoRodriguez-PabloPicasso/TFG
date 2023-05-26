@@ -19,7 +19,7 @@ public class LibrarySearcher extends HBox {
 
 	public LibrarySearcher() {
 		FileInputStream fis = null;
-		File image = new File(this.getClass().getResource("/img/icon/search.png").toString());
+		File image = new File(this.getClass().getResource("/img/icon/search.png").getPath());
 
 		try {
 			fis = new FileInputStream(image);
@@ -28,12 +28,16 @@ public class LibrarySearcher extends HBox {
 		}
 		txfSearchBar = new TextField();
 		imgSearch = new ImageView(new Image(fis));
+		imgSearch.setFitWidth(32);
+		imgSearch.setFitHeight(32);
 
+		setBehaviour();
 	}
 
 	private void setBehaviour() {
 		imgSearch.setOnMouseClicked(event -> {
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.SELECT_LIBRARY;
+			UtilsPopup.librarySearched = txfSearchBar.getText();
 			try {
 				new Popup().start(new Stage());
 			} catch (Exception e) {

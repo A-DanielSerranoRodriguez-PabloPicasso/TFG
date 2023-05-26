@@ -11,6 +11,8 @@ public interface GLibrary<Library> {
 	public List<Library> getAll();
 
 	public List<Library> getChildren(Library library);
+	
+	public List<Library> getChildless();
 
 	public boolean insert(Library library);
 

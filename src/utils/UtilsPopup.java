@@ -13,9 +13,9 @@ public class UtilsPopup {
 
 	public static POPUP_PAGE page;
 
-	public static String downloadedVideoPath;
+	public static String downloadedVideoPath, librarySearched;
 
 	public static Video videoToPlay;
 
-	public static Library selectedLibrary;
+	public static Library selectedLibrary, previousLibrary;
 }
