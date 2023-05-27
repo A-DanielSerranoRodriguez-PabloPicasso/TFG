@@ -10,18 +10,16 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="grabberApp.javafx.fxmls.popups.library.ControllerLibrarySelect">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grabberApp.javafx.fxmls.popups.library.ControllerLibrarySelect">
    <children>
-      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox fillHeight="false" spacing="30.0">
                <children>
                   <Button fx:id="btnBack" mnemonicParsing="false" text="Atras" />
-                  <VBox />
+                  <VBox HBox.hgrow="ALWAYS" />
                   <TextField fx:id="txfSearchBar" />
                   <ImageView fx:id="imgSearch" pickOnBounds="true" preserveRatio="true" />
                </children>
@@ -29,21 +27,18 @@
                   <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
                </padding>
             </HBox>
-            <HBox fillHeight="false">
+            <HBox>
                <children>
-                  <GridPane fx:id="gvLibraries">
+                  <GridPane fx:id="gvLibraries" minHeight="600.0" minWidth="500.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" />
                     </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints vgrow="SOMETIMES" />
-                    </rowConstraints>
                      <styleClass>
                         <String fx:value="topBar" />
                         <String fx:value="slightRadius" />
                      </styleClass>
                   </GridPane>
-                  <VBox fillWidth="false" spacing="30.0">
+                  <VBox alignment="BOTTOM_CENTER" fillWidth="false" spacing="30.0">
                      <padding>
                         <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
                      </padding>
@@ -57,6 +52,9 @@
                </children>
             </HBox>
          </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
       </VBox>
    </children>
 </AnchorPane>

@@ -72,9 +72,9 @@ public class LineLibrary extends AnchorPane {
 //		choiceLibrary.setItems(olLibraries);
 //
 //		choiceLibrary.getSelectionModel().select(video.getLibrary().getName());
-		
+
 		this.setOnMouseClicked(event -> {
-			if (UtilsPopup.page.equals(UtilsPopup.POPUP_PAGE.SELECT_LIBRARY)) {
+			if (UtilsPopup.page == UtilsPopup.POPUP_PAGE.SELECT_LIBRARY) {
 				UtilsPopup.selectedLibrary = library;
 			} else {
 

@@ -1,5 +1,7 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	public Library getByPath(final String id) {
 		Library library = null;
 		try {
-			ResultSet rs = stmt.executeQuery("select * from " + table + " where path = '" + id + "'");
+			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + " where path = '" + id + "'");
 			if (rs.next())
 				library = new Library(rs.getString(1), rs.getString(2),
 						rs.getString(3) == null ? null : rs.getString(3));
@@ -46,7 +48,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	public List<Library> getAll() {
 		List<Library> result = new ArrayList<>();
 		try {
-			ResultSet rs = stmt.executeQuery("select * from " + table + ";");
+			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + ";");
 			while (rs.next()) {
 				result.add(constructLibrary(rs));
 			}
@@ -56,11 +58,25 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		return result;
 	}
 
+	public void test() {
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:///home/danielsr/.config/jgrabber/db.db");
+			System.out.println(conn == null);
+			ResultSet test = conn.createStatement().executeQuery("select * from library;");
+			while (test.next()) {
+				System.out.println(test.getString(1));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public List<Library> getChildless() {
 		List<Library> result = new ArrayList<>();
 		try {
-			ResultSet rs = stmt.executeQuery("select * from " + table + " where parent is 'null'");
+			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + " where parent is 'null'");
 			while (rs.next()) {
 				result.add(constructLibrary(rs));
 			}
@@ -83,9 +99,52 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	public List<Library> getChildren(Library library) {
 		List<Library> result = new ArrayList<>();
 		try {
-			ResultSet rs = stmt.executeQuery("select * from " + table + " where parent = '" + library.getPath() + "'");
+			ResultSet rs = conn.createStatement()
+					.executeQuery("select * from " + table + " where parent = '" + library.getPath() + "'");
 			while (rs.next())
-				result.add(new Library(rs.getString(1), rs.getString(2), rs.getString(3)));
+				result.add(constructLibrary(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Library> getFromNameEverywhere(final String name) {
+		List<Library> result = new ArrayList<>();
+		try {
+			ResultSet rs = conn.createStatement()
+					.executeQuery("select * from " + table + " where lower(name) like '%" + name.toLowerCase() + "%'");
+			while (rs.next())
+				result.add(constructLibrary(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Library> getFromName(final String name) {
+		List<Library> result = new ArrayList<>();
+		try {
+			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + " where lower(name) like '%"
+					+ name.toLowerCase() + "%' and parent is 'null'");
+			while (rs.next())
+				result.add(constructLibrary(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Library> getFromName(Library library, final String name) {
+		List<Library> result = new ArrayList<>();
+		try {
+			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + " where parent = '"
+					+ library.getPath() + "' lower(name) like '%" + name.toLowerCase() + "%' and parent is 'null'");
+			while (rs.next())
+				result.add(constructLibrary(rs));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -95,8 +154,8 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	@Override
 	public boolean insert(final Library library) {
 		try {
-			return stmt.execute("insert into " + table + " values ('" + library.getPath() + "', '" + library.getName()
-					+ "', '" + library.getParent() + "')");
+			return conn.createStatement().execute("insert into " + table + " values ('" + library.getPath() + "', '"
+					+ library.getName() + "', '" + library.getParent() + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -106,8 +165,9 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	@Override
 	public boolean update(final Library library) {
 		try {
-			return stmt.execute("update " + table + " set path = '" + library.getPath() + "', name = '"
-					+ library.getName() + "', '" + library.getParent() + "' where path = '" + library.getPath() + "'");
+			return conn.createStatement()
+					.execute("update " + table + " set path = '" + library.getPath() + "', name = '" + library.getName()
+							+ "', '" + library.getParent() + "' where path = '" + library.getPath() + "'");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -117,7 +177,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	@Override
 	public boolean delete(final Library library) {
 		try {
-			return stmt.execute("delete from " + table + " where path = '" + library.getPath() + "'");
+			return conn.createStatement().execute("delete from " + table + " where path = '" + library.getPath() + "'");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -85,7 +85,9 @@ public class Video {
 	public void setName(String name) {
 		this.fileName = name + ".mp4";
 		this.name = name;
-		moveVideo(library);
+		renameVideo();
+		video = new File(library.getPath() + "/" + fileName);
+//		moveVideo(library);
 	}
 
 	public void renameVideo() {

@@ -17,6 +17,8 @@ import utils.UtilsPopup;
 
 public class ControllerLibrarySelect extends AbstractPopupController {
 
+	private List<Library> libraries;
+
 	@FXML
 	private TextField txfSearchBar;
 
@@ -43,6 +45,8 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 
 	public ControllerLibrarySelect() {
 		popup = UtilsPopup.popup;
+		gLibrary = getGLibrary();
+		gVideo = getGVideo();
 	}
 
 	public void initialize() {
@@ -53,19 +57,16 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 		imgSearch.setFitWidth(32);
 		imgSearch.setFitHeight(32);
 
-		List<Library> libraries = Utils.libraries;
+		libraries = Utils.libraries;
 
-		int i = 0;
-		for (Library library : libraries) {
-			gvLibraries.add(new LineLibrary(library), 0, i);
-			i++;
-		}
+		fillLibraries();
 
 		gvLibraries.setOnMouseClicked(event -> {
 			Library library = UtilsPopup.selectedLibrary;
-			if (!library.equals(null)) {
+			List<Library> librar = getGLibrary().getChildren(UtilsPopup.selectedLibrary);
+			if (library != null) {
 				btnSelectThis.setDisable(false);
-				if (!library.getParent().equals(null) && !togChildren.isPressed()) {
+				if (librar.size() != 0 && !togChildren.isSelected()) {
 					btnListChildren.setDisable(false);
 				}
 			}
@@ -90,11 +91,9 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 				libraries = getGLibrary().getChildless();
 			}
 
-			int i = 0;
-			for (Library library : libraries) {
-				gvLibraries.add(new LineLibrary(library), 0, i);
-				i++;
-			}
+			this.libraries = libraries;
+
+			fillLibraries();
 		});
 
 		btnCancel.setOnAction(event -> {
@@ -110,28 +109,47 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 
 		btnListChildren.setOnAction(event -> {
 			UtilsPopup.previousLibrary = UtilsPopup.selectedLibrary;
-			List<Library> libraries = getGLibrary().getChildren(UtilsPopup.previousLibrary);
+			libraries = getGLibrary().getChildren(UtilsPopup.previousLibrary);
 
-			gvLibraries.getChildren().clear();
-			int i = 0;
-
-			for (Library library : libraries) {
-				gvLibraries.add(new LineLibrary(library), 0, i);
-				i++;
-			}
+			fillLibraries();
 		});
 
 		btnBack.setOnAction(event -> {
 			UtilsPopup.selectedLibrary = UtilsPopup.previousLibrary;
 			UtilsPopup.previousLibrary = UtilsPopup.selectedLibrary.getLibParent();
 
-			if (UtilsPopup.previousLibrary.equals(null))
+			if (UtilsPopup.previousLibrary == null)
 				btnBack.setVisible(false);
+		});
+
+		imgSearch.setOnMouseClicked(event -> {
+			gvLibraries.getChildren().clear();
+			UtilsPopup.selectedLibrary = null;
+			btnSelectThis.setDisable(true);
+			btnListChildren.setDisable(true);
+			if (UtilsPopup.previousLibrary != null) {
+				libraries = getGLibrary().getFromName(UtilsPopup.previousLibrary, txfSearchBar.getText());
+			} else {
+				if (togChildren.isSelected())
+					libraries = gLibrary.getFromNameEverywhere(txfSearchBar.getText());
+				else
+					libraries = gLibrary.getFromName(txfSearchBar.getText());
+			}
+
+			fillLibraries();
 		});
 	}
 
 	private void closeView() {
 		popup.getStage().close();
+	}
+
+	private void fillLibraries() {
+		int i = 0;
+		for (Library library : libraries) {
+			gvLibraries.add(new LineLibrary(library), 0, i);
+			i++;
+		}
 	}
 
 }
