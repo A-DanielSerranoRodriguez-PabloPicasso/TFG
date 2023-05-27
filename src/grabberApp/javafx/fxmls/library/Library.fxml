@@ -1,12 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="700.0" minWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grabberApp.javafx.fxmls.library.ControllerLibrary">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grabberApp.javafx.fxmls.library.ControllerLibrary">
    <children>
-      <Label fx:id="lblLibrary" layoutX="482.0" layoutY="64.0" />
+      <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <AnchorPane>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <padding>
+                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                     </padding>
+                     <children>
+                        <HBox fx:id="hBoxBreadcrumb" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0">
+                           <children>
+                              <Label fx:id="lblLibrary" />
+                              <Button fx:id="btnDownload" mnemonicParsing="false" styleClass="no-bg">
+                                 <graphic>
+                                    <ImageView fx:id="imgDownload" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <VBox>
+                           <children>
+                              <HBox fx:id="hBoxVideos" fillHeight="false">
+                                 <children>
+                                    <Label text="Videos" />
+                                 </children>
+                              </HBox>
+                              <GridPane fx:id="gpVideos">
+                                <rowConstraints>
+                                  <RowConstraints vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <styleClass>
+                                    <String fx:value="topBar" />
+                                    <String fx:value="slightRadius" />
+                                 </styleClass>
+                              </GridPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
       <HBox fx:id="hBoxFolders" layoutX="354.0" layoutY="146.0" prefHeight="100.0" prefWidth="200.0" />
       <HBox layoutX="370.0" layoutY="322.0" prefHeight="100.0" prefWidth="200.0" />
    </children>

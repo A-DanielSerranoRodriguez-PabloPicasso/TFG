@@ -2,6 +2,8 @@ package dao;
 
 import java.util.List;
 
+import models.Library;
+
 public interface GVideo<Video> {
 
 	public static GVideo<?> gestor = null;
@@ -12,14 +14,16 @@ public interface GVideo<Video> {
 
 	public List<Video> getAll();
 
+	public List<Video> getByLibrary(Library library);
+
 	public List<Video> getRecent(int amount);
 
 	public List<Video> getByNotDownloaded();
 
 	public boolean insert(Video video);
-	
+
 	public boolean update(Video video);
-	
+
 	public boolean delete(Video video);
 
 }

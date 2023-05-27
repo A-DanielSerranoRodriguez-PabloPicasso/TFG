@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import grabberApp.javafx.fxmls.popups.Popup;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +18,7 @@ public class LibrarySearcher extends HBox {
 
 	private Library library;
 	private TextField txfSearchBar;
+	private Button btnSearch;
 	private ImageView imgSearch;
 
 	public LibrarySearcher(Library library) {
@@ -29,20 +31,25 @@ public class LibrarySearcher extends HBox {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		txfSearchBar = new TextField(library.getName());
+
+		txfSearchBar = new TextField(library != null ? library.getName() : "");
 		txfSearchBar.setDisable(true);
+
 		imgSearch = new ImageView(new Image(fis));
-		imgSearch.setFitWidth(32);
-		imgSearch.setFitHeight(32);
+		imgSearch.setFitWidth(26);
+		imgSearch.setFitHeight(26);
+
+		btnSearch = new Button("", imgSearch);
+		btnSearch.getStyleClass().add("no-bg");
 
 		setBehaviour();
 		this.getChildren().add(txfSearchBar);
-		this.getChildren().add(imgSearch);
+		this.getChildren().add(btnSearch);
 		this.setVisible(true);
 	}
 
 	private void setBehaviour() {
-		imgSearch.setOnMouseClicked(event -> {
+		btnSearch.setOnAction(event -> {
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.SELECT_LIBRARY;
 
 			try {
@@ -54,7 +61,7 @@ public class LibrarySearcher extends HBox {
 			if (UtilsPopup.selectedLibrary != null)
 				txfSearchBar.setText(UtilsPopup.selectedLibrary.getName());
 			else
-				txfSearchBar.setText(library.getName());
+				txfSearchBar.setText(library != null ? library.getName() : "");
 		});
 	}
 }

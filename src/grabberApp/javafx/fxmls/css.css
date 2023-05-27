@@ -9,6 +9,7 @@ AnchorPane, ScrollPane{
 
 Label{
 	-fx-text-fill: #FFFFFF;
+	-fx-font-size: 16.0;
 }
 
 .topBar{

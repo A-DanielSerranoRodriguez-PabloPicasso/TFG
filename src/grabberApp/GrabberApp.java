@@ -25,8 +25,10 @@ public class GrabberApp extends Application {
 		Utils.gApp = this;
 		Routes.fillRoutes();
 		
-		primaryStage.setMinWidth(1200);
+		primaryStage.setMinWidth(1000);
 		primaryStage.setMinHeight(500);
+		primaryStage.setMaximized(true);
+		primaryStage.setTitle("jGrabber");
 		initLayout();
 	}
 

@@ -90,6 +90,25 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 	}
 
 	@Override
+	public List<Video> getByLibrary(Library library) {
+		List<Video> videos = new ArrayList<>();
+
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from video where library = '" + library.getPath() + "'");
+
+			while (rs.next()) {
+				videos.add(constructVideo(rs));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return videos;
+	}
+
+	@Override
 	public List<Video> getRecent(int amount) {
 		List<Video> videos = new ArrayList<>();
 
@@ -174,6 +193,22 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 		}
 
 		return ok;
+	}
+
+	private Video constructVideo(ResultSet rs) {
+		Video video = null;
+		GLibrary<Library> gLibrary = GLibraryImp.gestor();
+		Library library;
+
+		try {
+			library = gLibrary.getByPath(rs.getString("library"));
+			video = new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"), library,
+					rs.getString("url"), rs.getBoolean("downloaded"), rs.getLong("last_date"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return video;
 	}
 
 }

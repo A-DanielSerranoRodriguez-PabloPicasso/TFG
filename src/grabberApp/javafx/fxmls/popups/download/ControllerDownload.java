@@ -1,26 +1,24 @@
 package grabberApp.javafx.fxmls.popups.download;
 
-import java.util.List;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import models.AbstractPopupController;
-import models.Library;
 import models.javafx.CustomMenuItem;
+import models.javafx.LibrarySearcher;
 import utils.Grabber;
 import utils.Utils;
+import utils.UtilsDownload;
 import utils.UtilsPopup;
 
 public class ControllerDownload extends AbstractPopupController {
 
-	private List<Library> libraries;
+	@FXML
+	private VBox vbComponents;
 
 	@FXML
 	private TextField txfVideoName;
@@ -28,64 +26,62 @@ public class ControllerDownload extends AbstractPopupController {
 	@FXML
 	private TextField txfUrl;
 
-	@FXML
-	private ChoiceBox<String> choiceLibrary;
-
 	public ControllerDownload() {
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
 		popup = UtilsPopup.popup;
-		libraries = Utils.libraries;
 	}
 
 	public void initialize() {
-		ObservableList<String> olLibraries = FXCollections.observableArrayList();
-
-		for (Library library : libraries) {
-			olLibraries.add(library.getNamePath());
-		}
-
-		choiceLibrary.setItems(olLibraries);
+		if (UtilsDownload.targetLibrary == null)
+			vbComponents.getChildren().add(vbComponents.getChildren().size() - 1, new LibrarySearcher(null));
+		else
+			UtilsPopup.selectedLibrary = UtilsDownload.targetLibrary;
 	}
 
 	@FXML
 	private void handleCancelar() {
+		popup.getStage().setOnCloseRequest(event -> {
+			UtilsPopup.selectedLibrary = null;
+			UtilsDownload.targetLibrary = null;
+		});
+
 		popup.getStage().close();
 	}
 
 	@FXML
 	private void handleAceptar() {
-		popup.getStage().close();
-		Library library = null;
-		String namePath = choiceLibrary.getSelectionModel().getSelectedItem(), videoName = txfVideoName.getText();
-		HBox hBox = new HBox();
-		Button btnRemove = new Button("X"), btnVer = new Button("Ver");
-		CustomMenuItem cmi;
+		if (UtilsPopup.selectedLibrary != null) {
+			MenuButton mbDownloads = Utils.mbDownloads;
+			String videoName = txfVideoName.getText();
+			HBox hBox = new HBox();
+			Button btnRemove = new Button("X"), btnVer = new Button("Ver");
+			CustomMenuItem cmi;
 
-		hBox.getChildren().add(new Text());
-		hBox.getChildren().add(new VBox());
+			hBox.getChildren().add(new Text());
+			hBox.getChildren().add(new VBox());
 
-		cmi = new CustomMenuItem(hBox);
+			cmi = new CustomMenuItem(hBox);
 
-		for (int i = 0; i < libraries.size() && library == null; i++) {
-			Library lib = libraries.get(i);
+			mbDownloads.getItems().add(0, cmi);
 
-			library = namePath.equals(lib.getNamePath()) ? lib : null;
-		}
+			mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) + 1));
 
-		Utils.mbDownloads.getItems().add(0, cmi);
+			Grabber grabber = new Grabber(txfUrl.getText(),
+					UtilsDownload.targetLibrary != null ? UtilsDownload.targetLibrary.getPath()
+							: UtilsPopup.selectedLibrary.getPath(),
+					gVideo, videoName);
+			grabber.run(cmi);
 
-		Grabber grabber = new Grabber(txfUrl.getText(), library.getPath(), gVideo, videoName);
-		grabber.run(cmi);
+			hBox.getChildren().add(btnVer);
+			hBox.getChildren().add(btnRemove);
 
-		hBox.getChildren().add(btnVer);
-		hBox.getChildren().add(btnRemove);
+			btnRemove.setOnAction(event -> {
+				mbDownloads.getItems().remove(cmi);
+				mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) - 1));
+			});
 
-		btnRemove.setOnAction(event -> {
-			Utils.mbDownloads.getItems().remove(cmi);
-		});
-
-		btnVer.setOnAction(event -> {
+			btnVer.setOnAction(event -> {
 //			UtilsPopup.page = UtilsPopup.POPUP_PAGE.VIDEO;
 //			UtilsPopup.videoToPlay = cmi.getVideo();
 //
@@ -95,11 +91,12 @@ public class ControllerDownload extends AbstractPopupController {
 //				e.printStackTrace();
 //			}
 
-		});
+			});
 
-		Utils.controllerLandPage.fillRecentVideos();
+			Utils.controllerLandPage.fillRecentVideos();
 
-		handleCancelar();
+			handleCancelar();
+		}
 	}
 
 }

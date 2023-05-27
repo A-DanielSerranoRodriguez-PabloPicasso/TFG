@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import models.AbstractPopupController;
 import utils.Routes;
 import utils.Utils;
+import utils.UtilsDownload;
 import utils.UtilsPopup;
 
 public class Popup extends Application {
@@ -76,6 +77,10 @@ public class Popup extends Application {
 				break;
 			}
 
+			primaryStage.setOnCloseRequest(event -> {
+				UtilsPopup.selectedLibrary = null;
+				UtilsDownload.targetLibrary = null;
+			});
 			primaryStage.showAndWait();
 		} catch (Exception e) {
 			e.printStackTrace();

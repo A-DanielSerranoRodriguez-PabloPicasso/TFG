@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import models.AbstractController;
 import models.Library;
 import models.Video;
 import utils.Utils;
@@ -27,6 +28,7 @@ import utils.UtilsPopup;
 
 public class LineVideo extends AnchorPane {
 
+	private AbstractController controller;
 	private Video video;
 	private HBox hbContent, hbEdit, hbDelete;
 	private Label lblName, lblPath, lblDate;
@@ -34,8 +36,9 @@ public class LineVideo extends AnchorPane {
 	private TextField txfName;
 	private ChoiceBox<String> choiceLibrary;
 
-	public LineVideo(Video video) {
+	public LineVideo(Video video, AbstractController controller) {
 		this.video = video;
+		this.controller = controller;
 
 		hbContent = new HBox(10);
 		hbContent.setPadding(new Insets(20));
@@ -132,8 +135,6 @@ public class LineVideo extends AnchorPane {
 			GVideo<Video> gVideo = GVideoImp.getGestor();
 			Library library = null;
 
-			// TODO hacer visible nueva biblioteca
-
 			video.setName(txfName.getText());
 			while (!video.getVideo().getName().equals(video.getFileName())) {
 			}
@@ -146,6 +147,7 @@ public class LineVideo extends AnchorPane {
 			}
 
 			gVideo.update(video);
+			controller.reload();
 			lblName.setText(video.getName());
 			lblPath.setText(video.getLibrary().getName());
 			hbContent.getChildren().add(2, lblDate);

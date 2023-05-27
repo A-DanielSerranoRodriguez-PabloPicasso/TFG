@@ -24,5 +24,8 @@ public abstract class AbstractController {
 	public GVideo<Video> getGVideo(){
 		return GVideoImp.getGestor();
 	}
+	
+	public void reload() {
+	}
 
 }
