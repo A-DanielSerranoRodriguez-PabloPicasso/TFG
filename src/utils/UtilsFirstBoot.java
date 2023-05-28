@@ -8,7 +8,7 @@ import dao.GOriginImp;
 public class UtilsFirstBoot {
 	private static UtilsFirstBoot util;
 
-	private String userName, dbFolderPath, dbFilePath;
+	private String userName, dbFolderPath, dbFilePath, origin;
 
 	/**
 	 * Constructor de la clase
@@ -38,6 +38,10 @@ public class UtilsFirstBoot {
 
 	public String getDbFilePath() {
 		return dbFilePath;
+	}
+
+	public String getOrigin() {
+		return origin;
 	}
 
 	/**
@@ -77,7 +81,8 @@ public class UtilsFirstBoot {
 		if (dbFile.exists()) {
 			Utils.dbFilePath = dbFilePath;
 			GOrigin gOrigin = GOriginImp.gestor();
-			return gOrigin.getOrigin() == null;
+			origin = gOrigin.getOrigin();
+			return origin == null;
 		}
 
 		return dbFolder.exists() ? !dbFile.exists() : true;

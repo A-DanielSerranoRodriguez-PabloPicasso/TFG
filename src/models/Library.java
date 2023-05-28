@@ -7,12 +7,6 @@ public class Library {
 	private String name, path, parent, namePath, origin;
 	private Library libParent;
 
-	public Library(String path, String name) {
-		this.path = path;
-		this.name = name;
-		namePath = name + " - " + path;
-	}
-
 	public Library(String path, String name, String parent, String origin) {
 		this.path = path;
 		this.name = name;

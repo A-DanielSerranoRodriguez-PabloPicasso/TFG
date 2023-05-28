@@ -141,7 +141,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	public boolean insert(final Library library) {
 		try {
 			return conn.createStatement().execute("insert into " + table + " values ('" + library.getPath() + "', '"
-					+ library.getName() + "', '" + library.getParent() + "', " + library.getOrigin() + ")");
+					+ library.getName() + "', '" + library.getParent() + "', '" + library.getOrigin() + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

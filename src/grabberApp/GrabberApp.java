@@ -56,6 +56,7 @@ public class GrabberApp extends Application {
 				viewSetCenter(Routes.getRoute("blank"));
 			} else {
 				Utils.dbFilePath = ufb.getDbFilePath();
+				Utils.origin = ufb.getOrigin();
 				UtilsFirstBoot.close();
 				viewSetCenter(Routes.getRoute("landpage"));
 			}

@@ -74,6 +74,8 @@ public class ControllerLandPage extends AbstractController {
 	}
 
 	private void fillLibraries() {
+		Utils.libraries = gLibrary.getAll();
+		libraries = Utils.libraries;
 		Button btnLibrary;
 		int i = 0;
 		for (Library library : libraries) {
