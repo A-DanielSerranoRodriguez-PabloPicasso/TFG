@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import models.AbstractController;
 import utils.Routes;
 import utils.Utils;
+import utils.UtilsFirstBoot;
 
 public class GrabberApp extends Application {
 	private Stage primaryStage;
@@ -24,7 +25,7 @@ public class GrabberApp extends Application {
 		primaryStage = arg0;
 		Utils.gApp = this;
 		Routes.fillRoutes();
-		
+
 		primaryStage.setMinWidth(1000);
 		primaryStage.setMinHeight(500);
 		primaryStage.setMaximized(true);
@@ -47,9 +48,15 @@ public class GrabberApp extends Application {
 
 			viewSetTop(Routes.getRoute("topBar"));
 
-			if (Utils.firstStart()) {
+			UtilsFirstBoot ufb = UtilsFirstBoot.getUtil();
+
+			if (ufb.firstStart()) {
+				Utils.dbFolderPath = ufb.getDbFolderPath();
+				Utils.dbFilePath = ufb.getDbFilePath();
 				viewSetCenter(Routes.getRoute("blank"));
 			} else {
+				Utils.dbFilePath = ufb.getDbFilePath();
+				UtilsFirstBoot.close();
 				viewSetCenter(Routes.getRoute("landpage"));
 			}
 

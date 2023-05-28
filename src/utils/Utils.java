@@ -1,6 +1,5 @@
 package utils;
 
-import java.io.File;
 import java.util.List;
 
 import dao.SQLiteDAO;
@@ -13,6 +12,8 @@ public class Utils {
 
 	public static GrabberApp gApp;
 
+	public static String dbFilePath, dbFolderPath, origin;
+
 	public static MenuButton mbDownloads;
 
 	public static SQLiteDAO sqlDao;
@@ -20,42 +21,46 @@ public class Utils {
 	public static Library selectedLibrary;
 
 	public static List<Library> libraries;
-	
+
 	public static ControllerLandPage controllerLandPage;
 
-	private static String system = System.getProperty("os.name"), user = System.getProperty("user.name"), folderPath,
-			path;
-
-	public static String getFolderPath() {
-		return folderPath;
-	}
-
-	public static String getPath() {
-		return path;
-	}
-
-	public static boolean isInWindows() {
-		return system.contains("Windows");
-	}
-
-	public static boolean isInLinux() {
-		return !isInWindows();
-	}
-
-	public static boolean firstStart() {
-		if (isInWindows())
-			folderPath = "C:/Users/" + user + "/AppData/Local/JGrabber";
-		else
-			folderPath = "/home/" + user + "/.config/jgrabber";
-
-		path = folderPath + "/config.properties";
-
-		File configFolder = new File(folderPath), config = new File(path);
-
-		if (configFolder.exists())
-			return !config.exists();
-		else
-			return true;
-	}
-
+//	/**
+//	 * Comprueba que el systema operativo en el que estamos es Windows
+//	 * 
+//	 * @return true si estamos en Windows, false en caso de no
+//	 */
+//	public static boolean isOsWindows() {
+//		return System.getProperty("os.name").contains("Windows");
+//	}
+//
+//	/**
+//	 * Comprueba que el sistema operativo en el que estamos no es Windows
+//	 * 
+//	 * @return true si no estamos en Windows, falso en caso de si
+//	 */
+//	public static boolean isOsUnix() {
+//		return !isOsWindows();
+//	}
+//
+//	/**
+//	 * Comprueba que la base de datos existe y que el usuario ha introducido un
+//	 * origen para las bibliotecas
+//	 * 
+//	 * @return true si no se ha configurado el origen, false si el origen existe
+//	 */
+//	public static boolean firstStart() {
+//		String folderPath, user, filePath;
+//
+//		user = System.getProperty("user.name");
+//		if (isOsWindows())
+//			folderPath = "C:/Users/" + user + "/AppData/Local/JGrabber";
+//		else
+//			folderPath = "/home/" + user + "/.config/jgrabber";
+//
+//		filePath = folderPath + "/db.db";
+//
+//		File configFolder = new File(folderPath), config = new File(filePath);
+//
+//		return configFolder.exists() ? !config.exists() : true;
+//	}
 }

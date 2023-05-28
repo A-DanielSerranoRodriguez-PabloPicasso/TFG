@@ -4,7 +4,7 @@ import dao.GLibraryImp;
 
 public class Library {
 
-	private String name, path, parent, namePath;
+	private String name, path, parent, namePath, origin;
 	private Library libParent;
 
 	public Library(String path, String name) {
@@ -13,10 +13,11 @@ public class Library {
 		namePath = name + " - " + path;
 	}
 
-	public Library(String path, String name, String parent) {
+	public Library(String path, String name, String parent, String origin) {
 		this.path = path;
 		this.name = name;
 		this.parent = parent;
+		this.origin = origin;
 		namePath = name + " - " + path;
 		libParent = GLibraryImp.gestor().getByPath(parent);
 	}
@@ -39,6 +40,10 @@ public class Library {
 
 	public Library getLibParent() {
 		return libParent;
+	}
+
+	public String getOrigin() {
+		return origin;
 	}
 
 	public String getTree() {

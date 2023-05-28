@@ -15,21 +15,18 @@ public class ControllerPreparing extends AbstractController {
 	}
 
 	public void initialize() {
-		File configFolder = new File(Utils.getFolderPath()), configFile = new File(Utils.getPath());
+		File dbFolder = new File(Utils.dbFolderPath), dbFile = new File(Utils.dbFilePath);
 
-		if (!configFile.exists()) {
-			if (!configFolder.exists())
-				configFolder.mkdirs();
+		if (!dbFile.exists()) {
+			if (!dbFolder.exists())
+				dbFolder.mkdirs();
 
 			try {
-				Files.copy(new File(gApp.getClass().getResource("/boot.properties").getFile()), configFile);
-				Files.copy(new File(gApp.getClass().getResource("/db/db.db").getFile()),
-						new File(Utils.getFolderPath() + "/db.db"));
+				Files.copy(new File(gApp.getClass().getResource("/db/db.db").getFile()), dbFile);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 }

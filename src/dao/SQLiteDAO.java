@@ -14,7 +14,7 @@ public class SQLiteDAO {
 	private static SQLiteDAO dao;
 
 	private SQLiteDAO() {
-		File file = new File(Utils.getFolderPath() + "/db.db");
+		File file = new File(Utils.dbFilePath);
 
 		if (file.exists()) {
 			String url = "jdbc:sqlite://" + file.getAbsolutePath();

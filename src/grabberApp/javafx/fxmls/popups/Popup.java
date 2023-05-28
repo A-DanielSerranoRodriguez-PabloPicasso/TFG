@@ -27,6 +27,7 @@ public class Popup extends Application {
 	public void start(Stage arg0) throws Exception {
 		primaryStage = arg0;
 		UtilsPopup.popup = this;
+		UtilsPopup.closed = false;
 
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
 		primaryStage.initOwner(Utils.gApp.getStage());
@@ -49,18 +50,19 @@ public class Popup extends Application {
 			primaryStage.setScene(new Scene(rootPane));
 
 			switch (UtilsPopup.page) {
+			case SETUP:
+				primaryStage.setTitle("Crear origen");
+				viewSetCenter(Routes.getRoute("popup-setup"));
+				break;
+
 			case LIBRARY:
 				primaryStage.setTitle("Crear biblioteca");
 				viewSetCenter(Routes.getRoute("popup-library-create"));
 				break;
 
 			case DOWNLOAD:
-				primaryStage.setTitle("Descargar video");
+				primaryStage.setTitle("Descargar");
 				viewSetCenter(Routes.getRoute("popup-download"));
-				break;
-
-			case VIDEO:
-				viewSetCenter(Routes.getRoute("popup-video"));
 				break;
 
 			case ERR_VLC:
@@ -80,6 +82,7 @@ public class Popup extends Application {
 			primaryStage.setOnCloseRequest(event -> {
 				UtilsPopup.selectedLibrary = null;
 				UtilsDownload.targetLibrary = null;
+				UtilsPopup.closed = true;
 			});
 			primaryStage.showAndWait();
 		} catch (Exception e) {
