@@ -8,7 +8,7 @@ public interface GLibrary<Library> {
 		return null;
 	}
 
-	public Library getByPath(String path);
+	public Library getById(int id);
 
 	public List<Library> getAll();
 
@@ -27,5 +27,7 @@ public interface GLibrary<Library> {
 	public boolean update(Library library);
 
 	public boolean delete(Library library);
+
+	models.Library getByPath(String path);
 
 }

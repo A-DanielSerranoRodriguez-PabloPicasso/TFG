@@ -2,11 +2,11 @@ package grabberApp.javafx.fxmls.popups.download;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import models.AbstractPopupController;
 import models.javafx.CustomMenuItem;
 import models.javafx.LibrarySearcher;
@@ -58,7 +58,7 @@ public class ControllerDownload extends AbstractPopupController {
 			Button btnRemove = new Button("X"), btnVer = new Button("Ver");
 			CustomMenuItem cmi;
 
-			hBox.getChildren().add(new Text());
+			hBox.getChildren().add(new Label());
 			hBox.getChildren().add(new VBox());
 
 			cmi = new CustomMenuItem(hBox);
@@ -70,8 +70,8 @@ public class ControllerDownload extends AbstractPopupController {
 			Grabber grabber = new Grabber(txfUrl.getText(),
 					UtilsDownload.targetLibrary != null ? UtilsDownload.targetLibrary.getPath()
 							: UtilsPopup.selectedLibrary.getPath(),
-					gVideo, videoName);
-			grabber.run(cmi);
+					gVideo, videoName, cmi);
+			grabber.start();
 
 			hBox.getChildren().add(btnVer);
 			hBox.getChildren().add(btnRemove);

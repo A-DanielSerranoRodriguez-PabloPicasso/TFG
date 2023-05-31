@@ -13,8 +13,8 @@ public class Video {
 		this.library = library;
 	}
 
-	private int id;
-	private String name, fileName, strLibrary, url;
+	private int id, idLibrary;
+	private String name, fileName, url;
 	private Library library;
 	private File image, video;
 	private List<Category> categories;
@@ -54,10 +54,6 @@ public class Video {
 		return name;
 	}
 
-	public String getStrLibrary() {
-		return strLibrary;
-	}
-
 	public Library getLibrary() {
 		return library;
 	}
@@ -68,6 +64,10 @@ public class Video {
 
 	public File getVideo() {
 		return video;
+	}
+
+	public int getIdLibrary() {
+		return idLibrary;
 	}
 
 	public List<Category> getCategories() {

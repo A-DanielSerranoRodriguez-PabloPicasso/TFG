@@ -1,5 +1,8 @@
 package grabberApp;
 
+import java.sql.SQLException;
+
+import dao.SQLiteDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,6 +33,13 @@ public class GrabberApp extends Application {
 		primaryStage.setMinHeight(500);
 		primaryStage.setMaximized(true);
 		primaryStage.setTitle("jGrabber");
+		primaryStage.setOnCloseRequest(event -> {
+			try {
+				SQLiteDAO.getDao().close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
 		initLayout();
 	}
 

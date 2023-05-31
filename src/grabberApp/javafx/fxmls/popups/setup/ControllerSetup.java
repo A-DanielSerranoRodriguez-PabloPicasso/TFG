@@ -48,6 +48,7 @@ public class ControllerSetup extends AbstractPopupController {
 			String route = txfRoute.getText();
 			if (!route.isEmpty()) {
 				gOrigin.insert(route);
+				Utils.origin = route;
 				popup.getStage().close();
 				Utils.gApp.viewSetCenter(Routes.getRoute("landpage"));
 			}

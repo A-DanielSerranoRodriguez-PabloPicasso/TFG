@@ -39,7 +39,7 @@ public class SQLiteDAO {
 		return conn;
 	}
 
-	public void closeConn() throws SQLException {
+	public void close() throws SQLException {
 		conn.close();
 	}
 }

@@ -18,7 +18,7 @@ public abstract class AbstractController {
 	}
 
 	public GLibrary<Library> getGLibrary() {
-		return GLibraryImp.gestor();
+		return GLibraryImp.getGestor();
 	}
 	
 	public GVideo<Video> getGVideo(){

@@ -3,17 +3,31 @@
     background-color: #05000d;
 }
 
-AnchorPane, ScrollPane{
+AnchorPane, ScrollPane, MenuItem{
 	-fx-background-color: #000009;
 }
 
-Label{
+Button, MenuButton .label, Label, MenuItem{
 	-fx-text-fill: #FFFFFF;
 	-fx-font-size: 16.0;
 }
 
-.topBar{
+.menu-item, .context-menu {
+	-fx-background-color: #000000;
+	-fx-text-fill: #FFFFFF;
+}
+
+.menu-item:hover .label{
+	-fx-underline: true;
+}
+
+.libraryPill{
+	-fx-background-color: #000009;
+}
+
+.topBar, .context-menu-top, .menu-item-top, Button{
 	-fx-background-color: #141418;
+	-fx-text-fill: #FFFFFF;
 }
 
 .slightRadius{

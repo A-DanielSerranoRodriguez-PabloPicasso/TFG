@@ -13,28 +13,30 @@ import com.google.common.io.Files;
 
 import dao.GLibraryImp;
 import dao.GVideo;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import models.FFDriver;
 import models.Library;
 import models.Video;
 import models.javafx.CustomMenuItem;
 
-//public class Grabber extends Thread {
-public class Grabber {
+public class Grabber extends Thread {
+//public class Grabber {
 	private String url, outputFolder, videoName;
 	private GVideo<Video> gVideo;
+	private CustomMenuItem cmi;
 
-	public Grabber(String url, String outputFolder, GVideo<Video> gVideo, String videoName) {
+	public Grabber(String url, String outputFolder, GVideo<Video> gVideo, String videoName, CustomMenuItem cmi) {
 		this.url = url;
 		this.outputFolder = outputFolder;
 		this.gVideo = gVideo;
 		this.videoName = videoName;
+		this.cmi = cmi;
 	}
 
-//	@Override
-//	public void run() {
-	public void run(CustomMenuItem cmi) {
+	@Override
+	public void run() {
+//	public void run(CustomMenuItem cmi) {
 		String selectorCssButtonUrl = "#gatsby-focus-wrapper > main > section:nth-child(1) > div > div.sm\\:text-center.md\\:max-w-2xl.md\\:mx-auto.lg\\:mx-0.lg\\:col-span-8.lg\\:text-left > div.mt-8.sm\\:mx-auto.sm\\:text-center.lg\\:mx-0.lg\\:text-left > form > button";
 		boolean prepared = false, cached = false, downloaded = false;
 		File outFolder = new File(outputFolder), fileFolder = new File(outputFolder + "/temp");
@@ -46,9 +48,9 @@ public class Grabber {
 
 		HBox hBox = (HBox) cmi.getContent();
 
-		Text text = (Text) hBox.getChildren().get(0);
+		Label label = (Label) hBox.getChildren().get(0);
 
-		text.setText("Procesando...");
+		label.setText("Procesando...");
 
 		if (!outFolder.exists())
 			outFolder.mkdirs();
@@ -75,7 +77,7 @@ public class Grabber {
 			btnUrl = findElement(driver, By.cssSelector(selectorCssButtonUrl));
 			btnUrl.click();
 
-			text.setText("Esperando descarga");
+			label.setText("Esperando descarga");
 
 			closeUnwanted(auida, driver);
 
@@ -106,7 +108,7 @@ public class Grabber {
 
 			Thread.sleep(100);
 
-			text.setText("Procesando descarga");
+			label.setText("Procesando descarga");
 
 			if (!btnDownload.getText().matches(".*(Descargar|Download).*")
 					|| !btnDownload.getText().matches(".*(Haga click|click|Click).*")) {
@@ -131,7 +133,7 @@ public class Grabber {
 			btnDownload.click();
 			closeUnwanted(auida, driver);
 
-			text.setText("Descargando");
+			label.setText("Descargando");
 
 			files = fileFolder.list();
 
@@ -157,9 +159,9 @@ public class Grabber {
 			File file = new File(fileFolder.getAbsolutePath() + "/" + files[0]);
 			Files.move(file, new File(outputFolder + "/" + videoName + ".mp4"));
 
-			Library library = GLibraryImp.gestor().getByPath(outputFolder);
+			Library library = GLibraryImp.getGestor().getByPath(outputFolder);
 
-			text.setText(videoName);
+			label.setText(videoName);
 
 			Video video = new Video(1, videoName, videoName + ".mp4", library, url, true,
 					Instant.now().getEpochSecond());

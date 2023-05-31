@@ -13,11 +13,14 @@ import models.Video;
 
 public class GVideoImp extends GGeneral implements GVideo<Video> {
 
-	public static GVideo<Video> gestor;
+	private static GVideo<Video> gestor;
 
 	private Connection conn;
+	private GLibrary<Library> gLibrary;
 
 	private GVideoImp() {
+		gLibrary = GLibraryImp.getGestor();
+
 		try {
 			conn = SQLiteDAO.getConn();
 			stmt = conn.createStatement();
@@ -33,6 +36,21 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 		return gestor;
 	}
 
+	private Video constructVideo(ResultSet rs) {
+		Video video = null;
+		Library library;
+
+		try {
+			library = gLibrary.getById(rs.getInt("library"));
+			video = new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"), library,
+					rs.getString("url"), rs.getBoolean("downloaded"), rs.getLong("last_date"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return video;
+	}
+
 	@Override
 	public Video getById(String id) {
 		Video video = null;
@@ -40,10 +58,7 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 		try {
 			ResultSet rs = stmt.executeQuery("select * from video where id = " + Integer.parseInt(id));
 			rs.next();
-			Library library = GLibraryImp.gestor().getByPath(rs.getString("library"));
-
-			video = new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"), library,
-					rs.getString("url"), rs.getBoolean("downloaded"), rs.getLong("last_date"));
+			video = constructVideo(rs);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -77,11 +92,8 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from video");
 
-			while (rs.next()) {
-				Library library = GLibraryImp.gestor().getByPath(rs.getString("library"));
-				generales.add(new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"), library,
-						rs.getString("url"), rs.getBoolean("downloaded"), rs.getLong("last_date")));
-			}
+			while (rs.next())
+				generales.add(constructVideo(rs));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -95,12 +107,10 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 
 		try {
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from video where library = '" + library.getPath() + "'");
+			ResultSet rs = stmt.executeQuery("select * from video where library = " + library.getId() + "");
 
-			while (rs.next()) {
+			while (rs.next())
 				videos.add(constructVideo(rs));
-			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -118,9 +128,7 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 			int i = 0;
 
 			while (rs.next() && i <= amount) {
-				Library library = GLibraryImp.gestor().getByPath(rs.getString("library"));
-				videos.add(new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"), library,
-						rs.getString("url"), rs.getBoolean("downloaded"), rs.getLong("last_date")));
+				videos.add(constructVideo(rs));
 				i++;
 			}
 
@@ -138,11 +146,8 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from video where downloaded = 0");
 
-			while (rs.next()) {
-				Library library = GLibraryImp.gestor().getByPath(rs.getString("library"));
-				generales.add(new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"), library,
-						rs.getString("url"), rs.getBoolean("downloaded"), rs.getLong("last_date")));
-			}
+			while (rs.next())
+				generales.add(constructVideo(rs));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -158,7 +163,7 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 			Statement stmt = conn.createStatement();
 			ok = stmt.execute("insert into video(name, file_name, url, library, downloaded, last_date) values ('"
 					+ video.getName() + "','" + video.getFileName() + "', '" + video.getUrl() + "', '"
-					+ video.getLibrary().getPath() + "', " + 1 + ", " + Instant.now().getEpochSecond() + ");");
+					+ video.getLibrary().getId() + "', " + 1 + ", " + Instant.now().getEpochSecond() + ");");
 		} catch (SQLException e) {
 			System.err.println("URL already exists");
 		}
@@ -195,20 +200,39 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 		return ok;
 	}
 
-	private Video constructVideo(ResultSet rs) {
+	@Override
+	public Video getByPath(String libraryPath, String fileName) {
 		Video video = null;
-		GLibrary<Library> gLibrary = GLibraryImp.gestor();
-		Library library;
 
 		try {
-			library = gLibrary.getByPath(rs.getString("library"));
-			video = new Video(rs.getInt("id"), rs.getString("name"), rs.getString("file_name"), library,
-					rs.getString("url"), rs.getBoolean("downloaded"), rs.getLong("last_date"));
+			ResultSet rs = stmt.executeQuery(
+					"select * from video where library = '" + libraryPath + "' and file_name = '" + fileName + "'");
+			rs.next();
+			video = constructVideo(rs);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return video;
+	}
+
+	@Override
+	public boolean update(Library library, List<Video> videos) {
+		boolean ok = false;
+
+		try {
+			Statement stmt = conn.createStatement();
+			for (Video video : videos) {
+				stmt.addBatch(
+						"update video set library = '" + library.getName() + "' where id = " + video.getId() + ";");
+			}
+			ok = stmt.executeBatch().length > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ok;
 	}
 
 }

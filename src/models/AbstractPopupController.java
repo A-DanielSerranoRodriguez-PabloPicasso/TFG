@@ -14,7 +14,7 @@ public abstract class AbstractPopupController extends AbstractController {
 	}
 
 	public GLibrary<Library> getGLibrary() {
-		return GLibraryImp.gestor();
+		return GLibraryImp.getGestor();
 	}
 
 }

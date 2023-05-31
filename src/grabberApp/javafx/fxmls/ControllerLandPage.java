@@ -12,7 +12,6 @@ import models.AbstractController;
 import models.Library;
 import models.Video;
 import models.javafx.LineVideo;
-import utils.Routes;
 import utils.Utils;
 import utils.UtilsPopup;
 
@@ -68,7 +67,6 @@ public class ControllerLandPage extends AbstractController {
 		hBoxLibraries.getChildren().clear();
 
 		fillLibraries();
-//		fillRecentVideos();
 
 		hBoxLibraries.getChildren().add(btnAddLibrary);
 	}
@@ -76,16 +74,10 @@ public class ControllerLandPage extends AbstractController {
 	private void fillLibraries() {
 		Utils.libraries = gLibrary.getAll();
 		libraries = Utils.libraries;
-		Button btnLibrary;
-		int i = 0;
-		for (Library library : libraries) {
-			btnLibrary = new Button(library.getName());
-			gpLibraries.add(btnLibrary, i, 0);
-			btnLibrary.setOnMouseClicked(event -> {
-				Utils.selectedLibrary = library;
-				gApp.viewSetCenter(Routes.getRoute("library"));
-			});
-			i++;
+		gpLibraries.getChildren().clear();
+		for (int i = 0, s = libraries.size(); i < s; i++) {
+			gpLibraries.add(new LibraryPill(libraries.get(i), this), i, 0);
+			System.out.println(i);
 		}
 	}
 
@@ -101,6 +93,12 @@ public class ControllerLandPage extends AbstractController {
 			gpRecentVideos.add(cardVideo, 0, i);
 			i++;
 		}
+	}
+
+	@Override
+	public void reload() {
+		fillLibraries();
+		fillRecentVideos();
 	}
 
 }
