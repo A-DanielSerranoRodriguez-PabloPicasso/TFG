@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
 import models.Video;
+import models.javafx.LibraryPill;
 import models.javafx.LineVideo;
 import utils.Utils;
 import utils.UtilsPopup;

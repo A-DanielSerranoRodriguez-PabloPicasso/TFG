@@ -1,4 +1,4 @@
-package grabberApp.javafx.fxmls;
+package models.javafx;
 
 import java.io.File;
 import java.util.List;
