@@ -69,9 +69,9 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		}
 		return result;
 	}
-
+	
 	@Override
-	public List<Library> getChildless() {
+	public List<Library> getTop() {
 		List<Library> result = new ArrayList<>();
 		try {
 			ResultSet rs = conn.createStatement().executeQuery(

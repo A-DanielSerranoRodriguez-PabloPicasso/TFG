@@ -14,7 +14,7 @@ public interface GLibrary<Library> {
 
 	public List<Library> getChildren(Library library);
 
-	public List<Library> getChildless();
+	public List<Library> getTop();
 
 	public List<Library> getFromNameEverywhere(String name);
 

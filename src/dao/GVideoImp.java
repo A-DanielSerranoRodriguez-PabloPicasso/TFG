@@ -178,7 +178,7 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 		try {
 			Statement stmt = conn.createStatement();
 			ok = stmt.execute("update video set name = '" + video.getName() + "', file_name = '" + video.getFileName()
-					+ "', library = '" + video.getLibrary().getPath() + "' where id = " + video.getId() + ";");
+					+ "', library = " + video.getLibrary().getId() + " where id = " + video.getId() + ";");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -201,12 +201,12 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 	}
 
 	@Override
-	public Video getByPath(String libraryPath, String fileName) {
+	public Video getByLibrary(int idLibrary, String fileName) {
 		Video video = null;
 
 		try {
 			ResultSet rs = stmt.executeQuery(
-					"select * from video where library = '" + libraryPath + "' and file_name = '" + fileName + "'");
+					"select * from video where library = " + idLibrary + " and file_name = '" + fileName + "'");
 			rs.next();
 			video = constructVideo(rs);
 

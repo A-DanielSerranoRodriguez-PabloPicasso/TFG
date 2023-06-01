@@ -18,37 +18,73 @@
          <content>
             <AnchorPane>
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox fx:id="vbObjects" prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <padding>
                         <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
                      </padding>
                      <children>
-                        <HBox fx:id="hBoxBreadcrumb" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0">
+                        <HBox fx:id="hBoxBreadcrumb" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0" />
+                        <Label fx:id="lblLibrary" />
+                        <VBox spacing="30.0">
                            <children>
-                              <Label fx:id="lblLibrary" />
-                              <Button fx:id="btnDownload" mnemonicParsing="false" styleClass="no-bg">
-                                 <graphic>
-                                    <ImageView fx:id="imgDownload" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
-                                 </graphic>
-                              </Button>
-                           </children>
-                        </HBox>
-                        <VBox>
-                           <children>
-                              <HBox fx:id="hBoxVideos" fillHeight="false">
+                              <VBox>
                                  <children>
-                                    <Label text="Videos" />
+                                    <HBox fx:id="hBoxVideos1" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <children>
+                                          <Label text="Bibliotecas" />
+                                          <Button fx:id="btnAddLibrary" mnemonicParsing="false" styleClass="no-bg">
+                                             <graphic>
+                                                <ImageView fx:id="imgAddLibrary" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <GridPane fx:id="gpLibraries" hgap="10.0" vgap="10.0">
+                                       <rowConstraints>
+                                          <RowConstraints vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <styleClass>
+                                          <String fx:value="topBar" />
+                                          <String fx:value="slightRadius" />
+                                       </styleClass>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </GridPane>
                                  </children>
-                              </HBox>
-                              <GridPane fx:id="gpVideos">
-                                <rowConstraints>
-                                  <RowConstraints vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <styleClass>
-                                    <String fx:value="topBar" />
-                                    <String fx:value="slightRadius" />
-                                 </styleClass>
-                              </GridPane>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <HBox fx:id="hBoxVideos" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <children>
+                                          <Label text="Videos" />
+                                          <Button fx:id="btnDownload" mnemonicParsing="false" styleClass="no-bg">
+                                             <graphic>
+                                                <ImageView fx:id="imgDownload" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <GridPane fx:id="gpVideos" hgap="10.0" vgap="10.0">
+                                      <rowConstraints>
+                                        <RowConstraints vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <styleClass>
+                                          <String fx:value="topBar" />
+                                          <String fx:value="slightRadius" />
+                                       </styleClass>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
                            </children>
                         </VBox>
                      </children>

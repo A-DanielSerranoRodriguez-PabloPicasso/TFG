@@ -31,7 +31,7 @@ public class LineVideo extends AnchorPane {
 	private AbstractController controller;
 	private Video video;
 	private HBox hbContent, hbEdit, hbDelete;
-	private Label lblName, lblPath, lblDate;
+	private Label lblName, lblLibrary, lblLibraryTree, lblDate;
 	private Button btnEdit, btnDelete, btnAcceptEdit, btnCancelEdit, btnAcceptDelete, btnCancelDelete;
 	private TextField txfName;
 	private ChoiceBox<String> choiceLibrary;
@@ -45,7 +45,8 @@ public class LineVideo extends AnchorPane {
 		hbContent.setAlignment(Pos.CENTER);
 
 		lblName = new Label(video.getName());
-		lblPath = new Label(video.getLibrary().getName());
+		lblLibrary = new Label(video.getLibrary().getName() + ":");
+		lblLibraryTree = new Label(video.getLibrary().getTree());
 		Date date = new Date(video.getDateCreated() * 1000);
 		DateFormat df = new SimpleDateFormat("dd/M/yyyy H:mm");
 		lblDate = new Label(df.format(date));
@@ -68,7 +69,8 @@ public class LineVideo extends AnchorPane {
 		});
 
 		hbContent.getChildren().add(lblName);
-		hbContent.getChildren().add(lblPath);
+		hbContent.getChildren().add(lblLibrary);
+		hbContent.getChildren().add(lblLibraryTree);
 		hbContent.getChildren().add(lblDate);
 		hbContent.getChildren().add(btnEdit);
 		hbContent.getChildren().add(btnDelete);
@@ -125,8 +127,9 @@ public class LineVideo extends AnchorPane {
 		btnDelete.setOnAction(event -> {
 			this.getChildren().remove(hbContent);
 			hbDelete.getChildren().add(0, lblName);
-			hbDelete.getChildren().add(1, lblPath);
-			hbDelete.getChildren().add(2, lblDate);
+			hbDelete.getChildren().add(1, lblLibrary);
+			hbDelete.getChildren().add(2, lblLibraryTree);
+			hbDelete.getChildren().add(3, lblDate);
 			this.getChildren().add(hbDelete);
 		});
 
@@ -149,14 +152,14 @@ public class LineVideo extends AnchorPane {
 			gVideo.update(video);
 			controller.reload();
 			lblName.setText(video.getName());
-			lblPath.setText(video.getLibrary().getName());
-			hbContent.getChildren().add(2, lblDate);
+			lblLibrary.setText(video.getLibrary().getName());
+			hbContent.getChildren().add(3, lblDate);
 			this.getChildren().add(hbContent);
 		});
 
 		btnCancelEdit.setOnAction(event -> {
 			this.getChildren().remove(hbEdit);
-			hbContent.getChildren().add(2, lblDate);
+			hbContent.getChildren().add(3, lblDate);
 			this.getChildren().add(hbContent);
 		});
 
@@ -171,8 +174,9 @@ public class LineVideo extends AnchorPane {
 		btnCancelDelete.setOnAction(event -> {
 			this.getChildren().remove(hbDelete);
 			hbContent.getChildren().add(0, lblName);
-			hbContent.getChildren().add(1, lblPath);
-			hbContent.getChildren().add(2, lblDate);
+			hbContent.getChildren().add(1, lblLibrary);
+			hbContent.getChildren().add(2, lblLibraryTree);
+			hbContent.getChildren().add(3, lblDate);
 			this.getChildren().add(hbContent);
 		});
 	}

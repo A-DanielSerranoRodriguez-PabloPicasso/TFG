@@ -5,7 +5,6 @@ import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import models.AbstractPopupController;
@@ -21,9 +20,6 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 
 	@FXML
 	private TextField txfSearchBar;
-
-	@FXML
-	private ToggleButton togChildren;
 
 	@FXML
 	private GridPane gvLibraries;
@@ -66,7 +62,7 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 			List<Library> librar = getGLibrary().getChildren(UtilsPopup.selectedLibrary);
 			if (library != null) {
 				btnSelectThis.setDisable(false);
-				if (librar.size() != 0 && !togChildren.isSelected()) {
+				if (librar.size() != 0) {
 					btnListChildren.setDisable(false);
 				}
 			}
@@ -76,26 +72,6 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 	}
 
 	private void setBehaviourButtons() {
-		togChildren.setOnMouseClicked(event -> {
-			boolean isPressed = togChildren.isSelected();
-			List<Library> libraries;
-
-			gvLibraries.getChildren().clear();
-			UtilsPopup.selectedLibrary = null;
-			UtilsPopup.previousLibrary = null;
-
-			if (!isPressed) {
-				libraries = Utils.libraries;
-			} else {
-				btnBack.setVisible(false);
-				libraries = getGLibrary().getChildless();
-			}
-
-			this.libraries = libraries;
-
-			fillLibraries();
-		});
-
 		btnCancel.setOnAction(event -> {
 			UtilsPopup.selectedLibrary = null;
 			UtilsPopup.previousLibrary = null;
@@ -110,6 +86,8 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 		btnListChildren.setOnAction(event -> {
 			UtilsPopup.previousLibrary = UtilsPopup.selectedLibrary;
 			libraries = getGLibrary().getChildren(UtilsPopup.previousLibrary);
+
+			btnListChildren.setDisable(true);
 
 			fillLibraries();
 		});
@@ -130,10 +108,7 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 			if (UtilsPopup.previousLibrary != null) {
 				libraries = getGLibrary().getFromName(UtilsPopup.previousLibrary, txfSearchBar.getText());
 			} else {
-				if (togChildren.isSelected())
-					libraries = gLibrary.getFromNameEverywhere(txfSearchBar.getText());
-				else
-					libraries = gLibrary.getFromName(txfSearchBar.getText());
+				libraries = gLibrary.getFromName(txfSearchBar.getText());
 			}
 
 			fillLibraries();
@@ -145,6 +120,7 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 	}
 
 	private void fillLibraries() {
+		gvLibraries.getChildren().clear();
 		int i = 0;
 		for (Library library : libraries) {
 			gvLibraries.add(new LineLibrary(library), 0, i);

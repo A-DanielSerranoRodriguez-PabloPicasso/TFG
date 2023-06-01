@@ -1,7 +1,6 @@
 package models.javafx;
 
 import java.io.File;
-import java.util.List;
 
 import dao.GLibraryImp;
 import dao.GVideoImp;
@@ -13,13 +12,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import models.AbstractController;
 import models.Library;
-import models.Video;
 import utils.Routes;
 import utils.Utils;
 
 public class LibraryPill extends HBox {
 
-	private boolean bDelete, bRename, bConfirm;
+	private boolean bDelete, bRename;
 
 	private Library library;
 	private AbstractController controller;
@@ -90,7 +88,7 @@ public class LibraryPill extends HBox {
 
 		btnConfirm.setOnAction(event -> {
 			if (bDelete) {
-				deleteLibrary(new File(library.getPath()));
+				deleteLibrary(library);
 			} else if (bRename) {
 				renameLibrary();
 
@@ -129,24 +127,17 @@ public class LibraryPill extends HBox {
 		controller.reload();
 	}
 
-	private void deleteLibrary(File folder) {
+	private void deleteLibrary(Library library) {
+		File folder = new File(library.getPath());
 		String[] content = folder.list();
 
-		if (content != null) {
-			for (int i = 0, l = content.length; i < l; i++) {
-				String fileName = content[i];
-				File file = new File(folder.getAbsolutePath() + System.getProperty("file.separator") + fileName);
+		if (content != null && content.length > 0) {
+			for (String fileString : content) {
+				File file = new File(library.getPath() + System.getProperty("file.separator") + fileString);
 				if (file.isDirectory()) {
-					List<Video> videos = GVideoImp.getGestor()
-							.getByLibrary(GLibraryImp.getGestor().getByPath(folder.getPath()));
-					for (Video video : videos) {
-						GVideoImp.getGestor().delete(video);
-					}
-					GLibraryImp.getGestor().delete(GLibraryImp.getGestor().getByPath(library.getPath()));
-					deleteLibrary(folder);
+					deleteLibrary(GLibraryImp.getGestor().getByPath(file.getAbsolutePath()));
 				} else {
-					GVideoImp.getGestor().delete(
-							GVideoImp.getGestor().getByPath(file.getParentFile().getAbsolutePath(), file.getName()));
+					GVideoImp.getGestor().delete(GVideoImp.getGestor().getByLibrary(library.getId(), fileString));
 				}
 
 				file.delete();

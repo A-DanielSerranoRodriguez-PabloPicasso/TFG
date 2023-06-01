@@ -26,7 +26,7 @@ public interface GVideo<Video> {
 
 	public boolean delete(Video video);
 
-	public Video getByPath(String library, String fileName);
+	public Video getByLibrary(int idLibrary, String fileName);
 	
 	public boolean update(Library library, List<Video> videos);
 

@@ -25,7 +25,7 @@ public class LineLibrary extends AnchorPane {
 
 		lblName = new Label(library.getName());
 		lblPath = new Label(library.getTree());
-
+		
 //		btnEdit = new Button("Editar");
 //		btnDelete = new Button("Eliminar");
 
