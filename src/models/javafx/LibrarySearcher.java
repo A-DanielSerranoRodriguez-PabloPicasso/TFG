@@ -15,8 +15,9 @@ import models.Library;
 import utils.UtilsPopup;
 
 public class LibrarySearcher extends HBox {
-
+	
 	private Library library;
+
 	private TextField txfSearchBar;
 	private Button btnSearch;
 	private ImageView imgSearch;

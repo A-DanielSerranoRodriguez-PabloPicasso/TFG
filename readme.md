@@ -1,7 +1,9 @@
- # Grabber
+# Grabber
 
- Simple project to download videos. YT not available yet, no support for MacOS.
+Simple project to download videos. YT not available yet, no support for MacOS.
 
- ## Must
+## Must
 
- - Use Firefox.
+### Installed programs
+ - Firefox.
+ - VLC.

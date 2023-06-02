@@ -17,6 +17,7 @@ import utils.UtilsPopup;
 public class ControllerLibrarySelect extends AbstractPopupController {
 
 	private List<Library> libraries;
+	private Library currentLibrary;
 
 	@FXML
 	private TextField txfSearchBar;
@@ -46,7 +47,10 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 	}
 
 	public void initialize() {
-		btnBack.setVisible(false);
+		if (UtilsPopup.selectedLibrary != null) {
+			if (UtilsPopup.selectedLibrary.getLibParent() != null)
+				btnBack.setVisible(false);
+		}
 		btnSelectThis.setDisable(true);
 		btnListChildren.setDisable(true);
 		imgSearch.setImage(ImgUtils.getImage("/img/icon/search.png"));
@@ -85,9 +89,12 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 
 		btnListChildren.setOnAction(event -> {
 			UtilsPopup.previousLibrary = UtilsPopup.selectedLibrary;
+			currentLibrary = UtilsPopup.selectedLibrary;
 			libraries = getGLibrary().getChildren(UtilsPopup.previousLibrary);
 
+			btnBack.setVisible(true);
 			btnListChildren.setDisable(true);
+			btnSelectThis.setDisable(true);
 
 			fillLibraries();
 		});
@@ -96,8 +103,18 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 			UtilsPopup.selectedLibrary = UtilsPopup.previousLibrary;
 			UtilsPopup.previousLibrary = UtilsPopup.selectedLibrary.getLibParent();
 
-			if (UtilsPopup.previousLibrary == null)
-				btnBack.setVisible(false);
+			System.out.println(UtilsPopup.previousLibrary.toString());
+			if (UtilsPopup.previousLibrary == null) {
+				btnBack.setVisible(true);
+				libraries = getGLibrary().getTop();
+			} else {
+				libraries = getGLibrary().getChildren(UtilsPopup.previousLibrary);
+			}
+
+			fillLibraries();
+
+//			if (UtilsPopup.previousLibrary == null)
+//				btnBack.setVisible(false);
 		});
 
 		imgSearch.setOnMouseClicked(event -> {

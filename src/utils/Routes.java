@@ -23,6 +23,7 @@ public class Routes {
 		routes.put("popup-download", baseRoute + "popups/download/Download.fxml");
 		routes.put("popup-video", baseRoute + "popups/video/Video.fxml");
 		routes.put("popup-error-no-vlc", baseRoute + "popups/error/NoVLC.fxml");
+		routes.put("popup-error", baseRoute + "popups/error/Error.fxml");
 		routes.put("library", baseRoute + "library/Library.fxml");
 	}
 

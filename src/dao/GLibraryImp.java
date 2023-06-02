@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Library;
+import models.Video;
 import utils.Utils;
 
 public class GLibraryImp extends GGeneral implements GLibrary<Library> {
@@ -41,12 +42,13 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		}
 		return library;
 	}
-	
+
 	@Override
 	public Library getByPath(final String path) {
 		Library library = null;
 		try {
-			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + " where path = '" + path + "'");
+			ResultSet rs = conn.createStatement()
+					.executeQuery("select * from " + table + " where path = '" + path + "'");
 			if (rs.next())
 				library = constructLibrary(rs);
 		} catch (SQLException e) {
@@ -69,13 +71,13 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public List<Library> getTop() {
 		List<Library> result = new ArrayList<>();
 		try {
-			ResultSet rs = conn.createStatement().executeQuery(
-					"select * from " + table + " where parent is 'null' and origin = '" + Utils.origin + "'");
+			ResultSet rs = conn.createStatement()
+					.executeQuery("select * from " + table + " where parent = 0 and origin = '" + Utils.origin + "'");
 			while (rs.next()) {
 				result.add(constructLibrary(rs));
 			}
@@ -87,8 +89,11 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 
 	private Library constructLibrary(ResultSet rs) {
 		try {
-			return new Library(rs.getInt("id"), rs.getString("path"), rs.getString("name"), rs.getString("parent"),
-					rs.getString("origin"));
+			int idParent = rs.getInt("parent");
+			ResultSet rss = conn.createStatement().executeQuery("select * from " + table + " where id = " + idParent);
+			rss.next();
+			return new Library(rs.getInt("id"), rs.getString("path"), rs.getString("name"), rss.getString("path"),
+					idParent, rs.getString("origin"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -99,8 +104,8 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	public List<Library> getChildren(Library library) {
 		List<Library> result = new ArrayList<>();
 		try {
-			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + " where parent = '"
-					+ library.getPath() + "' and origin = '" + Utils.origin + "'");
+			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + " where parent = "
+					+ library.getId() + " and origin = '" + Utils.origin + "'");
 			while (rs.next())
 				result.add(constructLibrary(rs));
 		} catch (SQLException e) {
@@ -128,7 +133,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		List<Library> result = new ArrayList<>();
 		try {
 			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + " where lower(name) like '%"
-					+ name.toLowerCase() + "%' and parent is 'null' and origin = '" + Utils.origin + "'");
+					+ name.toLowerCase() + "%' and parent = 0 and origin = '" + Utils.origin + "'");
 			while (rs.next())
 				result.add(constructLibrary(rs));
 		} catch (SQLException e) {
@@ -141,10 +146,9 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	public List<Library> getFromName(Library library, final String name) {
 		List<Library> result = new ArrayList<>();
 		try {
-			ResultSet rs = conn.createStatement()
-					.executeQuery("select * from " + table + " where parent = '" + library.getPath()
-							+ "' lower(name) like '%" + name.toLowerCase() + "%' and parent is 'null' and origin = '"
-							+ Utils.origin + "'");
+			ResultSet rs = conn.createStatement().executeQuery(
+					"select * from " + table + " where parent = '" + library.getPath() + "' lower(name) like '%"
+							+ name.toLowerCase() + "%' and parent = 0 and origin = '" + Utils.origin + "'");
 			while (rs.next())
 				result.add(constructLibrary(rs));
 		} catch (SQLException e) {
@@ -158,7 +162,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		try {
 			return conn.createStatement()
 					.execute("insert into " + table + "(path, name, parent, origin) values ('" + library.getPath()
-							+ "', '" + library.getName() + "', '" + library.getParent() + "', '" + library.getOrigin()
+							+ "', '" + library.getName() + "', " + library.getIdParent() + ", '" + library.getOrigin()
 							+ "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -168,14 +172,32 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 
 	@Override
 	public boolean update(final Library library) {
+		boolean ok = false;
 		try {
-			return conn.createStatement()
+			ok = conn.createStatement()
 					.execute("update " + table + " set path = '" + library.getPath() + "', name = '" + library.getName()
-							+ "', parent = '" + library.getParent() + "' where id = " + library.getId() + "");
+							+ "', parent = " + library.getIdParent() + " where id = " + library.getId() + "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+
+		List<Video> videos = GVideoImp.getGestor().getByLibrary(library);
+		for (Video video : videos) {
+			GVideoImp.getGestor().update(video);
+		}
+
+		List<Library> libraries = getChildren(library);
+
+		for (Library lib : libraries) {
+			lib.setPath(library.getPath() + System.getProperty("file.separator") + lib.getName());
+			update(lib);
+			videos = GVideoImp.getGestor().getByLibrary(library);
+			for (Video video : videos) {
+				GVideoImp.getGestor().update(video);
+			}
+		}
+
+		return ok;
 	}
 
 	@Override

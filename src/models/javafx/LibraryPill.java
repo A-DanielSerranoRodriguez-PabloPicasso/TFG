@@ -18,6 +18,7 @@ import utils.Utils;
 public class LibraryPill extends HBox {
 
 	private boolean bDelete, bRename;
+	private File libraryFile;
 
 	private Library library;
 	private AbstractController controller;
@@ -32,10 +33,18 @@ public class LibraryPill extends HBox {
 	public LibraryPill(Library library, AbstractController controller) {
 		this.library = library;
 		this.controller = controller;
+		libraryFile = new File(library.getPath());
 
+		
 		btnLibrary = new Button(library.getName());
+		// TODO alerta biblioteca no disponible
+		if (!libraryFile.exists())
+			btnLibrary.setDisable(true);
 		mbtnMenu = new MenuButton();
 		miRename = new MenuItem("Renombrar");
+		// TODO alerta biblioteca no disponible
+		if (!libraryFile.exists())
+			miRename.setDisable(true);
 		miDelete = new MenuItem("Eliminar");
 
 		txfLibraryName = new TextField(library.getName());

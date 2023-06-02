@@ -70,7 +70,6 @@ public class ControllerLibrary extends AbstractController {
 
 		btnBack = new Button("<");
 		lblBreadcrumb = new Label();
-//		gpVideos = new GridPane();
 	}
 
 	public void initialize() {

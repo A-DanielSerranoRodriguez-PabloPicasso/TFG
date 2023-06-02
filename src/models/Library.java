@@ -12,17 +12,18 @@ import dao.GVideoImp;
 
 public class Library {
 
-	private int id;
+	private int id, idParent;
 	private String name, path, parent, namePath, origin;
 	private Library libParent;
 	private GLibrary<Library> gLibrary;
 	private GVideo<Video> gVideo;
 
-	public Library(int id, String path, String name, String parent, String origin) {
+	public Library(int id, String path, String name, String parent, int idParent, String origin) {
 		this.id = id;
 		this.path = path;
 		this.name = name;
 		this.parent = parent;
+		this.idParent = idParent;
 		this.origin = origin;
 		namePath = name + " - " + path;
 		gLibrary = GLibraryImp.getGestor();
@@ -30,10 +31,11 @@ public class Library {
 		libParent = gLibrary.getByPath(parent);
 	}
 
-	public Library(String path, String name, String parent, String origin) {
+	public Library(String path, String name, String parent, int idParent, String origin) {
 		this.path = path;
 		this.name = name;
 		this.parent = parent;
+		this.idParent = idParent;
 		this.origin = origin;
 		namePath = name + " - " + path;
 		gLibrary = GLibraryImp.getGestor();
@@ -63,6 +65,10 @@ public class Library {
 
 	public Library getLibParent() {
 		return libParent;
+	}
+
+	public int getIdParent() {
+		return idParent;
 	}
 
 	public String getOrigin() {
@@ -100,6 +106,10 @@ public class Library {
 
 		gLibrary.update(this);
 		gVideo.update(this, gVideo.getByLibrary(this));
+	}
+	
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	@Override

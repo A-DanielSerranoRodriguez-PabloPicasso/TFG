@@ -224,8 +224,7 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 		try {
 			Statement stmt = conn.createStatement();
 			for (Video video : videos) {
-				stmt.addBatch(
-						"update video set library = '" + library.getName() + "' where id = " + video.getId() + ";");
+				stmt.addBatch("update video set library = " + library.getId() + " where id = " + video.getId() + ";");
 			}
 			ok = stmt.executeBatch().length > 0;
 		} catch (SQLException e) {

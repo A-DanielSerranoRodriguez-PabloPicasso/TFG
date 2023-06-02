@@ -65,9 +65,8 @@ public class Popup extends Application {
 				viewSetCenter(Routes.getRoute("popup-download"));
 				break;
 
-			case ERR_VLC:
-				primaryStage.setTitle("ERROR VLC");
-				viewSetCenter(Routes.getRoute("popup-error-no-vlc"));
+			case ERR:
+				errorSwitch();
 				break;
 
 			case SELECT_LIBRARY:
@@ -88,6 +87,50 @@ public class Popup extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void errorSwitch() {
+		switch (UtilsPopup.errType) {
+		case VLC:
+			primaryStage.setTitle("ERROR VLC");
+			break;
+
+		case LIBRARY_EXISTS:
+			primaryStage.setTitle("BIBLIOTECA EXISTE");
+			break;
+
+		case VIDEO_EXISTS:
+			primaryStage.setTitle("VIDEO EXISTE");
+			break;
+
+		case LIBRARY_NAME_EMPTY:
+			primaryStage.setTitle("Biblioteca");
+			break;
+
+		case VIDEO_NAME_EMPTY:
+			primaryStage.setTitle("Video");
+			break;
+
+		case VIDEO_URL_EMPTY:
+			primaryStage.setTitle("Video");
+			break;
+
+		case VIDEO_URL_INVALID:
+			primaryStage.setTitle("Video");
+			break;
+			
+		case VIDEO_LIBRARY_EMPTY:
+			primaryStage.setTitle("Video");
+			break;
+			
+		case VIDEO_SAME_NAME:
+			primaryStage.setTitle("Video");
+			break;
+
+		default:
+			break;
+		}
+		viewSetCenter(Routes.getRoute("popup-error"));
 	}
 
 	public void viewSetCenter(String view) {
