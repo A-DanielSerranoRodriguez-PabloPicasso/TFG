@@ -67,6 +67,7 @@ public class ControllerLibrary extends AbstractController {
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
 		library = Utils.selectedLibrary;
+		Utils.controller = this;
 
 		btnBack = new Button("<");
 		lblBreadcrumb = new Label();

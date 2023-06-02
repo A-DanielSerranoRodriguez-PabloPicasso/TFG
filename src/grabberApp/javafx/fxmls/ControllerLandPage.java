@@ -35,7 +35,7 @@ public class ControllerLandPage extends AbstractController {
 	private GridPane gpRecentVideos;
 
 	public ControllerLandPage() {
-		Utils.controllerLandPage = this;
+		Utils.controller = this;
 		gApp = Utils.gApp;
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();

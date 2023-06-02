@@ -171,6 +171,7 @@ public class Grabber extends Thread {
 			gVideo.insert(video);
 
 			fileFolder.delete();
+			Utils.controller.reload();
 		} catch (Exception e) {
 			e.printStackTrace();
 			driver.quit();

@@ -1,7 +1,6 @@
 package grabberApp.javafx.fxmls.popups.download;
 
 import java.io.File;
-import java.io.IOException;
 
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.fxml.FXML;
@@ -127,24 +126,6 @@ public class ControllerDownload extends AbstractPopupController {
 					mbDownloads.getItems().remove(cmi);
 					mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) - 1));
 				});
-
-				btnVer.setOnAction(event -> {
-					Runtime runtime = Runtime.getRuntime();
-					try {
-						runtime.exec("vlc " + cmi.getVideo().getVideo().getAbsolutePath());
-					} catch (IOException e) {
-						UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
-						UtilsPopup.errType = UtilsPopup.ERR_TYPE.VLC;
-						try {
-							new Popup().start(new Stage());
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-						e.printStackTrace();
-					}
-				});
-
-				Utils.controllerLandPage.reload();
 
 				handleCancelar();
 			}

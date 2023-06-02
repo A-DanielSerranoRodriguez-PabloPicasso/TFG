@@ -100,12 +100,12 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 		});
 
 		btnBack.setOnAction(event -> {
-			UtilsPopup.selectedLibrary = UtilsPopup.previousLibrary;
+			UtilsPopup.selectedLibrary = currentLibrary;
 			UtilsPopup.previousLibrary = UtilsPopup.selectedLibrary.getLibParent();
 
-			System.out.println(UtilsPopup.previousLibrary.toString());
 			if (UtilsPopup.previousLibrary == null) {
-				btnBack.setVisible(true);
+				btnBack.setVisible(false);
+				btnSelectThis.setDisable(true);
 				libraries = getGLibrary().getTop();
 			} else {
 				libraries = getGLibrary().getChildren(UtilsPopup.previousLibrary);
