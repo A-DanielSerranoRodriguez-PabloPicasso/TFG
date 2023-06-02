@@ -15,7 +15,7 @@ public class ControllerPreparing extends AbstractController {
 	}
 
 	public void initialize() {
-		File dbFolder = new File(Utils.dbFolderPath), dbFile = new File(Utils.dbFilePath);
+		File dbFolder = new File(Utils.folderPath), dbFile = new File(Utils.dbFilePath);
 
 		if (!dbFile.exists()) {
 			if (!dbFolder.exists())

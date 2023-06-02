@@ -21,7 +21,6 @@ import models.Video;
 import models.javafx.CustomMenuItem;
 
 public class Grabber extends Thread {
-//public class Grabber {
 	private String url, outputFolder, videoName;
 	private GVideo<Video> gVideo;
 	private CustomMenuItem cmi;
@@ -36,7 +35,6 @@ public class Grabber extends Thread {
 
 	@Override
 	public void run() {
-//	public void run(CustomMenuItem cmi) {
 		String selectorCssButtonUrl = "#gatsby-focus-wrapper > main > section:nth-child(1) > div > div.sm\\:text-center.md\\:max-w-2xl.md\\:mx-auto.lg\\:mx-0.lg\\:col-span-8.lg\\:text-left > div.mt-8.sm\\:mx-auto.sm\\:text-center.lg\\:mx-0.lg\\:text-left > form > button";
 		boolean prepared = false, cached = false, downloaded = false;
 		File outFolder = new File(outputFolder), fileFolder = new File(outputFolder + "/temp");
@@ -44,7 +42,7 @@ public class Grabber extends Thread {
 		FFDriver ffDriver = new FFDriver(fileFolder.getAbsolutePath());
 
 		WebDriver driver = ffDriver.getWebDriver();
-		WebElement txfUrl, btnUrl, sepConverter, btnDownload, txtDownloadProcess;
+		WebElement txfUrl, btnUrl, sepConverter, btnDownload, txtDownloadProcess, imgMiniature;
 
 		HBox hBox = (HBox) cmi.getContent();
 
@@ -99,6 +97,9 @@ public class Grabber extends Thread {
 			sepConverter = findElement(driver, By.id("react-tabs-2"));
 
 			sepConverter.click();
+
+			imgMiniature = findElement(driver, By.cssSelector("img.w-full"));
+			String urlMiniature = imgMiniature != null ? imgMiniature.getAttribute("src") : "";
 
 			Select selectFormat = new Select(findElement(driver, By.id("convert-format")));
 			selectFormat.selectByValue("mp4");
@@ -160,6 +161,8 @@ public class Grabber extends Thread {
 			Files.move(file, new File(outputFolder + "/" + videoName + ".mp4"));
 
 			Library library = GLibraryImp.getGestor().getByPath(outputFolder);
+			if (!urlMiniature.isEmpty())
+				FileUtils.downloadImage(urlMiniature, library, videoName);
 
 			label.setText(videoName);
 
@@ -171,7 +174,6 @@ public class Grabber extends Thread {
 			gVideo.insert(video);
 
 			fileFolder.delete();
-			Utils.controller.reload();
 		} catch (Exception e) {
 			e.printStackTrace();
 			driver.quit();

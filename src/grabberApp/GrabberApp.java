@@ -61,7 +61,7 @@ public class GrabberApp extends Application {
 			UtilsFirstBoot ufb = UtilsFirstBoot.getUtil();
 
 			if (ufb.firstStart()) {
-				Utils.dbFolderPath = ufb.getDbFolderPath();
+				Utils.folderPath = ufb.getDbFolderPath();
 				Utils.dbFilePath = ufb.getDbFilePath();
 				viewSetCenter(Routes.getRoute("blank"));
 			} else {

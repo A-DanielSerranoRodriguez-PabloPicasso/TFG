@@ -56,18 +56,22 @@ public class ControllerLibraryCreate extends AbstractPopupController {
 					e.printStackTrace();
 				}
 			} else {
-				int idParent = 0;// = lib != null ? lib.getId() : null;
+				int idParent = 0;
 				String pathParent;
-				if(lib == null) {
+				if (lib == null) {
 					pathParent = null;
-				} else{
+				} else {
 					idParent = lib.getId();
 					pathParent = lib.getPath();
 				}
+
 				GLibrary<Library> gLibrary = getGLibrary();
-				gLibrary.insert(
-						new Library(folderRoute + "/" + folderName, folderName, pathParent, idParent, Utils.origin));
+				Library library = new Library(folderRoute + "/" + folderName, folderName, pathParent, idParent,
+						Utils.origin);
+				gLibrary.insert(library);
 				Utils.libraries = gLibrary.getAll();
+				library = gLibrary.getByPath(library.getPath());
+				FileUtils.createFolder(Utils.folderPath + "/" + library.getId());
 				FileUtils.createFolder(folderRoute + "/" + folderName);
 				popup.getStage().close();
 			}

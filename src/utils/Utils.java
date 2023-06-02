@@ -12,7 +12,7 @@ public class Utils {
 
 	public static GrabberApp gApp;
 
-	public static String dbFilePath, dbFolderPath, origin;
+	public static String dbFilePath, folderPath, origin;
 
 	public static MenuButton mbDownloads;
 

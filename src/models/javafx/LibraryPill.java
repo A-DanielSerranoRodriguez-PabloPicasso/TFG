@@ -2,8 +2,6 @@ package models.javafx;
 
 import java.io.File;
 
-import dao.GLibraryImp;
-import dao.GVideoImp;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
@@ -12,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import models.AbstractController;
 import models.Library;
+import utils.FileUtils;
 import utils.Routes;
 import utils.Utils;
 
@@ -35,7 +34,6 @@ public class LibraryPill extends HBox {
 		this.controller = controller;
 		libraryFile = new File(library.getPath());
 
-		
 		btnLibrary = new Button(library.getName());
 		// TODO alerta biblioteca no disponible
 		if (!libraryFile.exists())
@@ -137,25 +135,8 @@ public class LibraryPill extends HBox {
 	}
 
 	private void deleteLibrary(Library library) {
-		File folder = new File(library.getPath());
-		String[] content = folder.list();
-
-		if (content != null && content.length > 0) {
-			for (String fileString : content) {
-				File file = new File(library.getPath() + System.getProperty("file.separator") + fileString);
-				if (file.isDirectory()) {
-					deleteLibrary(GLibraryImp.getGestor().getByPath(file.getAbsolutePath()));
-				} else {
-					GVideoImp.getGestor().delete(GVideoImp.getGestor().getByLibrary(library.getId(), fileString));
-				}
-
-				file.delete();
-			}
-		}
-
-		folder.delete();
-
-		GLibraryImp.getGestor().delete(library);
+		FileUtils.deleteFolder(library.getPath(), true);
+		FileUtils.deleteFolder(Utils.folderPath + System.getProperty("file.separator") + library.getId(), false);
 
 		controller.reload();
 	}

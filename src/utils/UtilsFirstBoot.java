@@ -8,7 +8,7 @@ import dao.GOriginImp;
 public class UtilsFirstBoot {
 	private static UtilsFirstBoot util;
 
-	private String userName, dbFolderPath, dbFilePath, origin;
+	private String userName, folderPath, dbFilePath, origin;
 
 	/**
 	 * Constructor de la clase
@@ -33,7 +33,7 @@ public class UtilsFirstBoot {
 	}
 
 	public String getDbFolderPath() {
-		return dbFolderPath;
+		return folderPath;
 	}
 
 	public String getDbFilePath() {
@@ -70,13 +70,15 @@ public class UtilsFirstBoot {
 	 */
 	public boolean firstStart() {
 		if (isOsWindows())
-			dbFolderPath = "C:/Users/" + userName + "/AppData/Local/JGrabber";
+			folderPath = "C:/Users/" + userName + "/AppData/Local/JGrabber";
 		else
-			dbFolderPath = "/home/" + userName + "/.config/jgrabber";
+			folderPath = "/home/" + userName + "/.config/jgrabber";
+		
+		Utils.folderPath = folderPath;
 
-		dbFilePath = dbFolderPath + "/db.db";
+		dbFilePath = folderPath + "/db.db";
 
-		File dbFolder = new File(dbFolderPath), dbFile = new File(dbFilePath);
+		File dbFolder = new File(folderPath), dbFile = new File(dbFilePath);
 
 		if (dbFile.exists()) {
 			Utils.dbFilePath = dbFilePath;
