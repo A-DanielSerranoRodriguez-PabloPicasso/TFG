@@ -53,7 +53,7 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 		}
 		btnSelectThis.setDisable(true);
 		btnListChildren.setDisable(true);
-		imgSearch.setImage(ImgUtils.getImage("/img/icon/search.png"));
+		imgSearch.setImage(ImgUtils.getInternalImage("/img/icon/search.png"));
 		imgSearch.setFitWidth(32);
 		imgSearch.setFitHeight(32);
 

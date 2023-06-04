@@ -9,6 +9,9 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.aspose.imaging.Image;
+import com.aspose.imaging.imageoptions.JpegOptions;
+
 import dao.GLibrary;
 import dao.GLibraryImp;
 import dao.GVideoImp;
@@ -58,7 +61,7 @@ public class FileUtils {
 		InputStream is = null;
 		OutputStream fos = null;
 		String downloadFileLocation = Utils.folderPath + System.getProperty("file.separator") + library.getId()
-				+ System.getProperty("file.separator") + videoName + ".jpeg";
+				+ System.getProperty("file.separator") + videoName + ".webp";
 
 		try {
 			url = new URL(urlString);
@@ -72,9 +75,9 @@ public class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		File downloadedFile = new File(downloadFileLocation);
-		
+
 		try {
 			downloadedFile.createNewFile();
 		} catch (IOException e1) {
@@ -103,22 +106,18 @@ public class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		BufferedImage image = null;
-//		try {
-//
-//			// read the url
-//			image = ImageIO.read(url);
-//
-//			if (image != null) {
-////            for png
-//				ImageIO.write(image, "png", new File("/tmp/have_a_question.png"));
-//
-//				// for jpg
-//				ImageIO.write(image, "jpg", new File("/tmp/have_a_question.jpg"));
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+
+		convertWebpJpeg(downloadFileLocation, library, videoName);
+
 		return ok;
 	}
+
+	private static void convertWebpJpeg(String path, Library library, String videoName) {
+		File file = new File(path);
+		Image image = Image.load(path);
+		image.save(Utils.folderPath + System.getProperty("file.separator") + library.getId()
+				+ System.getProperty("file.separator") + videoName + ".jpeg", new JpegOptions());
+		file.delete();
+	}
+
 }

@@ -7,6 +7,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
+import grabberApp.javafx.fxmls.popups.Popup;
+import javafx.stage.Stage;
+import utils.ImgUtils;
+import utils.Utils;
+import utils.UtilsPopup;
+
 public class Video {
 
 	public void setLibrary(Library library) {
@@ -14,9 +20,9 @@ public class Video {
 	}
 
 	private int id, idLibrary;
-	private String name, fileName, url;
+	private String name, fileName, url, miniaturePath;
 	private Library library;
-	private File image, video;
+	private File video;
 	private List<Category> categories;
 	private boolean downloaded;
 	private long dateCreated;
@@ -32,6 +38,8 @@ public class Video {
 		video = new File(library.getPath() + "/" + fileName);
 		this.dateCreated = dateCreated;
 		this.url = url;
+		miniaturePath = Utils.folderPath + System.getProperty("file.separator") + library.getId()
+				+ System.getProperty("file.separator") + name + ".jpeg";
 	}
 
 	public String getFileName() {
@@ -46,6 +54,10 @@ public class Video {
 		return url;
 	}
 
+	public String getMiniaturePath() {
+		return miniaturePath;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -56,10 +68,6 @@ public class Video {
 
 	public Library getLibrary() {
 		return library;
-	}
-
-	public File getImage() {
-		return image;
 	}
 
 	public File getVideo() {
@@ -82,12 +90,17 @@ public class Video {
 		return dateCreated;
 	}
 
+	private String getMiniatureRoot() {
+		return Utils.folderPath + System.getProperty("file.separator") + library.getId()
+				+ System.getProperty("file.separator");
+	}
+
 	public void setName(String name) {
 		this.fileName = name + ".mp4";
 		this.name = name;
+		ImgUtils.renameImage(miniaturePath, getMiniatureRoot() + name + ".jpeg");
 		renameVideo();
 		video = new File(library.getPath() + "/" + fileName);
-//		moveVideo(library);
 	}
 
 	public void renameVideo() {
@@ -101,8 +114,32 @@ public class Video {
 			Files.move(Paths.get(library.getPath() + "/" + video.getName()), newFile.toPath(),
 					StandardCopyOption.ATOMIC_MOVE);
 			video = newFile;
+
+			String newMiniaturePath = Utils.folderPath + System.getProperty("file.separator") + newLibrary.getId()
+					+ System.getProperty("file.separator") + getName() + ".jpeg";
+
+			ImgUtils.moveImage(miniaturePath, newMiniaturePath);
+			miniaturePath = newMiniaturePath;
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void watch() {
+		if (video.exists()) {
+			Runtime runtime = Runtime.getRuntime();
+			try {
+				runtime.exec("vlc " + video.getAbsolutePath());
+			} catch (IOException e) {
+				UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
+				UtilsPopup.errType = UtilsPopup.ERR_TYPE.VLC;
+				try {
+					new Popup().start(new Stage());
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -51,7 +51,7 @@
                         <VBox prefHeight="231.0" prefWidth="412.0" spacing="20.0">
                            <children>
                               <Label text="Videos recientes" />
-                              <HBox prefHeight="100.0" prefWidth="200.0">
+                              <HBox fx:id="hbVideos" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <GridPane fx:id="gpRecentVideos" vgap="10.0">
                                        <columnConstraints>
@@ -66,10 +66,6 @@
                                        </styleClass>
                                     </GridPane>
                                  </children>
-                                 <styleClass>
-                                    <String fx:value="topBar" />
-                                    <String fx:value="slightRadius" />
-                                 </styleClass>
                               </HBox>
                            </children>
                         </VBox>

@@ -27,7 +27,7 @@
                         <Label fx:id="lblLibrary" />
                         <VBox spacing="30.0">
                            <children>
-                              <VBox>
+                              <VBox fx:id="vbLibraries">
                                  <children>
                                     <HBox fx:id="hBoxVideos1" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0">
                                        <VBox.margin>
@@ -56,7 +56,7 @@
                                     </GridPane>
                                  </children>
                               </VBox>
-                              <VBox>
+                              <VBox fx:id="vbVideos">
                                  <children>
                                     <HBox fx:id="hBoxVideos" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0">
                                        <VBox.margin>
@@ -69,20 +69,14 @@
                                                 <ImageView fx:id="imgDownload" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
                                              </graphic>
                                           </Button>
+                                          <VBox HBox.hgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" onAction="#handleSwapVideoPane" styleClass="no-bg">
+                                             <graphic>
+                                                <ImageView fx:id="imgSwapVideoPane" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                                             </graphic>
+                                          </Button>
                                        </children>
                                     </HBox>
-                                    <GridPane fx:id="gpVideos" hgap="10.0" vgap="10.0">
-                                      <rowConstraints>
-                                        <RowConstraints vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                       <styleClass>
-                                          <String fx:value="topBar" />
-                                          <String fx:value="slightRadius" />
-                                       </styleClass>
-                                       <padding>
-                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                       </padding>
-                                    </GridPane>
                                  </children>
                               </VBox>
                            </children>
@@ -93,7 +87,5 @@
             </AnchorPane>
          </content>
       </ScrollPane>
-      <HBox fx:id="hBoxFolders" layoutX="354.0" layoutY="146.0" prefHeight="100.0" prefWidth="200.0" />
-      <HBox layoutX="370.0" layoutY="322.0" prefHeight="100.0" prefWidth="200.0" />
    </children>
 </AnchorPane>

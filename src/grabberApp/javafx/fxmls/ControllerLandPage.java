@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
 import models.Video;
+import models.javafx.FlowVideos;
 import models.javafx.LibraryPill;
-import models.javafx.LineVideo;
 import utils.Utils;
 import utils.UtilsPopup;
 
@@ -34,13 +34,20 @@ public class ControllerLandPage extends AbstractController {
 	@FXML
 	private GridPane gpRecentVideos;
 
+	@FXML
+	private HBox hbVideos;
+
+	private FlowVideos fpRecentVideos;
+
 	public ControllerLandPage() {
-		Utils.controller = this;
 		gApp = Utils.gApp;
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
-
 		Utils.libraries = gLibrary.getTop();
+		Utils.controller = this;
+
+		recentVideos = gVideo.getRecent(10);
+		fpRecentVideos = new FlowVideos();
 
 		btnAddLibrary = new Button("Añadir");
 		btnAddLibrary.setOnMousePressed(event -> {
@@ -50,6 +57,9 @@ public class ControllerLandPage extends AbstractController {
 
 	public void initialize() {
 		libraries = Utils.libraries;
+
+		hbVideos.getChildren().remove(gpRecentVideos);
+		hbVideos.getChildren().add(fpRecentVideos);
 
 		fillLibraries();
 		fillRecentVideos();
@@ -75,6 +85,7 @@ public class ControllerLandPage extends AbstractController {
 	private void fillLibraries() {
 		Utils.libraries = gLibrary.getTop();
 		libraries = Utils.libraries;
+
 		gpLibraries.getChildren().clear();
 		for (int i = 0, s = libraries.size(); i < s; i++) {
 			gpLibraries.add(new LibraryPill(libraries.get(i), this), i, 0);
@@ -83,16 +94,13 @@ public class ControllerLandPage extends AbstractController {
 
 	@FXML
 	public void fillRecentVideos() {
-		gpRecentVideos.getChildren().clear();
 		recentVideos = gVideo.getRecent(10);
-		LineVideo cardVideo;
-		int i = 0;
+		fpRecentVideos.reload(recentVideos);
+	}
 
-		for (Video video : recentVideos) {
-			cardVideo = new LineVideo(video, this);
-			gpRecentVideos.add(cardVideo, 0, i);
-			i++;
-		}
+	@FXML
+	private void changeList() {
+
 	}
 
 	@Override

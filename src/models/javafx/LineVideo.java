@@ -1,7 +1,6 @@
 package models.javafx;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,7 +11,6 @@ import dao.GVideoImp;
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -45,7 +43,6 @@ public class LineVideo extends AnchorPane {
 		videoExists = video.getVideo().exists();
 
 		hbContent = new HBox(10);
-		hbContent.setPadding(new Insets(20));
 		hbContent.setAlignment(Pos.CENTER);
 
 		lblName = new Label(video.getName());
@@ -60,19 +57,7 @@ public class LineVideo extends AnchorPane {
 		lblName.setOnMouseClicked(event -> {
 			// TODO alerta video no disponible
 			if (videoExists) {
-				Runtime runtime = Runtime.getRuntime();
-				try {
-					runtime.exec("vlc " + video.getVideo().getAbsolutePath());
-				} catch (IOException e) {
-					UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
-					UtilsPopup.errType = UtilsPopup.ERR_TYPE.VLC;
-					try {
-						new Popup().start(new Stage());
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-					e.printStackTrace();
-				}
+				video.watch();
 			}
 		});
 
@@ -88,7 +73,6 @@ public class LineVideo extends AnchorPane {
 			btnEdit.setDisable(true);
 
 		hbEdit = new HBox(10);
-		hbEdit.setPadding(new Insets(20));
 		hbEdit.setAlignment(Pos.CENTER);
 
 		txfName = new TextField(video.getName());
@@ -102,7 +86,6 @@ public class LineVideo extends AnchorPane {
 		hbEdit.getChildren().add(btnCancelEdit);
 
 		hbDelete = new HBox(10);
-		hbDelete.setPadding(new Insets(20));
 		hbDelete.setAlignment(Pos.CENTER);
 
 		btnAcceptDelete = new Button("¿Seguro?");

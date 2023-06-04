@@ -14,18 +14,23 @@ import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
 import models.Video;
+import models.javafx.FlowVideos;
+import models.javafx.GridVideos;
 import models.javafx.LibraryPill;
-import models.javafx.LineVideo;
 import utils.ImgUtils;
 import utils.Utils;
 import utils.UtilsDownload;
 import utils.UtilsPopup;
 
 public class ControllerLibrary extends AbstractController {
+	private enum VideoPane {
+		FLOW, GRID
+	}
 
 	private Library library;
 	private List<Video> videos;
 	private List<Library> libraries;
+	private VideoPane videoPane;
 
 	@FXML
 	private VBox vbObjects;
@@ -34,16 +39,10 @@ public class ControllerLibrary extends AbstractController {
 	private Label lblLibrary;
 
 	@FXML
-	private HBox hBoxFolders;
-
-	@FXML
 	private HBox hBoxVideos;
 
 	@FXML
 	private HBox hBoxBreadcrumb;
-
-	@FXML
-	private GridPane gpVideos;
 
 	@FXML
 	private GridPane gpLibraries;
@@ -60,23 +59,40 @@ public class ControllerLibrary extends AbstractController {
 	@FXML
 	private ImageView imgAddLibrary;
 
+	@FXML
+	private ImageView imgSwapVideoPane;
+
+	@FXML
+	private VBox vbVideos;
+
 	private Button btnBack;
 	private Label lblBreadcrumb;
+
+	private GridVideos gridVideos;
+	private FlowVideos flowVideos;
 
 	public ControllerLibrary() {
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
 		library = Utils.selectedLibrary;
+		videos = gVideo.getByLibrary(library);
 		Utils.controller = this;
+		videoPane = VideoPane.FLOW;
+
+		gridVideos = new GridVideos(this);
+		flowVideos = new FlowVideos();
 
 		btnBack = new Button("<");
 		lblBreadcrumb = new Label();
 	}
 
 	public void initialize() {
+		vbVideos.getChildren().add(gridVideos);
+		vbVideos.getChildren().add(flowVideos);
+
 		lblLibrary.setText(library.getName());
 
-		imgDownload.setImage(ImgUtils.getImage("/img/icon/download.png"));
+		imgDownload.setImage(ImgUtils.getInternalImage("/img/icon/download.png"));
 
 		btnDownload.setOnAction(event -> {
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.DOWNLOAD;
@@ -91,7 +107,7 @@ public class ControllerLibrary extends AbstractController {
 			fillVideos();
 		});
 
-		imgAddLibrary.setImage(ImgUtils.getImage("/img/icon/add.png"));
+		imgAddLibrary.setImage(ImgUtils.getInternalImage("/img/icon/add.png"));
 
 		btnAddLibrary.setOnAction(event -> {
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.LIBRARY;
@@ -108,7 +124,6 @@ public class ControllerLibrary extends AbstractController {
 			fillLibraries();
 		});
 
-		fillVideos();
 		fillLibraries();
 
 		if (library.getLibParent() != null) {
@@ -121,30 +136,80 @@ public class ControllerLibrary extends AbstractController {
 			btnBack.setOnAction(event -> {
 				Utils.selectedLibrary = library.getLibParent();
 				library = Utils.selectedLibrary;
-				initialize();
+				reload();
 			});
 		} else {
 			hBoxBreadcrumb.getChildren().remove(btnBack);
 			hBoxBreadcrumb.getChildren().remove(lblBreadcrumb);
 		}
+
+		fillVideos();
 	}
 
 	@Override
 	public void reload() {
+		if (library.getLibParent() != null) {
+			if (!hBoxBreadcrumb.getChildren().contains(btnBack))
+				hBoxBreadcrumb.getChildren().add(btnBack);
+			lblBreadcrumb.setText(library.getTree());
+			if (!hBoxBreadcrumb.getChildren().contains(lblBreadcrumb)) {
+				hBoxBreadcrumb.getChildren().add(lblBreadcrumb);
+			}
+			btnBack.setOnAction(event -> {
+				Utils.selectedLibrary = library.getLibParent();
+				library = Utils.selectedLibrary;
+				reload();
+			});
+		} else {
+			hBoxBreadcrumb.getChildren().remove(btnBack);
+			hBoxBreadcrumb.getChildren().remove(lblBreadcrumb);
+		}
+
 		fillVideos();
+		fillLibraries();
 	}
 
 	private void fillVideos() {
-		gpVideos.getChildren().clear();
 		videos = gVideo.getByLibrary(library);
 
-		if (videos.size() > 0) {
-			int i = 0;
-			for (Video video : videos) {
-				gpVideos.add(new LineVideo(video, this), 0, i);
-				i++;
-			}
+		flowVideos.clear();
+		gridVideos.clear();
+
+		switch (videoPane) {
+		case FLOW:
+			imgSwapVideoPane.setImage(ImgUtils.getInternalImage("/img/icon/swap-list.png"));
+			vbVideos.getChildren().remove(gridVideos);
+			flowVideos.reload(videos);
+			break;
+
+		case GRID:
+			imgSwapVideoPane.setImage(ImgUtils.getInternalImage("/img/icon/swap-cards.png"));
+			vbVideos.getChildren().remove(flowVideos);
+			gridVideos.reload(videos);
+			break;
+
+		default:
+			break;
 		}
+	}
+
+	@FXML
+	private void handleSwapVideoPane() {
+		switch (videoPane) {
+		case FLOW:
+			vbVideos.getChildren().add(gridVideos);
+			videoPane = VideoPane.GRID;
+			break;
+
+		case GRID:
+			vbVideos.getChildren().add(flowVideos);
+			videoPane = VideoPane.FLOW;
+			break;
+		default:
+			break;
+		}
+
+		fillVideos();
 	}
 
 	private void fillLibraries() {
