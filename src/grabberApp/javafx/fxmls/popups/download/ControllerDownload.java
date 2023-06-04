@@ -102,7 +102,6 @@ public class ControllerDownload extends AbstractPopupController {
 				}
 			} else {
 				MenuButton mbDownloads = Utils.mbDownloads;
-				String videoName = txfVideoName.getText();
 				HBox hBox = new HBox();
 				Button btnRemove = new Button("X"), btnVer = new Button("Ver");
 				CustomMenuItem cmi;
@@ -116,8 +115,17 @@ public class ControllerDownload extends AbstractPopupController {
 
 				mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) + 1));
 
-				Grabber grabber = new Grabber(txfUrl.getText(), library.getPath(), gVideo, videoName, cmi);
-				grabber.start();
+				String videoName = txfVideoName.getText();
+				Grabber grabber = new Grabber(txfUrl.getText(), library.getPath(), videoName, cmi);
+				UtilsPopup.grabber = grabber;
+//				grabber.setController(this);
+//				grabber.start();
+				UtilsPopup.page = UtilsPopup.POPUP_PAGE.DOWNLOAD_PROGRESS;
+				try {
+					new Popup(popup).start(new Stage());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
 				hBox.getChildren().add(btnVer);
 				hBox.getChildren().add(btnRemove);

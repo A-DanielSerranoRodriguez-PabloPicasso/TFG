@@ -6,7 +6,7 @@ import models.Video;
 
 public class UtilsPopup {
 	public enum POPUP_PAGE {
-		NONE, SETUP, LIBRARY, DOWNLOAD, SELECT_LIBRARY, ERR
+		NONE, SETUP, LIBRARY, DOWNLOAD, DOWNLOAD_PROGRESS, SELECT_LIBRARY, ERR
 	}
 
 	public enum ERR_TYPE {
@@ -27,4 +27,6 @@ public class UtilsPopup {
 	public static Video videoToPlay;
 
 	public static Library selectedLibrary, previousLibrary;
+
+	public static Grabber grabber;
 }

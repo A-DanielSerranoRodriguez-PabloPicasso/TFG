@@ -13,6 +13,8 @@ import com.google.common.io.Files;
 
 import dao.GLibraryImp;
 import dao.GVideo;
+import dao.GVideoImp;
+import grabberApp.javafx.fxmls.popups.download.ControllerDownloadProgress;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import models.FFDriver;
@@ -20,26 +22,41 @@ import models.Library;
 import models.Video;
 import models.javafx.CustomMenuItem;
 
+//public class Grabber {
 public class Grabber extends Thread {
+	private ControllerDownloadProgress cdp;
 	private String url, outputFolder, videoName;
 	private GVideo<Video> gVideo;
 	private CustomMenuItem cmi;
 
-	public Grabber(String url, String outputFolder, GVideo<Video> gVideo, String videoName, CustomMenuItem cmi) {
+	public Grabber(String url, String outputFolder, String videoName, CustomMenuItem cmi) {
 		this.url = url;
 		this.outputFolder = outputFolder;
-		this.gVideo = gVideo;
+		this.gVideo = GVideoImp.getGestor();
 		this.videoName = videoName;
 		this.cmi = cmi;
 	}
 
+	public void setController(ControllerDownloadProgress cdp) {
+		this.cdp = cdp;
+	}
+
 	@Override
 	public void run() {
+		/*
+		 * TODO
+		 * 
+		 * Crear popup que bloquee el acceso con la barra
+		 * 
+		 * - Vista es la maestra
+		 */
 		String selectorCssButtonUrl = "#gatsby-focus-wrapper > main > section:nth-child(1) > div > div.sm\\:text-center.md\\:max-w-2xl.md\\:mx-auto.lg\\:mx-0.lg\\:col-span-8.lg\\:text-left > div.mt-8.sm\\:mx-auto.sm\\:text-center.lg\\:mx-0.lg\\:text-left > form > button";
 		boolean prepared = false, cached = false, downloaded = false;
 		File outFolder = new File(outputFolder), fileFolder = new File(outputFolder + "/temp");
 		String[] files;
 		FFDriver ffDriver = new FFDriver(fileFolder.getAbsolutePath());
+
+		UtilsPopup.page = UtilsPopup.POPUP_PAGE.DOWNLOAD_PROGRESS;
 
 		WebDriver driver = ffDriver.getWebDriver();
 		WebElement txfUrl, btnUrl, sepConverter, btnDownload, txtDownloadProcess, imgMiniature;
@@ -48,16 +65,18 @@ public class Grabber extends Thread {
 
 		Label label = (Label) hBox.getChildren().get(0);
 
-		label.setText("Procesando...");
-
 		if (!outFolder.exists())
 			outFolder.mkdirs();
+
+		while (cdp == null) {
+
+		}
+		cdp.update("Procesando", 0);
 
 		driver.get("https://www.savethevideo.com/es/home");
 		String auida = driver.getWindowHandle();
 
 		try {
-
 			txfUrl = findElement(driver, By.cssSelector("#url"));
 
 			for (int i = 0, l = url.length(); i < l; i++) {
@@ -74,8 +93,6 @@ public class Grabber extends Thread {
 
 			btnUrl = findElement(driver, By.cssSelector(selectorCssButtonUrl));
 			btnUrl.click();
-
-			label.setText("Esperando descarga");
 
 			closeUnwanted(auida, driver);
 
@@ -109,15 +126,15 @@ public class Grabber extends Thread {
 
 			Thread.sleep(100);
 
-			label.setText("Procesando descarga");
-
 			if (!btnDownload.getText().matches(".*(Descargar|Download).*")
 					|| !btnDownload.getText().matches(".*(Haga click|click|Click).*")) {
+				cdp.update(btnDownload.getText(), 20);
 				btnDownload.click();
 				closeUnwanted(auida, driver);
 
 				while (!cached) {
 					closeUnwanted(auida, driver);
+					cdp.update(txtDownloadProcess.getText(), 40);
 					try {
 						if (!txtDownloadProcess.getText().matches(".*(A partir|%).*"))
 							cached = true;
@@ -128,16 +145,16 @@ public class Grabber extends Thread {
 				}
 			}
 
+			cdp.update("Procesando", 60);
+
 			if (!fileFolder.exists())
 				fileFolder.mkdir();
 
 			btnDownload.click();
 			closeUnwanted(auida, driver);
 
-			label.setText("Descargando");
-
 			files = fileFolder.list();
-
+			cdp.update("Esperando descarga", 70);
 			while (!downloaded) {
 				boolean finished = true;
 
@@ -150,12 +167,14 @@ public class Grabber extends Thread {
 					finished = false;
 
 				if (!finished)
-					Thread.sleep(1000);
+					Thread.sleep(500);
 
 				downloaded = finished;
 
 				files = fileFolder.list();
 			}
+
+			cdp.update("Procesando archivo", 85);
 
 			File file = new File(fileFolder.getAbsolutePath() + "/" + files[0]);
 			Files.move(file, new File(outputFolder + "/" + videoName + ".mp4"));
@@ -163,6 +182,8 @@ public class Grabber extends Thread {
 			Library library = GLibraryImp.getGestor().getByPath(outputFolder);
 			if (!urlMiniature.isEmpty())
 				FileUtils.downloadImage(urlMiniature, library, videoName);
+
+			cdp.update("Completando", 95);
 
 			label.setText(videoName);
 
@@ -174,6 +195,7 @@ public class Grabber extends Thread {
 			gVideo.insert(video);
 
 			fileFolder.delete();
+			cdp.update("Terminado", 100);
 		} catch (Exception e) {
 			e.printStackTrace();
 			driver.quit();

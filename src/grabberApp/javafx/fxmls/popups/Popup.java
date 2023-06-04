@@ -15,9 +15,18 @@ import utils.UtilsDownload;
 import utils.UtilsPopup;
 
 public class Popup extends Application {
+	private Popup popup;
+
 	private Stage primaryStage;
 	private BorderPane rootPane;
 	private AnchorPane centerPane;
+
+	public Popup() {
+	}
+
+	public Popup(Popup popup) {
+		this.popup = popup;
+	}
 
 	public static void main(String[] args) {
 		launch(args);
@@ -26,11 +35,14 @@ public class Popup extends Application {
 	@Override
 	public void start(Stage arg0) throws Exception {
 		primaryStage = arg0;
-		UtilsPopup.popup = this;
 		UtilsPopup.closed = false;
 
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
-		primaryStage.initOwner(Utils.gApp.getStage());
+		if (popup == null) {
+			primaryStage.initOwner(Utils.gApp.getStage());
+			UtilsPopup.popup = this;
+		} else
+			primaryStage.initOwner(popup.getStage());
 		primaryStage.setResizable(false);
 
 		initLayout();
@@ -72,6 +84,11 @@ public class Popup extends Application {
 			case SELECT_LIBRARY:
 				primaryStage.setTitle("Seleccionar biblioteca");
 				viewSetCenter(Routes.getRoute("popup-library-select"));
+				break;
+
+			case DOWNLOAD_PROGRESS:
+				primaryStage.setTitle("Focu");
+				viewSetCenter(Routes.getRoute("popup-download-progress"));
 				break;
 
 			default:
@@ -118,11 +135,11 @@ public class Popup extends Application {
 		case VIDEO_URL_INVALID:
 			primaryStage.setTitle("Video");
 			break;
-			
+
 		case VIDEO_LIBRARY_EMPTY:
 			primaryStage.setTitle("Video");
 			break;
-			
+
 		case VIDEO_SAME_NAME:
 			primaryStage.setTitle("Video");
 			break;
@@ -153,5 +170,4 @@ public class Popup extends Application {
 	public Stage getStage() {
 		return primaryStage;
 	}
-
 }

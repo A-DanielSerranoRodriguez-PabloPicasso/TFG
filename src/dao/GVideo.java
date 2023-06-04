@@ -6,8 +6,6 @@ import models.Library;
 
 public interface GVideo<Video> {
 
-	public static GVideo<?> gestor = null;
-
 	public Video getById(String id);
 
 //	public Video getByUrl(String url);
