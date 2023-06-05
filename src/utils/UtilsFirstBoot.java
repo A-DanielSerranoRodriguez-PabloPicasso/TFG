@@ -5,31 +5,22 @@ import java.io.File;
 import dao.GOrigin;
 import dao.GOriginImp;
 
+/**
+ * Class designed to be used when the program starts to obtain necessary paths
+ * and checks
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class UtilsFirstBoot {
-	private static UtilsFirstBoot util;
-
 	private String userName, folderPath, dbFilePath, origin;
 
-	/**
-	 * Constructor de la clase
-	 */
-	private UtilsFirstBoot() {
+	public UtilsFirstBoot() {
 		userName = System.getProperty("user.name");
-	}
 
-	/**
-	 * Devuelve una instancia estatica de la clase
-	 * 
-	 * @return UtilsFirstBoot
-	 */
-	public static UtilsFirstBoot getUtil() {
-		if (util == null)
-			util = new UtilsFirstBoot();
-		return util;
-	}
-
-	public static void close() {
-		util = null;
+		if (isOsWindows())
+			folderPath = "C:/Users/" + userName + "/AppData/Local/JGrabber";
+		else
+			folderPath = "/home/" + userName + "/.config/jgrabber";
 	}
 
 	public String getDbFolderPath() {
@@ -58,7 +49,7 @@ public class UtilsFirstBoot {
 	 * 
 	 * @return true si no estamos en Windows, falso en caso de si
 	 */
-	public boolean isOsUnix() {
+	public boolean isOsLinux() {
 		return !isOsWindows();
 	}
 
@@ -69,11 +60,6 @@ public class UtilsFirstBoot {
 	 * @return true si no se ha configurado el origen, false si el origen existe
 	 */
 	public boolean firstStart() {
-		if (isOsWindows())
-			folderPath = "C:/Users/" + userName + "/AppData/Local/JGrabber";
-		else
-			folderPath = "/home/" + userName + "/.config/jgrabber";
-		
 		Utils.folderPath = folderPath;
 
 		dbFilePath = folderPath + "/db.db";

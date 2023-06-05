@@ -15,18 +15,9 @@ import utils.UtilsDownload;
 import utils.UtilsPopup;
 
 public class Popup extends Application {
-	private Popup popup;
-
 	private Stage primaryStage;
 	private BorderPane rootPane;
 	private AnchorPane centerPane;
-
-	public Popup() {
-	}
-
-	public Popup(Popup popup) {
-		this.popup = popup;
-	}
 
 	public static void main(String[] args) {
 		launch(args);
@@ -35,14 +26,10 @@ public class Popup extends Application {
 	@Override
 	public void start(Stage arg0) throws Exception {
 		primaryStage = arg0;
-		UtilsPopup.closed = false;
 
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
-		if (popup == null) {
-			primaryStage.initOwner(Utils.gApp.getStage());
-			UtilsPopup.popup = this;
-		} else
-			primaryStage.initOwner(popup.getStage());
+		primaryStage.initOwner(Utils.gApp.getStage());
+		UtilsPopup.popup = this;
 		primaryStage.setResizable(false);
 
 		initLayout();
@@ -87,7 +74,7 @@ public class Popup extends Application {
 				break;
 
 			case DOWNLOAD_PROGRESS:
-				primaryStage.setTitle("Focu");
+				primaryStage.setTitle("Descargando");
 				viewSetCenter(Routes.getRoute("popup-download-progress"));
 				break;
 
@@ -98,8 +85,8 @@ public class Popup extends Application {
 			primaryStage.setOnCloseRequest(event -> {
 				UtilsPopup.selectedLibrary = null;
 				UtilsDownload.targetLibrary = null;
-				UtilsPopup.closed = true;
 			});
+
 			primaryStage.showAndWait();
 		} catch (Exception e) {
 			e.printStackTrace();

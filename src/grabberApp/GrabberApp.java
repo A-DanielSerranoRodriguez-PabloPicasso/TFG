@@ -58,7 +58,7 @@ public class GrabberApp extends Application {
 
 			viewSetTop(Routes.getRoute("topBar"));
 
-			UtilsFirstBoot ufb = UtilsFirstBoot.getUtil();
+			UtilsFirstBoot ufb = new UtilsFirstBoot();
 
 			if (ufb.firstStart()) {
 				Utils.folderPath = ufb.getDbFolderPath();
@@ -67,10 +67,10 @@ public class GrabberApp extends Application {
 			} else {
 				Utils.dbFilePath = ufb.getDbFilePath();
 				Utils.origin = ufb.getOrigin();
-				UtilsFirstBoot.close();
 				viewSetCenter(Routes.getRoute("landpage"));
 			}
 
+			ufb = null;
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();

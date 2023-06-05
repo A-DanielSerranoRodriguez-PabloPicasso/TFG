@@ -2,6 +2,7 @@ package grabberApp.javafx.fxmls.popups.download;
 
 import java.io.File;
 
+import dao.GVideoImp;
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,9 +14,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.AbstractPopupController;
 import models.Library;
+import models.Video;
 import models.javafx.CustomMenuItem;
 import models.javafx.LibrarySearcher;
 import utils.Grabber;
+import utils.Routes;
 import utils.Utils;
 import utils.UtilsDownload;
 import utils.UtilsPopup;
@@ -111,31 +114,28 @@ public class ControllerDownload extends AbstractPopupController {
 
 				cmi = new CustomMenuItem(hBox);
 
-				mbDownloads.getItems().add(0, cmi);
-
-				mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) + 1));
-
 				String videoName = txfVideoName.getText();
 				Grabber grabber = new Grabber(txfUrl.getText(), library.getPath(), videoName, cmi);
 				UtilsPopup.grabber = grabber;
-//				grabber.setController(this);
-//				grabber.start();
-				UtilsPopup.page = UtilsPopup.POPUP_PAGE.DOWNLOAD_PROGRESS;
-				try {
-					new Popup(popup).start(new Stage());
-				} catch (Exception e) {
-					e.printStackTrace();
+
+				Video video = GVideoImp.getGestor().getByUrl(txfUrl.getText());
+				if (video != null) {
+					UtilsPopup.video = new Video[] { video, new Video(videoName, library, txfUrl.getText()) };
+					popup.viewSetCenter(Routes.getRoute("popup-warn-video-exists"));
+				} else {
+					mbDownloads.getItems().add(0, cmi);
+
+					mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) + 1));
+					hBox.getChildren().add(btnVer);
+					hBox.getChildren().add(btnRemove);
+
+					btnRemove.setOnAction(event -> {
+						mbDownloads.getItems().remove(cmi);
+						mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) - 1));
+					});
+					grabber.run();
+					handleCancelar();
 				}
-
-				hBox.getChildren().add(btnVer);
-				hBox.getChildren().add(btnRemove);
-
-				btnRemove.setOnAction(event -> {
-					mbDownloads.getItems().remove(cmi);
-					mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) - 1));
-				});
-
-				handleCancelar();
 			}
 		} else {
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;

@@ -8,7 +8,7 @@ public interface GVideo<Video> {
 
 	public Video getById(String id);
 
-//	public Video getByUrl(String url);
+	public Video getByUrl(String url);
 
 	public List<Video> getAll();
 

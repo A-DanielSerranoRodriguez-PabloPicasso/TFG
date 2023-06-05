@@ -14,7 +14,6 @@ import com.google.common.io.Files;
 import dao.GLibraryImp;
 import dao.GVideo;
 import dao.GVideoImp;
-import grabberApp.javafx.fxmls.popups.download.ControllerDownloadProgress;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import models.FFDriver;
@@ -24,7 +23,6 @@ import models.javafx.CustomMenuItem;
 
 //public class Grabber {
 public class Grabber extends Thread {
-	private ControllerDownloadProgress cdp;
 	private String url, outputFolder, videoName;
 	private GVideo<Video> gVideo;
 	private CustomMenuItem cmi;
@@ -37,19 +35,8 @@ public class Grabber extends Thread {
 		this.cmi = cmi;
 	}
 
-	public void setController(ControllerDownloadProgress cdp) {
-		this.cdp = cdp;
-	}
-
 	@Override
 	public void run() {
-		/*
-		 * TODO
-		 * 
-		 * Crear popup que bloquee el acceso con la barra
-		 * 
-		 * - Vista es la maestra
-		 */
 		String selectorCssButtonUrl = "#gatsby-focus-wrapper > main > section:nth-child(1) > div > div.sm\\:text-center.md\\:max-w-2xl.md\\:mx-auto.lg\\:mx-0.lg\\:col-span-8.lg\\:text-left > div.mt-8.sm\\:mx-auto.sm\\:text-center.lg\\:mx-0.lg\\:text-left > form > button";
 		boolean prepared = false, cached = false, downloaded = false;
 		File outFolder = new File(outputFolder), fileFolder = new File(outputFolder + "/temp");
@@ -67,11 +54,6 @@ public class Grabber extends Thread {
 
 		if (!outFolder.exists())
 			outFolder.mkdirs();
-
-		while (cdp == null) {
-
-		}
-		cdp.update("Procesando", 0);
 
 		driver.get("https://www.savethevideo.com/es/home");
 		String auida = driver.getWindowHandle();
@@ -128,13 +110,11 @@ public class Grabber extends Thread {
 
 			if (!btnDownload.getText().matches(".*(Descargar|Download).*")
 					|| !btnDownload.getText().matches(".*(Haga click|click|Click).*")) {
-				cdp.update(btnDownload.getText(), 20);
 				btnDownload.click();
 				closeUnwanted(auida, driver);
 
 				while (!cached) {
 					closeUnwanted(auida, driver);
-					cdp.update(txtDownloadProcess.getText(), 40);
 					try {
 						if (!txtDownloadProcess.getText().matches(".*(A partir|%).*"))
 							cached = true;
@@ -145,8 +125,6 @@ public class Grabber extends Thread {
 				}
 			}
 
-			cdp.update("Procesando", 60);
-
 			if (!fileFolder.exists())
 				fileFolder.mkdir();
 
@@ -154,7 +132,6 @@ public class Grabber extends Thread {
 			closeUnwanted(auida, driver);
 
 			files = fileFolder.list();
-			cdp.update("Esperando descarga", 70);
 			while (!downloaded) {
 				boolean finished = true;
 
@@ -174,16 +151,12 @@ public class Grabber extends Thread {
 				files = fileFolder.list();
 			}
 
-			cdp.update("Procesando archivo", 85);
-
 			File file = new File(fileFolder.getAbsolutePath() + "/" + files[0]);
 			Files.move(file, new File(outputFolder + "/" + videoName + ".mp4"));
 
 			Library library = GLibraryImp.getGestor().getByPath(outputFolder);
 			if (!urlMiniature.isEmpty())
 				FileUtils.downloadImage(urlMiniature, library, videoName);
-
-			cdp.update("Completando", 95);
 
 			label.setText(videoName);
 
@@ -195,7 +168,6 @@ public class Grabber extends Thread {
 			gVideo.insert(video);
 
 			fileFolder.delete();
-			cdp.update("Terminado", 100);
 		} catch (Exception e) {
 			e.printStackTrace();
 			driver.quit();

@@ -67,22 +67,21 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 		return video;
 	}
 
-//	public Video getByUrl(String url) {
-//		Video video = null;
-//
-//		try {
-//			Statement stmt = conn.createStatement();
-//			ResultSet rs = stmt.executeQuery("select url, downloaded from video where url = " + url);
-//			rs.next();
-//
-//			video = new Video(rs.getString(1), rs.getInt(2));
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return video;
-//	}
+	public Video getByUrl(String url) {
+		Video video = null;
+
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from video where url = '" + url + "'");
+			rs.next();
+
+			video = constructVideo(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return video;
+	}
 
 	@Override
 	public List<Video> getAll() {

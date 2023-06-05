@@ -2,6 +2,7 @@ package grabberApp.javafx.fxmls;
 
 import java.io.File;
 
+import dao.GOriginImp;
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.stage.Stage;
 import models.AbstractController;
@@ -34,12 +35,10 @@ public class ControllerBlank extends AbstractController {
 				e.printStackTrace();
 			}
 
-			if (UtilsPopup.closed)
+			if (GOriginImp.gestor().getOrigin() == null)
 				gApp.getStage().close();
 			else
 				gApp.viewSetCenter(Routes.getRoute("landpage"));
-
-//			gApp.viewSetCenter(Routes.getRoute("fl-prepared"));
 		});
 	}
 }

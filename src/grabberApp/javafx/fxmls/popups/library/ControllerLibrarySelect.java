@@ -17,7 +17,7 @@ import utils.UtilsPopup;
 public class ControllerLibrarySelect extends AbstractPopupController {
 
 	private List<Library> libraries;
-	private Library currentLibrary;
+	private Library currentLibrary, previousLibrary;
 
 	@FXML
 	private TextField txfSearchBar;
@@ -78,19 +78,17 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 	private void setBehaviourButtons() {
 		btnCancel.setOnAction(event -> {
 			UtilsPopup.selectedLibrary = null;
-			UtilsPopup.previousLibrary = null;
 			closeView();
 		});
 
 		btnSelectThis.setOnAction(event -> {
-			UtilsPopup.previousLibrary = null;
 			closeView();
 		});
 
 		btnListChildren.setOnAction(event -> {
-			UtilsPopup.previousLibrary = UtilsPopup.selectedLibrary;
+			previousLibrary = UtilsPopup.selectedLibrary;
 			currentLibrary = UtilsPopup.selectedLibrary;
-			libraries = getGLibrary().getChildren(UtilsPopup.previousLibrary);
+			libraries = getGLibrary().getChildren(previousLibrary);
 
 			btnBack.setVisible(true);
 			btnListChildren.setDisable(true);
@@ -101,14 +99,14 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 
 		btnBack.setOnAction(event -> {
 			UtilsPopup.selectedLibrary = currentLibrary;
-			UtilsPopup.previousLibrary = UtilsPopup.selectedLibrary.getLibParent();
+			previousLibrary = UtilsPopup.selectedLibrary.getLibParent();
 
-			if (UtilsPopup.previousLibrary == null) {
+			if (previousLibrary == null) {
 				btnBack.setVisible(false);
 				btnSelectThis.setDisable(true);
 				libraries = getGLibrary().getTop();
 			} else {
-				libraries = getGLibrary().getChildren(UtilsPopup.previousLibrary);
+				libraries = getGLibrary().getChildren(previousLibrary);
 			}
 
 			fillLibraries();
@@ -122,8 +120,8 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 			UtilsPopup.selectedLibrary = null;
 			btnSelectThis.setDisable(true);
 			btnListChildren.setDisable(true);
-			if (UtilsPopup.previousLibrary != null) {
-				libraries = getGLibrary().getFromName(UtilsPopup.previousLibrary, txfSearchBar.getText());
+			if (previousLibrary != null) {
+				libraries = getGLibrary().getFromName(previousLibrary, txfSearchBar.getText());
 			} else {
 				libraries = gLibrary.getFromName(txfSearchBar.getText());
 			}

@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
+import dao.GVideoImp;
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.stage.Stage;
 import utils.ImgUtils;
@@ -37,6 +38,17 @@ public class Video {
 		this.downloaded = downloaded;
 		video = new File(library.getPath() + "/" + fileName);
 		this.dateCreated = dateCreated;
+		this.url = url;
+		miniaturePath = Utils.folderPath + System.getProperty("file.separator") + library.getId()
+				+ System.getProperty("file.separator") + name + ".jpeg";
+	}
+
+	public Video(String name, Library library, String url) {
+		super();
+		this.name = name;
+		fileName = name + ".mp4";
+		this.library = library;
+		video = new File(library.getPath() + "/" + fileName);
 		this.url = url;
 		miniaturePath = Utils.folderPath + System.getProperty("file.separator") + library.getId()
 				+ System.getProperty("file.separator") + name + ".jpeg";
@@ -99,6 +111,7 @@ public class Video {
 		this.fileName = name + ".mp4";
 		this.name = name;
 		ImgUtils.renameImage(miniaturePath, getMiniatureRoot() + name + ".jpeg");
+		miniaturePath = getMiniatureRoot() + name + ".jpeg";
 		renameVideo();
 		video = new File(library.getPath() + "/" + fileName);
 	}
@@ -114,12 +127,13 @@ public class Video {
 			Files.move(Paths.get(library.getPath() + "/" + video.getName()), newFile.toPath(),
 					StandardCopyOption.ATOMIC_MOVE);
 			video = newFile;
-
 			String newMiniaturePath = Utils.folderPath + System.getProperty("file.separator") + newLibrary.getId()
 					+ System.getProperty("file.separator") + getName() + ".jpeg";
 
 			ImgUtils.moveImage(miniaturePath, newMiniaturePath);
 			miniaturePath = newMiniaturePath;
+			library = newLibrary;
+			GVideoImp.getGestor().update(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

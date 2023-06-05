@@ -53,10 +53,6 @@ public class ControllerSetup extends AbstractPopupController {
 				Utils.gApp.viewSetCenter(Routes.getRoute("landpage"));
 			}
 		});
-
-		popup.getStage().setOnCloseRequest(event -> {
-			UtilsPopup.closed = true;
-		});
 	}
 
 }
