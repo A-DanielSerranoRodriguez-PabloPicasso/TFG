@@ -5,5 +5,7 @@ public interface GOrigin {
 	public String getOrigin();
 	
 	public boolean insert(String path);
+	
+	public void nuke();
 
 }

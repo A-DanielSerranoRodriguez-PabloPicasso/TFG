@@ -55,12 +55,26 @@ public class ImgUtils {
 		return image;
 	}
 
+	/**
+	 * Renames a given image using paths
+	 * 
+	 * @param imagePath String with old image
+	 * @param newImage  String with new image
+	 * @return true/false
+	 */
 	public static boolean renameImage(String imagePath, String newImage) {
 		File currentImage = new File(imagePath);
 
 		return currentImage.renameTo(new File(newImage));
 	}
 
+	/**
+	 * Moves a given image using paths
+	 * 
+	 * @param imagePath String with old image
+	 * @param newImage  String with new image
+	 * @return true/false
+	 */
 	public static boolean moveImage(String imagePath, String newImage) {
 		boolean ok = false;
 

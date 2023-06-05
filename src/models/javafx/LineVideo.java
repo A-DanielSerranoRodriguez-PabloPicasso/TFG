@@ -8,6 +8,7 @@ import java.util.List;
 
 import dao.GVideo;
 import dao.GVideoImp;
+import grabberApp.GrabberApp;
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +23,6 @@ import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
 import models.Video;
-import utils.Utils;
 import utils.UtilsPopup;
 
 public class LineVideo extends AnchorPane {
@@ -30,6 +30,7 @@ public class LineVideo extends AnchorPane {
 	private boolean videoExists;
 
 	private AbstractController controller;
+	private GrabberApp gApp;
 	private Video video;
 	private HBox hbContent, hbEdit, hbDelete;
 	private Label lblName, lblLibrary, lblLibraryTree, lblDate;
@@ -40,6 +41,8 @@ public class LineVideo extends AnchorPane {
 	public LineVideo(Video video, AbstractController controller) {
 		this.video = video;
 		this.controller = controller;
+		this.gApp = controller.gApp;
+
 		videoExists = video.getVideo().exists();
 
 		hbContent = new HBox(10);
@@ -98,7 +101,7 @@ public class LineVideo extends AnchorPane {
 
 		ObservableList<String> olLibraries = FXCollections.observableArrayList();
 
-		List<Library> libraries = Utils.libraries;
+		List<Library> libraries = gApp.getLibraries();
 
 		for (Library library : libraries) {
 			olLibraries.add(library.getName());

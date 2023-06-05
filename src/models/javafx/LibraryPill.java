@@ -67,7 +67,7 @@ public class LibraryPill extends HBox {
 
 	private void setBehaviourButtons() {
 		btnLibrary.setOnMouseClicked(event -> {
-			Utils.selectedLibrary = library;
+			controller.gApp.setCurrentLibrary(library);
 			controller.gApp.viewSetCenter(Routes.getRoute("library"));
 		});
 

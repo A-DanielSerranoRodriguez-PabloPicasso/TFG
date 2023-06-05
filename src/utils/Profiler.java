@@ -15,12 +15,24 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.ProfilesIni;
 
+/**
+ * Class that works with the Firefox profile system and Selenium configuration
+ * to set up the Grabber
+ * 
+ * @author Daniel Serrano Rodriguez
+ *
+ */
 public class Profiler {
-
+	/**
+	 * Route of the Firefox profile to be used
+	 */
 	private static final String profileName = "web/0aqy6coi.selenium-profile";
 	private static String profileIniLocation, pilBackup;
 	private static int profileCount = 0;
 
+	/**
+	 * Writes in the Firefox profile file of the user, creating a backup first
+	 */
 	public static void writeProfile() {
 		File profile, profilesIni, pilCopy;
 		String os = System.getProperty("os.name"), username = System.getProperty("user.name"), linea, folderPath = "";
@@ -39,7 +51,8 @@ public class Profiler {
 				profilesIni = new File(profileIniLocation);
 				pilCopy = new File(profileIniLocation + ".bak");
 				pilBackup = pilCopy.getAbsolutePath();
-				Files.copy(profilesIni.toPath(), pilCopy.toPath());
+				if (!pilCopy.exists())
+					Files.copy(profilesIni.toPath(), pilCopy.toPath());
 
 				BufferedReader br = new BufferedReader(new FileReader(profilesIni));
 
@@ -64,6 +77,12 @@ public class Profiler {
 		}
 	}
 
+	/**
+	 * Configures the Firefox driver
+	 * 
+	 * @param path String with the download path of the file
+	 * @return FirefoxDriver
+	 */
 	public static FirefoxDriver setFirefoxOptions(String path) {
 		writeProfile();
 		ProfilesIni profile = new ProfilesIni();
@@ -81,6 +100,7 @@ public class Profiler {
 		}
 
 		testprofile.setPreference("browser.download.dir", path);
+		// Forces Firefox to download in the specified path directly
 		testprofile.setPreference("browser.download.folderList", 2);
 		FirefoxOptions fOptions = new FirefoxOptions();
 
@@ -98,6 +118,11 @@ public class Profiler {
 		return new FirefoxDriver(fOptions);
 	}
 
+	/**
+	 * Reverts the changes on the profile file and reverts it to the backup
+	 * 
+	 * @throws IOException
+	 */
 	public static void removeProfile() throws IOException {
 		File bak = new File(pilBackup), prof = new File(profileIniLocation);
 		Path profPath = prof.toPath();
@@ -106,6 +131,12 @@ public class Profiler {
 		new File(pilBackup).delete();
 	}
 
+	/**
+	 * Checks if the profile file is written with the configuration
+	 * 
+	 * @return true/false
+	 * @throws IOException
+	 */
 	private static boolean isWritten() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(new File(profileIniLocation)));
 		String linea;

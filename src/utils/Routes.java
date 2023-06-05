@@ -3,11 +3,22 @@ package utils;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class designed to grant access to all the views of the app
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class Routes {
 
+	/**
+	 * Map with all the routes
+	 */
 	private static Map<String, String> routes;
 
-	public static void fillRoutes() {
+	/**
+	 * Fills the map with the application routes
+	 */
+	private static void fillRoutes() {
 		routes = new HashMap<>();
 		String baseRoute = "/grabberApp/javafx/fxmls/";
 		routes.put("root", baseRoute + "Root.fxml");
@@ -29,7 +40,16 @@ public class Routes {
 		routes.put("library", baseRoute + "library/Library.fxml");
 	}
 
+	/**
+	 * Returns the route of a view
+	 * 
+	 * @param route String with the unique name of the view
+	 * @return String with the route
+	 */
 	public static String getRoute(String route) {
+		if (routes.isEmpty())
+			fillRoutes();
+
 		return routes.get(route);
 	}
 

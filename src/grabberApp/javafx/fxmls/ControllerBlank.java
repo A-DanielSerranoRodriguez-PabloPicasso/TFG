@@ -18,6 +18,7 @@ public class ControllerBlank extends AbstractController {
 
 	public void initialize() {
 		gApp.getStage().setOnShown(arg0 -> {
+			GOriginImp.gestor().nuke();
 			File dbFile = new File(Utils.dbFilePath);
 			gApp.viewSetCenter(Routes.getRoute("fl-preparing"));
 			while (!dbFile.exists()) {

@@ -43,8 +43,7 @@ public class ControllerLandPage extends AbstractController {
 		gApp = Utils.gApp;
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
-		Utils.libraries = gLibrary.getTop();
-		Utils.controller = this;
+		gApp.setLibraries(gLibrary.getTop());
 
 		recentVideos = gVideo.getRecent(10);
 		fpRecentVideos = new FlowVideos();
@@ -56,7 +55,7 @@ public class ControllerLandPage extends AbstractController {
 	}
 
 	public void initialize() {
-		libraries = Utils.libraries;
+		libraries = gApp.getLibraries();
 
 		hbVideos.getChildren().remove(gpRecentVideos);
 		hbVideos.getChildren().add(fpRecentVideos);
@@ -83,8 +82,8 @@ public class ControllerLandPage extends AbstractController {
 	}
 
 	private void fillLibraries() {
-		Utils.libraries = gLibrary.getTop();
-		libraries = Utils.libraries;
+		libraries = gLibrary.getTop();
+		gApp.setLibraries(libraries);
 
 		gpLibraries.getChildren().clear();
 		for (int i = 0, s = libraries.size(); i < s; i++) {

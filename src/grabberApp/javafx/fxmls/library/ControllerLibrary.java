@@ -74,9 +74,9 @@ public class ControllerLibrary extends AbstractController {
 	public ControllerLibrary() {
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
-		library = Utils.selectedLibrary;
+		gApp = Utils.gApp;
+		library = gApp.getCurrentLibrary();
 		videos = gVideo.getByLibrary(library);
-		Utils.controller = this;
 		videoPane = VideoPane.FLOW;
 
 		gridVideos = new GridVideos(this);
@@ -134,8 +134,8 @@ public class ControllerLibrary extends AbstractController {
 				hBoxBreadcrumb.getChildren().add(lblBreadcrumb);
 			}
 			btnBack.setOnAction(event -> {
-				Utils.selectedLibrary = library.getLibParent();
-				library = Utils.selectedLibrary;
+				library = library.getLibParent();
+//				gApp.setCurrentLibrary(library);
 				reload();
 			});
 		} else {
@@ -156,8 +156,8 @@ public class ControllerLibrary extends AbstractController {
 				hBoxBreadcrumb.getChildren().add(lblBreadcrumb);
 			}
 			btnBack.setOnAction(event -> {
-				Utils.selectedLibrary = library.getLibParent();
-				library = Utils.selectedLibrary;
+				library = library.getLibParent();
+//				gApp.setCurrentLibrary(library);
 				reload();
 			});
 		} else {

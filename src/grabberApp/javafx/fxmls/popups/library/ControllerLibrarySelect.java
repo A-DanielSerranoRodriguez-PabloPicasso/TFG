@@ -11,7 +11,6 @@ import models.AbstractPopupController;
 import models.Library;
 import models.javafx.LineLibrary;
 import utils.ImgUtils;
-import utils.Utils;
 import utils.UtilsPopup;
 
 public class ControllerLibrarySelect extends AbstractPopupController {
@@ -57,7 +56,7 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 		imgSearch.setFitWidth(32);
 		imgSearch.setFitHeight(32);
 
-		libraries = Utils.libraries;
+		libraries = gLibrary.getTop();
 
 		fillLibraries();
 

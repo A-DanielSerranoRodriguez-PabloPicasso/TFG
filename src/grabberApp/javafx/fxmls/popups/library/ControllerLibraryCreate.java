@@ -27,6 +27,7 @@ public class ControllerLibraryCreate extends AbstractPopupController {
 
 	public ControllerLibraryCreate() {
 		popup = UtilsPopup.popup;
+		gApp = Utils.gApp;
 	}
 
 	public void initialize() {
@@ -69,7 +70,6 @@ public class ControllerLibraryCreate extends AbstractPopupController {
 				Library library = new Library(folderRoute + "/" + folderName, folderName, pathParent, idParent,
 						Utils.origin);
 				gLibrary.insert(library);
-				Utils.libraries = gLibrary.getAll();
 				library = gLibrary.getByPath(library.getPath());
 				FileUtils.createFolder(Utils.folderPath + "/" + library.getId());
 				FileUtils.createFolder(folderRoute + "/" + folderName);

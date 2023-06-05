@@ -1,6 +1,7 @@
 package grabberApp;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import dao.SQLiteDAO;
 import javafx.application.Application;
@@ -10,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.AbstractController;
+import models.Library;
 import utils.Routes;
 import utils.Utils;
 import utils.UtilsFirstBoot;
@@ -19,6 +21,9 @@ public class GrabberApp extends Application {
 	private BorderPane rootPane;
 	private AnchorPane centerPane, topPane;
 
+	private Library currentLibrary;
+	private List<Library> libraries;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -27,7 +32,6 @@ public class GrabberApp extends Application {
 	public void start(Stage arg0) throws Exception {
 		primaryStage = arg0;
 		Utils.gApp = this;
-		Routes.fillRoutes();
 
 		primaryStage.setMinWidth(1000);
 		primaryStage.setMinHeight(500);
@@ -61,12 +65,8 @@ public class GrabberApp extends Application {
 			UtilsFirstBoot ufb = new UtilsFirstBoot();
 
 			if (ufb.firstStart()) {
-				Utils.folderPath = ufb.getDbFolderPath();
-				Utils.dbFilePath = ufb.getDbFilePath();
 				viewSetCenter(Routes.getRoute("blank"));
 			} else {
-				Utils.dbFilePath = ufb.getDbFilePath();
-				Utils.origin = ufb.getOrigin();
 				viewSetCenter(Routes.getRoute("landpage"));
 			}
 
@@ -113,6 +113,28 @@ public class GrabberApp extends Application {
 
 	public Stage getStage() {
 		return primaryStage;
+	}
+
+	public Library getCurrentLibrary() {
+		return currentLibrary;
+	}
+
+	public void setCurrentLibrary(Library library) {
+		this.currentLibrary = library;
+	}
+
+	/**
+	 * @return the libraries
+	 */
+	public List<Library> getLibraries() {
+		return libraries;
+	}
+
+	/**
+	 * @param libraries the libraries to set
+	 */
+	public void setLibraries(List<Library> libraries) {
+		this.libraries = libraries;
 	}
 
 }

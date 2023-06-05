@@ -48,4 +48,13 @@ public class GOriginImp extends GGeneral implements GOrigin {
 		return false;
 	}
 
+	@Override
+	public void nuke() {
+		try {
+			conn.createStatement().execute("delete from " + table);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

@@ -32,7 +32,6 @@ public class ControllerTopBar extends AbstractController {
 	}
 
 	public void initialize() {
-		Utils.mbDownloads = btnDownloads;
 		FileInputStream fis = null;
 		File file = new File(gApp.getClass().getResource("/img/icon/home.png").getPath());
 
@@ -47,7 +46,6 @@ public class ControllerTopBar extends AbstractController {
 
 	@FXML
 	private void handleHome() {
-		Utils.selectedLibrary = null;
 		gApp.viewSetCenter(Routes.getRoute("landpage"));
 	}
 
