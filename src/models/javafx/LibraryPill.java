@@ -14,6 +14,11 @@ import utils.FileUtils;
 import utils.Routes;
 import utils.Utils;
 
+/**
+ * Library pill to manage and access them
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class LibraryPill extends HBox {
 
 	private boolean bDelete, bRename;
@@ -29,18 +34,24 @@ public class LibraryPill extends HBox {
 	private TextField txfLibraryName;
 	private Button btnConfirm, btnCancel;
 
+	/**
+	 * Creates a pill given a library and the controller we currently are
+	 * 
+	 * @param library    Library
+	 * @param controller AbstractController
+	 */
 	public LibraryPill(Library library, AbstractController controller) {
 		this.library = library;
 		this.controller = controller;
 		libraryFile = new File(library.getPath());
 
 		btnLibrary = new Button(library.getName());
-		// TODO alerta biblioteca no disponible
+		// TODO? alerta biblioteca no disponible
 		if (!libraryFile.exists())
 			btnLibrary.setDisable(true);
 		mbtnMenu = new MenuButton();
 		miRename = new MenuItem("Renombrar");
-		// TODO alerta biblioteca no disponible
+		// TODO? alerta biblioteca no disponible
 		if (!libraryFile.exists())
 			miRename.setDisable(true);
 		miDelete = new MenuItem("Eliminar");
@@ -65,12 +76,17 @@ public class LibraryPill extends HBox {
 		this.getChildren().add(mbtnMenu);
 	}
 
+	/**
+	 * Configures the buttons actions
+	 */
 	private void setBehaviourButtons() {
+		// When clicked, we access the library view
 		btnLibrary.setOnMouseClicked(event -> {
 			controller.gApp.setCurrentLibrary(library);
 			controller.gApp.viewSetCenter(Routes.getRoute("library"));
 		});
 
+		// When renaming, we show the the necessary components
 		miRename.setOnAction(event -> {
 			bRename = true;
 			bDelete = false;
@@ -83,6 +99,7 @@ public class LibraryPill extends HBox {
 			this.getChildren().add(btnCancel);
 		});
 
+		// We show a confirmation before deleting
 		miDelete.setOnAction(event -> {
 			bDelete = true;
 			bRename = false;
@@ -93,6 +110,11 @@ public class LibraryPill extends HBox {
 			this.getChildren().add(btnCancel);
 		});
 
+		/*
+		 * If we are deleting, we just delete the library.
+		 * 
+		 * If we are renaming, we rename it and show the correct components
+		 */
 		btnConfirm.setOnAction(event -> {
 			if (bDelete) {
 				deleteLibrary(library);
@@ -110,6 +132,7 @@ public class LibraryPill extends HBox {
 			bDelete = false;
 		});
 
+		// The action is cancelled
 		btnCancel.setOnAction(event -> {
 			if (bDelete) {
 			} else if (bRename) {
@@ -126,14 +149,21 @@ public class LibraryPill extends HBox {
 			this.getChildren().remove(btnConfirm);
 			this.getChildren().remove(btnCancel);
 		});
+
 	}
 
+	/*
+	 * Renames the library
+	 */
 	private void renameLibrary() {
 		library.setName(txfLibraryName.getText());
 
 		controller.reload();
 	}
 
+	/*
+	 * Deletes a library
+	 */
 	private void deleteLibrary(Library library) {
 		FileUtils.deleteFolder(library.getPath(), true);
 		FileUtils.deleteFolder(Utils.folderPath + System.getProperty("file.separator") + library.getId(), false);

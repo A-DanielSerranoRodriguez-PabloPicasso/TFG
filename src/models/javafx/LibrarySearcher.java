@@ -14,14 +14,25 @@ import javafx.stage.Stage;
 import models.Library;
 import utils.UtilsPopup;
 
+/**
+ * Shows a library searcher and the current library for the user to select them
+ * with ease
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class LibrarySearcher extends HBox {
-	
+
 	private Library library;
 
 	private TextField txfSearchBar;
 	private Button btnSearch;
 	private ImageView imgSearch;
 
+	/**
+	 * Constructor that receives the current library
+	 * 
+	 * @param library Library
+	 */
 	public LibrarySearcher(Library library) {
 		this.library = library;
 		FileInputStream fis = null;
@@ -49,6 +60,9 @@ public class LibrarySearcher extends HBox {
 		this.setVisible(true);
 	}
 
+	/**
+	 * Sets the behaviour of the buttons
+	 */
 	private void setBehaviour() {
 		btnSearch.setOnAction(event -> {
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.SELECT_LIBRARY;

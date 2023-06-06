@@ -14,7 +14,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -25,6 +24,11 @@ import models.Library;
 import models.Video;
 import utils.UtilsPopup;
 
+/**
+ * Creates a line that holds the video lines visible to the user
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class LineVideo extends AnchorPane {
 
 	private boolean videoExists;
@@ -36,8 +40,13 @@ public class LineVideo extends AnchorPane {
 	private Label lblName, lblLibrary, lblLibraryTree, lblDate;
 	private Button btnEdit, btnDelete, btnAcceptEdit, btnCancelEdit, btnAcceptDelete, btnCancelDelete;
 	private TextField txfName;
-	private ChoiceBox<String> choiceLibrary;
 
+	/**
+	 * Lines receive a video and the controller they belong
+	 * 
+	 * @param video      Video
+	 * @param controller AbstractController
+	 */
 	public LineVideo(Video video, AbstractController controller) {
 		this.video = video;
 		this.controller = controller;
@@ -48,6 +57,10 @@ public class LineVideo extends AnchorPane {
 		hbContent = new HBox(10);
 		hbContent.setAlignment(Pos.CENTER);
 
+		/*
+		 * We add the name, library and tree, the date of creation and buttons to edit
+		 * and delete the video
+		 */
 		lblName = new Label(video.getName());
 		lblLibrary = new Label(video.getLibrary().getName() + ":");
 		lblLibraryTree = new Label(video.getLibrary().getTree());
@@ -57,10 +70,19 @@ public class LineVideo extends AnchorPane {
 		btnEdit = new Button("Editar");
 		btnDelete = new Button("Eliminar");
 
+		// When we click in the name, the video launches or we get an error
 		lblName.setOnMouseClicked(event -> {
-			// TODO alerta video no disponible
 			if (videoExists) {
 				video.watch();
+			} else {
+				UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
+				UtilsPopup.errType = UtilsPopup.ERR_TYPE.VIDEO_NOT_FOUND;
+
+				try {
+					new Popup().start(new Stage());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -71,7 +93,6 @@ public class LineVideo extends AnchorPane {
 		hbContent.getChildren().add(btnEdit);
 		hbContent.getChildren().add(btnDelete);
 
-		// TODO alerta video no disponible
 		if (!videoExists)
 			btnEdit.setDisable(true);
 
@@ -79,7 +100,6 @@ public class LineVideo extends AnchorPane {
 		hbEdit.setAlignment(Pos.CENTER);
 
 		txfName = new TextField(video.getName());
-		choiceLibrary = new ChoiceBox<>();
 		btnAcceptEdit = new Button("Confirmar cambios");
 		btnCancelEdit = new Button("Cancelar");
 
@@ -107,21 +127,22 @@ public class LineVideo extends AnchorPane {
 			olLibraries.add(library.getName());
 		}
 
-		choiceLibrary.setItems(olLibraries);
-
-		choiceLibrary.getSelectionModel().select(video.getLibrary().getName());
-
 		this.getChildren().add(hbContent);
 		this.setVisible(true);
 	}
 
+	/**
+	 * Sets up the buttons actions
+	 */
 	private void buttonFunctions() {
+		// Hides the normal box and shows the edit box
 		btnEdit.setOnAction(event -> {
 			this.getChildren().remove(hbContent);
 			hbEdit.getChildren().add(2, lblDate);
 			this.getChildren().add(hbEdit);
 		});
 
+		// Hides the normal box and shows the delete box
 		btnDelete.setOnAction(event -> {
 			this.getChildren().remove(hbContent);
 			hbDelete.getChildren().add(0, lblName);
@@ -131,11 +152,14 @@ public class LineVideo extends AnchorPane {
 			this.getChildren().add(hbDelete);
 		});
 
+		// Accepts the edit of the video
 		btnAcceptEdit.setOnAction(event -> {
+			// We obtain the new library, or in change the video's own library
 			Library library = UtilsPopup.selectedLibrary == null ? video.getLibrary() : UtilsPopup.selectedLibrary;
 			File newFile = new File(
 					library.getPath() + System.getProperty("file.separator") + txfName.getText() + ".mp4");
 
+			// We check if the name is empty or the file we could be moving to exists
 			if (txfName.getText().isEmpty()) {
 				UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
 				UtilsPopup.errType = UtilsPopup.ERR_TYPE.VIDEO_NAME_EMPTY;
@@ -162,26 +186,28 @@ public class LineVideo extends AnchorPane {
 				while (!video.getVideo().getName().equals(video.getFileName())) {
 				}
 
+				// If the video has a different library, we move
 				if (!video.getLibrary().equals(library)) {
 					video.moveVideo(library);
-					video.setLibrary(library);
 				}
 
 				gVideo.update(video);
 				controller.reload();
-				lblName.setText(video.getName());
-				lblLibrary.setText(video.getLibrary().getName());
-				hbContent.getChildren().add(3, lblDate);
+//				lblName.setText(video.getName());
+//				lblLibrary.setText(video.getLibrary().getName());
+//				hbContent.getChildren().add(3, lblDate);
 				this.getChildren().add(hbContent);
 			}
 		});
 
+		// Cancels the edition
 		btnCancelEdit.setOnAction(event -> {
 			this.getChildren().remove(hbEdit);
 			hbContent.getChildren().add(3, lblDate);
 			this.getChildren().add(hbContent);
 		});
 
+		// Accepts the deletion of the video
 		btnAcceptDelete.setOnAction(event -> {
 			this.getChildren().remove(hbDelete);
 			GVideo<Video> gVideo = GVideoImp.getGestor();
@@ -190,6 +216,7 @@ public class LineVideo extends AnchorPane {
 			this.getChildren().add(hbContent);
 		});
 
+		// Cancels the deletion
 		btnCancelDelete.setOnAction(event -> {
 			this.getChildren().remove(hbDelete);
 			hbContent.getChildren().add(0, lblName);

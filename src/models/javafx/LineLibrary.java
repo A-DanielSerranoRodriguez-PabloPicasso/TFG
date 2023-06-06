@@ -8,11 +8,22 @@ import javafx.scene.layout.HBox;
 import models.Library;
 import utils.UtilsPopup;
 
+/**
+ * Creates a line that holds the library, thought to be used in the library
+ * selector
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class LineLibrary extends AnchorPane {
 
 	private HBox hbContent;
 	private Label lblName, lblPath;
 
+	/**
+	 * Creates a line
+	 * 
+	 * @param library Library
+	 */
 	public LineLibrary(Library library) {
 		hbContent = new HBox(10);
 		hbContent.setPadding(new Insets(20));

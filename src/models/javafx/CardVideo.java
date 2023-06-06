@@ -12,6 +12,11 @@ import javafx.scene.layout.VBox;
 import models.Video;
 import utils.ImgUtils;
 
+/**
+ * Creates a card with details of the video
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class CardVideo extends AnchorPane {
 
 	private Video video;
@@ -22,6 +27,11 @@ public class CardVideo extends AnchorPane {
 	private HBox hbBetween;
 	private VBox vbContent;
 
+	/**
+	 * Constructor that receives a video
+	 * 
+	 * @param video Video
+	 */
 	public CardVideo(Video video) {
 		this.video = video;
 		imgMiniature = new ImageView();
@@ -32,6 +42,9 @@ public class CardVideo extends AnchorPane {
 		initialize();
 	}
 
+	/**
+	 * Sets up how the card is going to display
+	 */
 	private void setup() {
 		this.setMinHeight(400);
 		this.getStyleClass().add("blackBackground");
@@ -55,6 +68,11 @@ public class CardVideo extends AnchorPane {
 		this.getChildren().add(vbContent);
 	}
 
+	/**
+	 * Initializes the card.
+	 * 
+	 * The image's height and width are obtained to show the miniature correctly
+	 */
 	private void initialize() {
 		videoImage = ImgUtils.getImage(video.getMiniaturePath());
 		imgMiniature.setImage(videoImage);
