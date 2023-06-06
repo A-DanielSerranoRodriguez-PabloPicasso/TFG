@@ -104,6 +104,9 @@ public class Profiler {
 		testprofile.setPreference("browser.download.folderList", 2);
 		FirefoxOptions fOptions = new FirefoxOptions();
 
+		/*
+		 * Makes the browser window to be headless, so the user doesn't see anything
+		 */
 		if (System.getProperty("os.name").contains("Windows")) {
 //			FirefoxBinary fBinary = fOptions.getBinary();
 //			fBinary.addCommandLineOptions("-headless");

@@ -73,9 +73,8 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from video where url = '" + url + "'");
-			rs.next();
-
-			video = constructVideo(rs);
+			if (rs.next())
+				video = constructVideo(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

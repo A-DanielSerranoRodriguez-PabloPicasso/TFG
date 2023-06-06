@@ -219,7 +219,7 @@ public class ControllerLibrary extends AbstractController {
 		if (libraries.size() > 0) {
 			int i = 0;
 			for (Library library : libraries) {
-				gpLibraries.add(new LibraryPill(library, this), 0, i);
+				gpLibraries.add(new LibraryPill(library, this), i, 0);
 				i++;
 			}
 		}

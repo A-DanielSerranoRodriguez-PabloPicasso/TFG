@@ -42,6 +42,7 @@ public class ControllerTopBar extends AbstractController {
 		}
 
 		imgHome.setImage(new Image(fis));
+		Utils.mbDownloads = btnDownloads;
 	}
 
 	@FXML

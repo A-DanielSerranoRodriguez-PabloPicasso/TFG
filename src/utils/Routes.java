@@ -47,7 +47,7 @@ public class Routes {
 	 * @return String with the route
 	 */
 	public static String getRoute(String route) {
-		if (routes.isEmpty())
+		if (routes == null)
 			fillRoutes();
 
 		return routes.get(route);
