@@ -112,23 +112,27 @@ public class Popup extends Application {
 			break;
 
 		case VIDEO_NAME_EMPTY:
-			primaryStage.setTitle("Video");
+			primaryStage.setTitle("Video sin nombre");
 			break;
 
 		case VIDEO_URL_EMPTY:
-			primaryStage.setTitle("Video");
+			primaryStage.setTitle("URL vacia");
 			break;
 
 		case VIDEO_URL_INVALID:
-			primaryStage.setTitle("Video");
+			primaryStage.setTitle("URL invalida");
 			break;
 
 		case VIDEO_LIBRARY_EMPTY:
-			primaryStage.setTitle("Video");
+			primaryStage.setTitle("Biblioteca vacia");
 			break;
 
 		case VIDEO_SAME_NAME:
-			primaryStage.setTitle("Video");
+			primaryStage.setTitle("Video con mismo nombre");
+			break;
+
+		case VIDEO_NOT_FOUND:
+			primaryStage.setTitle("Video no encontrado");
 			break;
 
 		default:
