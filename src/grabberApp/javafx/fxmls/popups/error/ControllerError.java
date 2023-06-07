@@ -7,16 +7,29 @@ import java.io.FileNotFoundException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import models.AbstractPopupController;
+import models.Video;
+import models.javafx.CustomMenuItem;
+import utils.Grabber;
 import utils.Utils;
 import utils.UtilsPopup;
 
 public class ControllerError extends AbstractPopupController {
 
+	private boolean letDownload;
+
+	private Video video;
+
 	@FXML
 	private Label lblError;
+
+	@FXML
+	private Button btnCancel;
 
 	@FXML
 	private Button btnAccept;
@@ -27,6 +40,7 @@ public class ControllerError extends AbstractPopupController {
 	public ControllerError() {
 		popup = UtilsPopup.popup;
 		gApp = Utils.gApp;
+		letDownload = false;
 	}
 
 	public void initialize() {
@@ -78,6 +92,13 @@ public class ControllerError extends AbstractPopupController {
 			lblError.setText("Ya existe un video con ese nombre en la biblioteca");
 			break;
 
+		case VIDEO_NOT_FOUND:
+			lblError.setText("Video no encontrado en el equipo.\n¿Desde descargarlo?");
+			letDownload = true;
+			video = UtilsPopup.video[0];
+			btnCancel.setVisible(true);
+			break;
+
 		default:
 			break;
 		}
@@ -85,6 +106,37 @@ public class ControllerError extends AbstractPopupController {
 
 	@FXML
 	private void handleAccept() {
+		if (letDownload) {
+			MenuButton mbDownloads = Utils.mbDownloads;
+			HBox hBox = new HBox();
+			Button btnRemove = new Button("X"), btnVer = new Button("Ver");
+			CustomMenuItem cmi;
+
+			hBox.getChildren().add(new Label());
+			hBox.getChildren().add(new VBox());
+
+			cmi = new CustomMenuItem(hBox);
+			Grabber grabber = new Grabber(video.getUrl(), video.getLibrary().getPath(), video.getName(), cmi, false);
+
+			mbDownloads.getItems().add(0, cmi);
+
+			mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) + 1));
+			hBox.getChildren().add(btnVer);
+			hBox.getChildren().add(btnRemove);
+
+			btnRemove.setOnAction(event -> {
+				mbDownloads.getItems().remove(cmi);
+				mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) - 1));
+			});
+			grabber.run();
+		}
 		popup.getStage().close();
+	}
+
+	@FXML
+	private void handleCancel() {
+		UtilsPopup.video = null;
+		letDownload = false;
+		handleAccept();
 	}
 }

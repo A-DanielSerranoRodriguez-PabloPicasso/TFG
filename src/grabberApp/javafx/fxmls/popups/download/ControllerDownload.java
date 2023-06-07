@@ -115,7 +115,7 @@ public class ControllerDownload extends AbstractPopupController {
 				cmi = new CustomMenuItem(hBox);
 
 				String videoName = txfVideoName.getText();
-				Grabber grabber = new Grabber(txfUrl.getText(), library.getPath(), videoName, cmi);
+				Grabber grabber = new Grabber(txfUrl.getText(), library.getPath(), videoName, cmi, true);
 				UtilsPopup.grabber = grabber;
 
 				Video video = GVideoImp.getGestor().getByUrl(txfUrl.getText());

@@ -154,6 +154,17 @@ public class Video {
 				}
 				e.printStackTrace();
 			}
+		} else {
+			// TODO popup para descargar
+			UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
+			UtilsPopup.errType = UtilsPopup.ERR_TYPE.VIDEO_NOT_FOUND;
+			UtilsPopup.video = new Video[] { this };
+
+			try {
+				new Popup().start(new Stage());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

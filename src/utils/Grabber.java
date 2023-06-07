@@ -31,17 +31,19 @@ public class Grabber {
 	private String url, outputFolder, videoName;
 	private GVideo<Video> gVideo;
 	private CustomMenuItem cmi;
+	private boolean newVideo;
 
 	/**
 	 * Constructor that receives the url, the folder, the video name and the
-	 * download menu component
+	 * download menu component.S
 	 * 
 	 * @param url          String
 	 * @param outputFolder String
 	 * @param videoName    String
 	 * @param cmi          CustomMenuItem (models.javafx)
+	 * @param newVideo     boolean
 	 */
-	public Grabber(String url, String outputFolder, String videoName, CustomMenuItem cmi) {
+	public Grabber(String url, String outputFolder, String videoName, CustomMenuItem cmi, boolean newVideo) {
 		this.url = url;
 		this.outputFolder = outputFolder;
 		this.gVideo = GVideoImp.getGestor();
@@ -205,14 +207,16 @@ public class Grabber {
 				ImgUtils.downloadImage(urlMiniature, library, videoName);
 
 			label.setText(videoName);
-
-			Video video = new Video(1, videoName, videoName + ".mp4", library, url, true,
-					Instant.now().getEpochSecond());
-
+			Video video = null;
+			if (newVideo) {
+				video = new Video(1, videoName, videoName + ".mp4", library, url, true, Instant.now().getEpochSecond());
+				gVideo.insert(video);
+			} // else {
+//				video = gVideo.getByUrl(url);
+//			}
 			// The video is set in the CustomMenuItem to be able to watch it from it
 			cmi.setVideo(video);
 
-			gVideo.insert(video);
 		} catch (Exception e) {
 			e.printStackTrace();
 			driver.quit();

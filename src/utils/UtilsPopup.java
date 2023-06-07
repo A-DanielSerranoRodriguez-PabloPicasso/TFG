@@ -69,7 +69,7 @@ public class UtilsPopup {
 	public static Grabber grabber;
 
 	/**
-	 * Access to the videos when the video exists in the database
+	 * Utility video array
 	 */
 	public static Video[] video;
 }

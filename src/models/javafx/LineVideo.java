@@ -72,18 +72,7 @@ public class LineVideo extends AnchorPane {
 
 		// When we click in the name, the video launches or we get an error
 		lblName.setOnMouseClicked(event -> {
-			if (videoExists) {
-				video.watch();
-			} else {
-				UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
-				UtilsPopup.errType = UtilsPopup.ERR_TYPE.VIDEO_NOT_FOUND;
-
-				try {
-					new Popup().start(new Stage());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+			video.watch();
 		});
 
 		hbContent.getChildren().add(lblName);
