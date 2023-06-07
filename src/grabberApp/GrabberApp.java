@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
+import utils.ImgUtils;
 import utils.Routes;
 import utils.Utils;
 import utils.UtilsFirstBoot;
@@ -37,6 +38,7 @@ public class GrabberApp extends Application {
 		primaryStage.setMinHeight(500);
 		primaryStage.setMaximized(true);
 		primaryStage.setTitle("jGrabber");
+		primaryStage.getIcons().add(ImgUtils.getInternalImage("/img/icon/app.png"));
 		primaryStage.setOnCloseRequest(event -> {
 			try {
 				SQLiteDAO.getDao().close();
