@@ -132,8 +132,10 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 	public List<Library> getFromName(final String name) {
 		List<Library> result = new ArrayList<>();
 		try {
-			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + " where lower(name) like '%"
-					+ name.toLowerCase() + "%' and parent = 0 and origin = '" + Utils.origin + "'");
+			ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM " + table + " where lower(name) like '%"
+					+ name.toLowerCase() + "%' and origin = '" + Utils.origin + "'");
+
+//			"SELECT * FROM "+table+" where lower(name) like '%"+name.toLowerCase()+"%' and origin = '"+Utils.origin+"'"
 			while (rs.next())
 				result.add(constructLibrary(rs));
 		} catch (SQLException e) {
@@ -148,7 +150,7 @@ public class GLibraryImp extends GGeneral implements GLibrary<Library> {
 		try {
 			ResultSet rs = conn.createStatement().executeQuery(
 					"select * from " + table + " where parent = '" + library.getPath() + "' lower(name) like '%"
-							+ name.toLowerCase() + "%' and parent = 0 and origin = '" + Utils.origin + "'");
+							+ name.toLowerCase() + "%' and and origin = '" + Utils.origin + "'");
 			while (rs.next())
 				result.add(constructLibrary(rs));
 		} catch (SQLException e) {

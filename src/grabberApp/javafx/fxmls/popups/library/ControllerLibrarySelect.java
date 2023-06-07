@@ -115,15 +115,17 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 		});
 
 		imgSearch.setOnMouseClicked(event -> {
-			gvLibraries.getChildren().clear();
-			UtilsPopup.selectedLibrary = null;
-			btnSelectThis.setDisable(true);
-			btnListChildren.setDisable(true);
-			if (previousLibrary != null) {
-				libraries = getGLibrary().getFromName(previousLibrary, txfSearchBar.getText());
-			} else {
+			if (!txfSearchBar.getText().isEmpty()) {
+				UtilsPopup.selectedLibrary = null;
+				previousLibrary = null;
+
+				gvLibraries.getChildren().clear();
+				btnSelectThis.setDisable(true);
+				btnListChildren.setDisable(true);
+
 				libraries = gLibrary.getFromName(txfSearchBar.getText());
-			}
+			} else
+				libraries = gLibrary.getTop();
 
 			fillLibraries();
 		});
