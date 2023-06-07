@@ -28,7 +28,7 @@ public class UtilsFirstBoot {
 	 * 
 	 * @return true/false
 	 */
-	public boolean isOsWindows() {
+	public static boolean isOsWindows() {
 		return System.getProperty("os.name").contains("Windows");
 	}
 
@@ -37,7 +37,7 @@ public class UtilsFirstBoot {
 	 * 
 	 * @return true/false
 	 */
-	public boolean isOsLinux() {
+	public static boolean isOsLinux() {
 		return !isOsWindows();
 	}
 

@@ -12,6 +12,7 @@ import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.stage.Stage;
 import utils.ImgUtils;
 import utils.Utils;
+import utils.UtilsFirstBoot;
 import utils.UtilsPopup;
 
 public class Video {
@@ -143,7 +144,10 @@ public class Video {
 		if (video.exists()) {
 			Runtime runtime = Runtime.getRuntime();
 			try {
-				runtime.exec("vlc " + video.getAbsolutePath());
+				if (UtilsFirstBoot.isOsWindows())
+					runtime.exec("vlc.exe " + video.getAbsolutePath());
+				else
+					runtime.exec("vlc " + video.getAbsolutePath());
 			} catch (IOException e) {
 				UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
 				UtilsPopup.errType = UtilsPopup.ERR_TYPE.VLC;
@@ -155,7 +159,6 @@ public class Video {
 				e.printStackTrace();
 			}
 		} else {
-			// TODO popup para descargar
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
 			UtilsPopup.errType = UtilsPopup.ERR_TYPE.VIDEO_NOT_FOUND;
 			UtilsPopup.video = new Video[] { this };
