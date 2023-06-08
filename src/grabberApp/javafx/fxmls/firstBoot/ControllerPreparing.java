@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.google.common.io.Files;
 
+import dao.GOriginImp;
 import models.AbstractController;
 import utils.Utils;
 
@@ -26,6 +27,7 @@ public class ControllerPreparing extends AbstractController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			GOriginImp.gestor().nuke();
 		}
 	}
 

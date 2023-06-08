@@ -37,7 +37,7 @@ public class LineVideo extends AnchorPane {
 	private GrabberApp gApp;
 	private Video video;
 	private HBox hbContent, hbEdit, hbDelete;
-	private Label lblName, lblLibrary, lblLibraryTree, lblDate;
+	private Label lblName, lblDate;
 	private Button btnEdit, btnDelete, btnAcceptEdit, btnCancelEdit, btnAcceptDelete, btnCancelDelete;
 	private TextField txfName;
 
@@ -62,8 +62,6 @@ public class LineVideo extends AnchorPane {
 		 * and delete the video
 		 */
 		lblName = new Label(video.getName());
-		lblLibrary = new Label(video.getLibrary().getName() + ":");
-		lblLibraryTree = new Label(video.getLibrary().getTree());
 		Date date = new Date(video.getDateCreated() * 1000);
 		DateFormat df = new SimpleDateFormat("dd/M/yyyy H:mm");
 		lblDate = new Label(df.format(date));
@@ -76,8 +74,6 @@ public class LineVideo extends AnchorPane {
 		});
 
 		hbContent.getChildren().add(lblName);
-		hbContent.getChildren().add(lblLibrary);
-		hbContent.getChildren().add(lblLibraryTree);
 		hbContent.getChildren().add(lblDate);
 		hbContent.getChildren().add(btnEdit);
 		hbContent.getChildren().add(btnDelete);
@@ -135,9 +131,7 @@ public class LineVideo extends AnchorPane {
 		btnDelete.setOnAction(event -> {
 			this.getChildren().remove(hbContent);
 			hbDelete.getChildren().add(0, lblName);
-			hbDelete.getChildren().add(1, lblLibrary);
-			hbDelete.getChildren().add(2, lblLibraryTree);
-			hbDelete.getChildren().add(3, lblDate);
+			hbDelete.getChildren().add(1, lblDate);
 			this.getChildren().add(hbDelete);
 		});
 
@@ -192,7 +186,7 @@ public class LineVideo extends AnchorPane {
 		// Cancels the edition
 		btnCancelEdit.setOnAction(event -> {
 			this.getChildren().remove(hbEdit);
-			hbContent.getChildren().add(3, lblDate);
+			hbContent.getChildren().add(1, lblDate);
 			this.getChildren().add(hbContent);
 		});
 
@@ -209,9 +203,7 @@ public class LineVideo extends AnchorPane {
 		btnCancelDelete.setOnAction(event -> {
 			this.getChildren().remove(hbDelete);
 			hbContent.getChildren().add(0, lblName);
-			hbContent.getChildren().add(1, lblLibrary);
-			hbContent.getChildren().add(2, lblLibraryTree);
-			hbContent.getChildren().add(3, lblDate);
+			hbContent.getChildren().add(1, lblDate);
 			this.getChildren().add(hbContent);
 		});
 	}

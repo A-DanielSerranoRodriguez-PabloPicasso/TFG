@@ -50,6 +50,7 @@ public class UtilsFirstBoot {
 		Utils.folderPath = folderPath;
 
 		dbFilePath = folderPath + "/db.db";
+		Utils.dbFilePath = dbFilePath;
 
 		File dbFolder = new File(folderPath), dbFile = new File(dbFilePath);
 
@@ -58,7 +59,6 @@ public class UtilsFirstBoot {
 		 * application
 		 */
 		if (dbFile.exists()) {
-			Utils.dbFilePath = dbFilePath;
 			GOrigin gOrigin = GOriginImp.gestor();
 			Utils.origin = gOrigin.getOrigin();
 			/**

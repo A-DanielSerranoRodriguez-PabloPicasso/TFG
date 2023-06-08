@@ -49,6 +49,7 @@ public class Grabber {
 		this.gVideo = GVideoImp.getGestor();
 		this.videoName = videoName;
 		this.cmi = cmi;
+		this.newVideo = newVideo;
 	}
 
 //	@Override
@@ -198,8 +199,8 @@ public class Grabber {
 			 * Once the temporal file is gone, we move the downloaded file to the correct
 			 * folder and insert it in the database
 			 */
-			File file = new File(fileFolder.getAbsolutePath() + "/" + files[0]);
-			Files.move(file, new File(outputFolder + "/" + videoName + ".mp4"));
+			File file = new File(fileFolder.getAbsolutePath() + System.getProperty("file.separator") + files[0]);
+			Files.move(file, new File(outputFolder + System.getProperty("file.separator") + videoName + ".mp4"));
 			fileFolder.delete();
 
 			Library library = GLibraryImp.getGestor().getByPath(outputFolder);

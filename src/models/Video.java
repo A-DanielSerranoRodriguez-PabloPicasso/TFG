@@ -144,9 +144,9 @@ public class Video {
 		if (video.exists()) {
 			Runtime runtime = Runtime.getRuntime();
 			try {
-				if (UtilsFirstBoot.isOsWindows())
-					runtime.exec("vlc.exe " + video.getAbsolutePath());
-				else
+				if (UtilsFirstBoot.isOsWindows()) {
+					runtime.exec("C:\\Program Files\\VideoLAN\\VLC\\vlc.exe " + video.getAbsolutePath());
+				} else
 					runtime.exec("vlc " + video.getAbsolutePath());
 			} catch (IOException e) {
 				UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
@@ -156,7 +156,7 @@ public class Video {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 		} else {
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
