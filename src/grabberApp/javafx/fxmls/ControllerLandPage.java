@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
@@ -32,7 +33,7 @@ public class ControllerLandPage extends AbstractController {
 	private GridPane gpLibraries;
 
 	@FXML
-	private GridPane gpRecentVideos;
+	private VBox apVideos;
 
 	@FXML
 	private HBox hbVideos;
@@ -48,6 +49,7 @@ public class ControllerLandPage extends AbstractController {
 		recentVideos = gVideo.getRecent(10);
 		fpRecentVideos = new FlowVideos();
 
+		
 		btnAddLibrary = new Button("Añadir");
 		btnAddLibrary.setOnMousePressed(event -> {
 			reloadLibraryList();
@@ -56,9 +58,9 @@ public class ControllerLandPage extends AbstractController {
 
 	public void initialize() {
 		libraries = gApp.getLibraries();
+		apVideos.getChildren().add(fpRecentVideos);
 
-		hbVideos.getChildren().remove(gpRecentVideos);
-		hbVideos.getChildren().add(fpRecentVideos);
+//		hbVideos.getChildren().add(fpRecentVideos);
 
 		fillLibraries();
 		fillRecentVideos();

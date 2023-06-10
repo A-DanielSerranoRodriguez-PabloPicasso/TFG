@@ -14,78 +14,106 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grabberApp.javafx.fxmls.library.ControllerLibrary">
    <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <content>
-            <AnchorPane>
+      <ScrollPane fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0">
                <children>
-                  <VBox fx:id="vbObjects" prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <padding>
-                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-                     </padding>
+                  <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox fx:id="hBoxBreadcrumb" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0" />
-                        <Label fx:id="lblLibrary" />
-                        <VBox spacing="30.0">
+                        <VBox fx:id="vbObjects" spacing="20.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <VBox fx:id="vbLibraries">
+                              <HBox fx:id="hBoxBreadcrumb" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0" />
+                              <Label fx:id="lblLibrary" />
+                              <VBox spacing="30.0">
                                  <children>
-                                    <HBox fx:id="hBoxVideos1" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
+                                    <VBox fx:id="vbLibraries" minHeight="150.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label text="Bibliotecas" />
-                                          <Button fx:id="btnAddLibrary" mnemonicParsing="false" styleClass="no-bg">
-                                             <graphic>
-                                                <ImageView fx:id="imgAddLibrary" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
-                                             </graphic>
-                                          </Button>
+                                          <HBox fx:id="hBoxVideos1" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                             <children>
+                                                <Label text="Bibliotecas" />
+                                                <Button fx:id="btnAddLibrary" mnemonicParsing="false">
+                                                   <graphic>
+                                                      <ImageView fx:id="imgAddLibrary" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                                                   </graphic>
+                                                   <styleClass>
+                                                      <String fx:value="btnIcon" />
+                                                      <String fx:value="round" />
+                                                   </styleClass>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                          <ScrollPane minHeight="100.0" minViewportHeight="100.0" prefWidth="100.0" vbarPolicy="NEVER" VBox.vgrow="NEVER">
+                                             <content>
+                                                <AnchorPane minHeight="60.0">
+                                                   <children>
+                                                      <VBox minHeight="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <GridPane fx:id="gpLibraries" hgap="10.0" minHeight="60.0" vgap="10.0">
+                                                               <rowConstraints>
+                                                                  <RowConstraints vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                               <styleClass>
+                                                                  <String fx:value="topBar" />
+                                                                  <String fx:value="slightRadius" />
+                                                               </styleClass>
+                                                               <padding>
+                                                                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                               </padding>
+                                                            </GridPane>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                          </ScrollPane>
                                        </children>
-                                    </HBox>
-                                    <GridPane fx:id="gpLibraries" hgap="10.0" vgap="10.0">
-                                       <rowConstraints>
-                                          <RowConstraints vgrow="SOMETIMES" />
-                                       </rowConstraints>
-                                       <styleClass>
-                                          <String fx:value="topBar" />
-                                          <String fx:value="slightRadius" />
-                                       </styleClass>
-                                       <padding>
-                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                       </padding>
-                                    </GridPane>
-                                 </children>
-                              </VBox>
-                              <VBox fx:id="vbVideos">
-                                 <children>
-                                    <HBox fx:id="hBoxVideos" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
+                                    </VBox>
+                                    <VBox fx:id="vbVideos">
                                        <children>
-                                          <Label text="Videos" />
-                                          <Button fx:id="btnDownload" mnemonicParsing="false" styleClass="no-bg">
-                                             <graphic>
-                                                <ImageView fx:id="imgDownload" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
-                                             </graphic>
-                                          </Button>
-                                          <VBox HBox.hgrow="ALWAYS" />
-                                          <Button mnemonicParsing="false" onAction="#handleSwapVideoPane" styleClass="no-bg">
-                                             <graphic>
-                                                <ImageView fx:id="imgSwapVideoPane" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
-                                             </graphic>
-                                          </Button>
+                                          <HBox fx:id="hBoxVideos" alignment="CENTER_LEFT" fillHeight="false" spacing="20.0">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                             <children>
+                                                <Label text="Videos" />
+                                                <Button fx:id="btnDownload" mnemonicParsing="false">
+                                                   <graphic>
+                                                      <ImageView fx:id="imgDownload" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                                                   </graphic>
+                                                   <styleClass>
+                                                      <String fx:value="btnIcon" />
+                                                      <String fx:value="round" />
+                                                   </styleClass>
+                                                </Button>
+                                                <VBox HBox.hgrow="ALWAYS" />
+                                                <Button mnemonicParsing="false" onAction="#handleSwapVideoPane">
+                                                   <graphic>
+                                                      <ImageView fx:id="imgSwapVideoPane" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                                                   </graphic>
+                                                   <styleClass>
+                                                      <String fx:value="btnIcon" />
+                                                      <String fx:value="round" />
+                                                   </styleClass>
+                                                </Button>
+                                             </children>
+                                          </HBox>
                                        </children>
-                                    </HBox>
+                                    </VBox>
                                  </children>
                               </VBox>
                            </children>
+                           <padding>
+                              <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                           </padding>
                         </VBox>
                      </children>
-                  </VBox>
+                  </HBox>
                </children>
             </AnchorPane>
-         </content>
+        </content>
       </ScrollPane>
    </children>
 </AnchorPane>
