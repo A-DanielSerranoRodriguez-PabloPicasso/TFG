@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import grabberApp.javafx.fxmls.popups.Popup;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -57,6 +58,7 @@ public class LibrarySearcher extends HBox {
 		setBehaviour();
 		this.getChildren().add(txfSearchBar);
 		this.getChildren().add(btnSearch);
+		this.setAlignment(Pos.CENTER);
 		this.setVisible(true);
 	}
 

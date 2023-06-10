@@ -2,6 +2,7 @@ package models.javafx;
 
 import java.io.File;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
@@ -43,9 +44,12 @@ public class LibraryPill extends HBox {
 	public LibraryPill(Library library, AbstractController controller) {
 		this.library = library;
 		this.controller = controller;
+		this.setSpacing(20);
+		this.setPadding(new Insets(10));
 		libraryFile = new File(library.getPath());
 
 		btnLibrary = new Button(library.getName());
+		btnLibrary.setWrapText(false);
 		// TODO? alerta biblioteca no disponible
 		if (!libraryFile.exists())
 			btnLibrary.setDisable(true);
@@ -55,6 +59,7 @@ public class LibraryPill extends HBox {
 		if (!libraryFile.exists())
 			miRename.setDisable(true);
 		miDelete = new MenuItem("Eliminar");
+		miDelete.getStyleClass().add("label-delete");
 
 		txfLibraryName = new TextField(library.getName());
 		btnConfirm = new Button();
@@ -91,6 +96,7 @@ public class LibraryPill extends HBox {
 			bRename = true;
 			bDelete = false;
 			btnConfirm.setText("Renombrar");
+			btnConfirm.getStyleClass().remove("btn-delete-confirm");
 
 			this.getChildren().remove(btnLibrary);
 			this.getChildren().remove(mbtnMenu);
@@ -104,6 +110,7 @@ public class LibraryPill extends HBox {
 			bDelete = true;
 			bRename = false;
 			btnConfirm.setText("¿Seguro?");
+			btnConfirm.getStyleClass().add("btn-delete-confirm");
 
 			this.getChildren().remove(mbtnMenu);
 			this.getChildren().add(btnConfirm);
@@ -136,7 +143,8 @@ public class LibraryPill extends HBox {
 		btnCancel.setOnAction(event -> {
 			if (bDelete) {
 			} else if (bRename) {
-				renameLibrary();
+				if (!txfLibraryName.getText().equals(library.getName()))
+					renameLibrary();
 
 				this.getChildren().add(btnLibrary);
 				this.getChildren().remove(txfLibraryName);

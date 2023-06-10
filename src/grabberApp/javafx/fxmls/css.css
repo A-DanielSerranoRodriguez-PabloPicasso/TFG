@@ -3,13 +3,35 @@
     background-color: #05000d;
 }
 
-AnchorPane, ScrollPane, MenuItem{
+AnchorPane, ScrollPane, ScrollPane > .viewport, MenuItem{
 	-fx-background-color: #000009;
+}
+
+.topBar, .context-menu-top, .menu-item-top, Button{
+	-fx-background-color: #141418;
+	-fx-text-fill: #FFFFFF;
 }
 
 Button, MenuButton .label, Label, MenuItem{
 	-fx-text-fill: #FFFFFF;
 	-fx-font-size: 16.0;
+}
+
+Button:hover, .btnIcon:hover{
+	-fx-background-color: #75758a;
+	-fx-text-fill: #000000;
+}
+
+.btnIcon:hover{
+ 	-fx-background-color: #75758a;
+ }
+
+.btn-delete:hover{
+	-fx-background-color: #ff0000;
+}
+
+.btn-delete-confirm{
+	-fx-background-color: #ff0000;
 }
 
 .blackBackground{
@@ -25,18 +47,22 @@ Button, MenuButton .label, Label, MenuItem{
 	-fx-underline: true;
 }
 
-.libraryPill{
-	-fx-background-color: #000009;
+.label-delete:hover .label{
+	-fx-text-fill: #ff0000;
 }
 
-.topBar, .context-menu-top, .menu-item-top, Button{
-	-fx-background-color: #141418;
-	-fx-text-fill: #FFFFFF;
+.libraryPill{
+	-fx-background-color: #05000d;
 }
 
 .slightRadius{
 	-fx-border-radius: 10.0;
   	-fx-background-radius: 10.0;
+}
+
+.round {
+	-fx-border-radius: 100.0;
+  	-fx-background-radius: 100.0;
 }
 
 .icon{
@@ -49,6 +75,10 @@ Button, MenuButton .label, Label, MenuItem{
 
 .no-bg{
 	-fx-background-color: none;
+}
+
+.no-bg:hover{
+	-fx-text-fill: #FFFFFF;
 }
 
 .bordered{
@@ -64,4 +94,8 @@ TextField{
 .search{
 	-fx-border-radius: 100.0;
   	-fx-background-radius: 100.0;
+}
+
+.btnIcon{
+	-fx-background-color: #000009;
 }

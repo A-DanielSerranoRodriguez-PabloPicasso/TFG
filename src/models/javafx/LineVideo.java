@@ -12,6 +12,7 @@ import grabberApp.GrabberApp;
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,7 +37,7 @@ public class LineVideo extends AnchorPane {
 	private AbstractController controller;
 	private GrabberApp gApp;
 	private Video video;
-	private HBox hbContent, hbEdit, hbDelete;
+	private HBox hbGlobal, hbContent, hbEdit, hbDelete;
 	private Label lblName, lblDate;
 	private Button btnEdit, btnDelete, btnAcceptEdit, btnCancelEdit, btnAcceptDelete, btnCancelDelete;
 	private TextField txfName;
@@ -53,8 +54,21 @@ public class LineVideo extends AnchorPane {
 		this.gApp = controller.gApp;
 
 		videoExists = video.getVideo().exists();
-
 		hbContent = new HBox(10);
+		hbGlobal = new HBox();
+
+		/*
+		 * TODO
+		 * 
+		 * HBox con todos los HBox
+		 * 
+		 * Este sera el que se redimensione, y permita que todos los componentes estén centrados
+		 */
+		AnchorPane.setTopAnchor(hbGlobal, 0.0);
+		AnchorPane.setRightAnchor(hbGlobal, 0.0);
+		AnchorPane.setBottomAnchor(hbGlobal, 0.0);
+		AnchorPane.setLeftAnchor(hbGlobal, 0.0);
+
 		hbContent.setAlignment(Pos.CENTER);
 
 		/*
@@ -67,6 +81,7 @@ public class LineVideo extends AnchorPane {
 		lblDate = new Label(df.format(date));
 		btnEdit = new Button("Editar");
 		btnDelete = new Button("Eliminar");
+		btnDelete.getStyleClass().add("btn-delete");
 
 		// When we click in the name, the video launches or we get an error
 		lblName.setOnMouseClicked(event -> {
@@ -97,6 +112,7 @@ public class LineVideo extends AnchorPane {
 		hbDelete.setAlignment(Pos.CENTER);
 
 		btnAcceptDelete = new Button("¿Seguro?");
+		btnAcceptDelete.getStyleClass().add("btn-delete-confirm");
 		btnCancelDelete = new Button("Cancelar");
 
 		hbDelete.getChildren().add(btnAcceptDelete);
@@ -112,7 +128,10 @@ public class LineVideo extends AnchorPane {
 			olLibraries.add(library.getName());
 		}
 
-		this.getChildren().add(hbContent);
+		this.getStyleClass().add("blackBackground");
+		this.setPadding(new Insets(10));
+		hbGlobal.getChildren().add(hbContent);
+		this.getChildren().add(hbGlobal);
 		this.setVisible(true);
 	}
 
@@ -122,17 +141,17 @@ public class LineVideo extends AnchorPane {
 	private void buttonFunctions() {
 		// Hides the normal box and shows the edit box
 		btnEdit.setOnAction(event -> {
-			this.getChildren().remove(hbContent);
+			hbGlobal.getChildren().remove(hbContent);
 			hbEdit.getChildren().add(2, lblDate);
-			this.getChildren().add(hbEdit);
+			hbGlobal.getChildren().add(hbEdit);
 		});
 
 		// Hides the normal box and shows the delete box
 		btnDelete.setOnAction(event -> {
-			this.getChildren().remove(hbContent);
+			hbGlobal.getChildren().remove(hbContent);
 			hbDelete.getChildren().add(0, lblName);
 			hbDelete.getChildren().add(1, lblDate);
-			this.getChildren().add(hbDelete);
+			hbGlobal.getChildren().add(hbDelete);
 		});
 
 		// Accepts the edit of the video
@@ -162,7 +181,7 @@ public class LineVideo extends AnchorPane {
 					e.printStackTrace();
 				}
 			} else {
-				this.getChildren().remove(hbEdit);
+				hbGlobal.getChildren().remove(hbEdit);
 				GVideo<Video> gVideo = GVideoImp.getGestor();
 
 				video.setName(txfName.getText());
@@ -179,32 +198,32 @@ public class LineVideo extends AnchorPane {
 //				lblName.setText(video.getName());
 //				lblLibrary.setText(video.getLibrary().getName());
 //				hbContent.getChildren().add(3, lblDate);
-				this.getChildren().add(hbContent);
+				hbGlobal.getChildren().add(hbContent);
 			}
 		});
 
 		// Cancels the edition
 		btnCancelEdit.setOnAction(event -> {
-			this.getChildren().remove(hbEdit);
+			hbGlobal.getChildren().remove(hbEdit);
 			hbContent.getChildren().add(1, lblDate);
-			this.getChildren().add(hbContent);
+			hbGlobal.getChildren().add(hbContent);
 		});
 
 		// Accepts the deletion of the video
 		btnAcceptDelete.setOnAction(event -> {
-			this.getChildren().remove(hbDelete);
+			hbGlobal.getChildren().remove(hbDelete);
 			GVideo<Video> gVideo = GVideoImp.getGestor();
 			gVideo.delete(video);
 			controller.reload();
-			this.getChildren().add(hbContent);
+			hbGlobal.getChildren().add(hbContent);
 		});
 
 		// Cancels the deletion
 		btnCancelDelete.setOnAction(event -> {
-			this.getChildren().remove(hbDelete);
+			hbGlobal.getChildren().remove(hbDelete);
 			hbContent.getChildren().add(0, lblName);
 			hbContent.getChildren().add(1, lblDate);
-			this.getChildren().add(hbContent);
+			hbGlobal.getChildren().add(hbContent);
 		});
 	}
 
