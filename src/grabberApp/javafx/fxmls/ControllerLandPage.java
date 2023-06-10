@@ -33,7 +33,7 @@ public class ControllerLandPage extends AbstractController {
 	private GridPane gpLibraries;
 
 	@FXML
-	private VBox apVideos;
+	private VBox vbVideos;
 
 	@FXML
 	private HBox hbVideos;
@@ -58,9 +58,7 @@ public class ControllerLandPage extends AbstractController {
 
 	public void initialize() {
 		libraries = gApp.getLibraries();
-		apVideos.getChildren().add(fpRecentVideos);
-
-//		hbVideos.getChildren().add(fpRecentVideos);
+		vbVideos.getChildren().add(fpRecentVideos);
 
 		fillLibraries();
 		fillRecentVideos();

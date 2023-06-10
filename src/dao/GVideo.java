@@ -28,4 +28,8 @@ public interface GVideo<Video> {
 	
 	public boolean update(Library library, List<Video> videos);
 
+	public List<Video> getByLibraryOrderedName(int idLibrary, boolean asc);
+
+	public List<Video> getByLibraryOrderedDate(int idLibrary, boolean asc);
+
 }

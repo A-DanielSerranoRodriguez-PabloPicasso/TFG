@@ -216,6 +216,42 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 	}
 
 	@Override
+	public List<Video> getByLibraryOrderedName(int idLibrary, boolean asc) {
+		List<Video> videos = new ArrayList<>();
+		String order = asc ? "asc" : "desc";
+
+		try {
+			ResultSet rs = stmt
+					.executeQuery("select * from video where library = " + idLibrary + " order by name " + order);
+			while (rs.next())
+				videos.add(constructVideo(rs));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return videos;
+	}
+
+	@Override
+	public List<Video> getByLibraryOrderedDate(int idLibrary, boolean asc) {
+		List<Video> videos = new ArrayList<>();
+		String order = asc ? "desc" : "asc";
+
+		try {
+			ResultSet rs = stmt
+					.executeQuery("select * from video where library = " + idLibrary + " order by last_date " + order);
+			while (rs.next())
+				videos.add(constructVideo(rs));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return videos;
+	}
+
+	@Override
 	public boolean update(Library library, List<Video> videos) {
 		boolean ok = false;
 

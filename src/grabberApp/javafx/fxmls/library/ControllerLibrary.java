@@ -79,7 +79,7 @@ public class ControllerLibrary extends AbstractController {
 		videos = gVideo.getByLibrary(library);
 		videoPane = VideoPane.FLOW;
 
-		gridVideos = new GridVideos(this);
+		gridVideos = new GridVideos(this, library);
 		flowVideos = new FlowVideos();
 
 		btnBack = new Button("<");
