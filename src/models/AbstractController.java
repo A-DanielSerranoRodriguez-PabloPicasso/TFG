@@ -9,22 +9,22 @@ import grabberApp.GrabberApp;
 public abstract class AbstractController {
 	public GrabberApp gApp;
 
-	public GLibrary<Library> gLibrary;
-	
-	public GVideo<Video> gVideo;
+	public GLibrary gLibrary;
+
+	public GVideo gVideo;
 
 	public void setGrabberApp(GrabberApp gApp) {
 		this.gApp = gApp;
 	}
 
-	public GLibrary<Library> getGLibrary() {
+	public GLibrary getGLibrary() {
 		return GLibraryImp.getGestor();
 	}
-	
-	public GVideo<Video> getGVideo(){
+
+	public GVideo getGVideo() {
 		return GVideoImp.getGestor();
 	}
-	
+
 	public void reload() {
 	}
 

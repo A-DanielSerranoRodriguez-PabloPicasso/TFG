@@ -15,8 +15,8 @@ public class Library {
 	private int id, idParent;
 	private String name, path, parent, namePath, origin;
 	private Library libParent;
-	private GLibrary<Library> gLibrary;
-	private GVideo<Video> gVideo;
+	private GLibrary gLibrary;
+	private GVideo gVideo;
 
 	public Library(int id, String path, String name, String parent, int idParent, String origin) {
 		this.id = id;
@@ -107,7 +107,7 @@ public class Library {
 		gLibrary.update(this);
 		gVideo.update(this, gVideo.getByLibrary(this));
 	}
-	
+
 	public void setPath(String path) {
 		this.path = path;
 	}

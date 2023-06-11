@@ -3,8 +3,9 @@ package dao;
 import java.util.List;
 
 import models.Library;
+import models.Video;
 
-public interface GVideo<Video> {
+public interface GVideo {
 
 	public Video getById(String id);
 

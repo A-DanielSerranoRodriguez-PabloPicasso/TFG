@@ -176,7 +176,7 @@ public class LineVideo extends AnchorPane {
 				}
 			} else {
 				hbGlobal.getChildren().remove(hbEdit);
-				GVideo<Video> gVideo = GVideoImp.getGestor();
+				GVideo gVideo = GVideoImp.getGestor();
 
 				video.setName(txfName.getText());
 				while (!video.getVideo().getName().equals(video.getFileName())) {
@@ -204,7 +204,7 @@ public class LineVideo extends AnchorPane {
 		// Accepts the deletion of the video
 		btnAcceptDelete.setOnAction(event -> {
 			hbGlobal.getChildren().remove(hbDelete);
-			GVideo<Video> gVideo = GVideoImp.getGestor();
+			GVideo gVideo = GVideoImp.getGestor();
 			gVideo.delete(video);
 			controller.reload();
 			hbGlobal.getChildren().add(hbContent);

@@ -11,12 +11,12 @@ import java.util.List;
 import models.Library;
 import models.Video;
 
-public class GVideoImp extends GGeneral implements GVideo<Video> {
+public class GVideoImp extends GGeneral implements GVideo {
 
-	private static GVideo<Video> gestor;
+	private static GVideo gestor;
 
 	private Connection conn;
-	private GLibrary<Library> gLibrary;
+	private GLibrary gLibrary;
 
 	private GVideoImp() {
 		gLibrary = GLibraryImp.getGestor();
@@ -29,7 +29,7 @@ public class GVideoImp extends GGeneral implements GVideo<Video> {
 		}
 	}
 
-	public static GVideo<Video> getGestor() {
+	public static GVideo getGestor() {
 		if (gestor == null)
 			gestor = new GVideoImp();
 

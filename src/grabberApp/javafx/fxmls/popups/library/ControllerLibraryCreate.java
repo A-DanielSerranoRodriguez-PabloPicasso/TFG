@@ -66,7 +66,7 @@ public class ControllerLibraryCreate extends AbstractPopupController {
 					pathParent = lib.getPath();
 				}
 
-				GLibrary<Library> gLibrary = getGLibrary();
+				GLibrary gLibrary = getGLibrary();
 				Library library = new Library(folderRoute + "/" + folderName, folderName, pathParent, idParent,
 						Utils.origin);
 				gLibrary.insert(library);

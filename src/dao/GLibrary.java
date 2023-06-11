@@ -2,9 +2,11 @@ package dao;
 
 import java.util.List;
 
-public interface GLibrary<Library> {
+import models.Library;
 
-	public static GLibrary<?> gestor() {
+public interface GLibrary {
+
+	public static GLibrary getGestor() {
 		return null;
 	}
 

@@ -29,7 +29,7 @@ import models.javafx.CustomMenuItem;
 public class Grabber {
 //public class Grabber extends Thread {
 	private String url, outputFolder, videoName;
-	private GVideo<Video> gVideo;
+	private GVideo gVideo;
 	private CustomMenuItem cmi;
 	private boolean newVideo;
 

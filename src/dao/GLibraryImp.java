@@ -9,7 +9,7 @@ import models.Library;
 import models.Video;
 import utils.Utils;
 
-public class GLibraryImp extends GGeneral implements GLibrary<Library> {
+public class GLibraryImp extends GGeneral implements GLibrary {
 
 	private static GLibraryImp gestor;
 

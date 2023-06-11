@@ -35,7 +35,7 @@ public class FileUtils {
 		File folder = new File(route);
 		String[] content = folder.list();
 		Library library = null;
-		GLibrary<Library> gLibrary;
+		GLibrary gLibrary;
 
 		if (syncDatabase) {
 			gLibrary = GLibraryImp.getGestor();
