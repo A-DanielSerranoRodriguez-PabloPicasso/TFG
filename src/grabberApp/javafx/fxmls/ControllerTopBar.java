@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import models.AbstractController;
 import utils.Routes;
 import utils.Utils;
+import utils.UtilsDownload;
 import utils.UtilsPopup;
 
 public class ControllerTopBar extends AbstractController {
@@ -53,6 +54,8 @@ public class ControllerTopBar extends AbstractController {
 	@FXML
 	private void handleNewDownload() {
 		UtilsPopup.page = UtilsPopup.POPUP_PAGE.DOWNLOAD;
+		UtilsDownload.toTarget = false;
+
 		try {
 			new Popup().start(new Stage());
 		} catch (Exception e) {

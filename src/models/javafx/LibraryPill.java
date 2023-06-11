@@ -164,7 +164,8 @@ public class LibraryPill extends HBox {
 	 * Renames the library
 	 */
 	private void renameLibrary() {
-		library.setName(txfLibraryName.getText());
+		if (!txfLibraryName.getText().equals(library.getName()))
+			library.setName(txfLibraryName.getText());
 
 		controller.reload();
 	}

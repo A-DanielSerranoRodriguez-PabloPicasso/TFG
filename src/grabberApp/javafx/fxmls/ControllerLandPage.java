@@ -40,6 +40,7 @@ public class ControllerLandPage extends AbstractController {
 
 	public ControllerLandPage() {
 		gApp = Utils.gApp;
+		Utils.controller = this;
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
 		gApp.setLibraries(gLibrary.getTop());

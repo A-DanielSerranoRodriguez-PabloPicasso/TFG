@@ -2,6 +2,7 @@ package utils;
 
 import grabberApp.GrabberApp;
 import javafx.scene.control.MenuButton;
+import models.AbstractController;
 
 /**
  * Static class used for the application necessities
@@ -29,4 +30,9 @@ public class Utils {
 	 * Download menu button, that access to the downloads done
 	 */
 	public static MenuButton mbDownloads;
+
+	/**
+	 * Controller being used
+	 */
+	public static AbstractController controller;
 }

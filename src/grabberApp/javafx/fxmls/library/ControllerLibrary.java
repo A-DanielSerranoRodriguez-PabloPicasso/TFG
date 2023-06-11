@@ -75,6 +75,7 @@ public class ControllerLibrary extends AbstractController {
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
 		gApp = Utils.gApp;
+		Utils.controller = this;
 		library = gApp.getCurrentLibrary();
 		videos = gVideo.getByLibrary(library);
 		videoPane = VideoPane.FLOW;
@@ -97,6 +98,7 @@ public class ControllerLibrary extends AbstractController {
 		btnDownload.setOnAction(event -> {
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.DOWNLOAD;
 			UtilsDownload.targetLibrary = library;
+			UtilsDownload.toTarget = true;
 
 			try {
 				new Popup().start(new Stage());

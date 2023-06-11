@@ -12,4 +12,9 @@ public class UtilsDownload {
 	 * Target library to download the video
 	 */
 	public static Library targetLibrary;
+	
+	/**
+	 * To download in the targetLibrary or not
+	 */
+	public static Boolean toTarget;
 }

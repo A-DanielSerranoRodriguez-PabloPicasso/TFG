@@ -72,6 +72,10 @@ public class Grabber {
 
 		Label label = (Label) hBox.getChildren().get(0);
 
+		hBox.setSpacing(10);
+		hBox.setMaxWidth(150);
+		label.setMaxWidth(100);
+
 		if (!outFolder.exists())
 			outFolder.mkdirs();
 

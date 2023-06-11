@@ -42,10 +42,10 @@ public class ControllerDownload extends AbstractPopupController {
 	}
 
 	public void initialize() {
-		if (UtilsDownload.targetLibrary == null)
-			vbComponents.getChildren().add(vbComponents.getChildren().size() - 1, new LibrarySearcher(null));
-		else
+		if (UtilsDownload.toTarget)
 			UtilsPopup.selectedLibrary = UtilsDownload.targetLibrary;
+		else
+			vbComponents.getChildren().add(vbComponents.getChildren().size() - 1, new LibrarySearcher(null));
 	}
 
 	@FXML
@@ -134,6 +134,7 @@ public class ControllerDownload extends AbstractPopupController {
 						mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) - 1));
 					});
 					grabber.run();
+					Utils.controller.reload();
 					handleCancelar();
 				}
 			}
