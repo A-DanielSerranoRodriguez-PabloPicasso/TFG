@@ -4,7 +4,7 @@ import java.util.List;
 
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,6 +14,7 @@ import models.Library;
 import models.Video;
 import models.javafx.FlowVideos;
 import models.javafx.LibraryPill;
+import utils.ImgUtils;
 import utils.Utils;
 import utils.UtilsPopup;
 
@@ -24,10 +25,7 @@ public class ControllerLandPage extends AbstractController {
 	private List<Video> recentVideos;
 
 	@FXML
-	private HBox hBoxLibraries;
-
-	@FXML
-	private Button btnAddLibrary;
+	private ImageView imgAddLibrary;
 
 	@FXML
 	private GridPane gpLibraries;
@@ -48,25 +46,19 @@ public class ControllerLandPage extends AbstractController {
 
 		recentVideos = gVideo.getRecent(10);
 		fpRecentVideos = new FlowVideos();
-
-		
-		btnAddLibrary = new Button("Añadir");
-		btnAddLibrary.setOnMousePressed(event -> {
-			reloadLibraryList();
-		});
 	}
 
 	public void initialize() {
 		libraries = gApp.getLibraries();
 		vbVideos.getChildren().add(fpRecentVideos);
+		imgAddLibrary.setImage(ImgUtils.getInternalImage("/img/icon/add.png"));
 
 		fillLibraries();
 		fillRecentVideos();
-
-		hBoxLibraries.getChildren().add(btnAddLibrary);
 	}
 
-	private void reloadLibraryList() {
+	@FXML
+	private void handleAddLirary() {
 		try {
 			UtilsPopup.page = UtilsPopup.POPUP_PAGE.LIBRARY;
 			new Popup().start(new Stage());
@@ -74,11 +66,7 @@ public class ControllerLandPage extends AbstractController {
 			e.printStackTrace();
 		}
 
-		hBoxLibraries.getChildren().clear();
-
 		fillLibraries();
-
-		hBoxLibraries.getChildren().add(btnAddLibrary);
 	}
 
 	private void fillLibraries() {

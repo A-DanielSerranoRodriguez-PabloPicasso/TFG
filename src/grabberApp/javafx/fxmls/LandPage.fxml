@@ -2,8 +2,10 @@
 
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -18,12 +20,23 @@
                <children>
                   <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <VBox HBox.hgrow="ALWAYS">
+                        <VBox spacing="20.0" HBox.hgrow="ALWAYS">
                            <children>
                               <VBox>
                                  <children>
-                                    <Label text="Bibliotecas" />
-                                    <HBox fx:id="hBoxLibraries" prefHeight="100.0" prefWidth="200.0" />
+                                    <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                       <children>
+                                          <Label text="Bibliotecas" />
+                                          <Button mnemonicParsing="false" onAction="#handleAddLirary">
+                                             <graphic>
+                                                <ImageView fx:id="imgAddLibrary" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
+                                             </graphic>
+                                             <styleClass>
+                                                <String fx:value="btnIcon" />
+                                                <String fx:value="round" />
+                                             </styleClass>
+                                          </Button>
+                                       </children></HBox>
                                     <ScrollPane minHeight="100.0" vbarPolicy="NEVER">
                                        <content>
                                           <AnchorPane>

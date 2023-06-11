@@ -57,13 +57,6 @@ public class LineVideo extends AnchorPane {
 		hbContent = new HBox(10);
 		hbGlobal = new HBox();
 
-		/*
-		 * TODO
-		 * 
-		 * HBox con todos los HBox
-		 * 
-		 * Este sera el que se redimensione, y permita que todos los componentes estén centrados
-		 */
 		AnchorPane.setTopAnchor(hbGlobal, 0.0);
 		AnchorPane.setRightAnchor(hbGlobal, 0.0);
 		AnchorPane.setBottomAnchor(hbGlobal, 0.0);
@@ -129,6 +122,7 @@ public class LineVideo extends AnchorPane {
 		}
 
 		this.getStyleClass().add("blackBackground");
+		this.getStyleClass().add("slightRadius");
 		this.setPadding(new Insets(10));
 		hbGlobal.getChildren().add(hbContent);
 		this.getChildren().add(hbGlobal);
@@ -195,9 +189,7 @@ public class LineVideo extends AnchorPane {
 
 				gVideo.update(video);
 				controller.reload();
-//				lblName.setText(video.getName());
-//				lblLibrary.setText(video.getLibrary().getName());
-//				hbContent.getChildren().add(3, lblDate);
+
 				hbGlobal.getChildren().add(hbContent);
 			}
 		});
