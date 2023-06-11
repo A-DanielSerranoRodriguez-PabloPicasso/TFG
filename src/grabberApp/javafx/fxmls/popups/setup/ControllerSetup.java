@@ -13,6 +13,11 @@ import utils.Routes;
 import utils.Utils;
 import utils.UtilsPopup;
 
+/**
+ * Controller of the setup
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class ControllerSetup extends AbstractPopupController {
 
 	private File folder;
@@ -28,12 +33,18 @@ public class ControllerSetup extends AbstractPopupController {
 	@FXML
 	private Button btnAccept;
 
+	/**
+	 * Constructor of the controller
+	 */
 	public ControllerSetup() {
 		popup = UtilsPopup.popup;
 		gApp = Utils.gApp;
 		gOrigin = GOriginImp.gestor();
 	}
 
+	/**
+	 * Initializes the controller
+	 */
 	@FXML
 	private void initialize() {
 		txfRoute.setDisable(true);
@@ -44,6 +55,9 @@ public class ControllerSetup extends AbstractPopupController {
 				txfRoute.setText(folder.getAbsolutePath());
 		});
 
+		/**
+		 * If the route is empty, it does nothing.
+		 */
 		btnAccept.setOnAction(event -> {
 			String route = txfRoute.getText();
 			if (!route.isEmpty()) {

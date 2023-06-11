@@ -1,22 +1,23 @@
 package grabberApp.javafx.fxmls;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import models.AbstractController;
+import utils.ImgUtils;
 import utils.Routes;
 import utils.Utils;
 import utils.UtilsDownload;
 import utils.UtilsPopup;
 
+/**
+ * Controller of the top bar
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class ControllerTopBar extends AbstractController {
 
 	@FXML
@@ -28,29 +29,32 @@ public class ControllerTopBar extends AbstractController {
 	@FXML
 	private MenuButton btnDownloads;
 
+	/**
+	 * Constructor
+	 */
 	public ControllerTopBar() {
 		gApp = Utils.gApp;
 	}
 
+	/**
+	 * Initializer
+	 */
 	public void initialize() {
-		FileInputStream fis = null;
-		File file = new File(gApp.getClass().getResource("/img/icon/home.png").getPath());
-
-		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		imgHome.setImage(new Image(fis));
+		imgHome.setImage(ImgUtils.getInternalImage("/img/icon/home.png"));
 		Utils.mbDownloads = btnDownloads;
 	}
 
+	/**
+	 * Handles the go back home request
+	 */
 	@FXML
 	private void handleHome() {
 		gApp.viewSetCenter(Routes.getRoute("landpage"));
 	}
 
+	/**
+	 * Handles the download request.
+	 */
 	@FXML
 	private void handleNewDownload() {
 		UtilsPopup.page = UtilsPopup.POPUP_PAGE.DOWNLOAD;

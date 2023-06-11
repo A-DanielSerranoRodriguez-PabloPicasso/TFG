@@ -1,5 +1,11 @@
 package models;
 
+/**
+ * Unused class
+ * 
+ * @author Daniel Serrano Rodriguez
+ *
+ */
 public class Category {
 	private String name;
 

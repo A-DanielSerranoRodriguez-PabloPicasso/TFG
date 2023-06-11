@@ -18,6 +18,11 @@ import utils.ImgUtils;
 import utils.Utils;
 import utils.UtilsPopup;
 
+/**
+ * Controller of the landpage
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class ControllerLandPage extends AbstractController {
 
 	private List<Library> libraries;
@@ -38,6 +43,9 @@ public class ControllerLandPage extends AbstractController {
 
 	private FlowVideos fpRecentVideos;
 
+	/**
+	 * Constructor
+	 */
 	public ControllerLandPage() {
 		gApp = Utils.gApp;
 		Utils.controller = this;
@@ -49,6 +57,9 @@ public class ControllerLandPage extends AbstractController {
 		fpRecentVideos = new FlowVideos();
 	}
 
+	/**
+	 * Initializer
+	 */
 	public void initialize() {
 		libraries = gApp.getLibraries();
 		vbVideos.getChildren().add(fpRecentVideos);
@@ -58,6 +69,9 @@ public class ControllerLandPage extends AbstractController {
 		fillRecentVideos();
 	}
 
+	/**
+	 * Handles the library creation request
+	 */
 	@FXML
 	private void handleAddLirary() {
 		try {
@@ -70,6 +84,9 @@ public class ControllerLandPage extends AbstractController {
 		fillLibraries();
 	}
 
+	/**
+	 * Fills the library pane
+	 */
 	private void fillLibraries() {
 		libraries = gLibrary.getTop();
 		gApp.setLibraries(libraries);
@@ -80,6 +97,9 @@ public class ControllerLandPage extends AbstractController {
 		}
 	}
 
+	/**
+	 * Fills the recent videos
+	 */
 	@FXML
 	public void fillRecentVideos() {
 		recentVideos = gVideo.getRecent(10);
@@ -91,6 +111,9 @@ public class ControllerLandPage extends AbstractController {
 
 	}
 
+	/**
+	 * Reloads the view
+	 */
 	@Override
 	public void reload() {
 		fillLibraries();

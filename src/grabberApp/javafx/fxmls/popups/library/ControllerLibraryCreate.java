@@ -14,6 +14,11 @@ import utils.FileUtils;
 import utils.Utils;
 import utils.UtilsPopup;
 
+/**
+ * Controller of the library creator
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class ControllerLibraryCreate extends AbstractPopupController {
 
 	@FXML
@@ -25,16 +30,27 @@ public class ControllerLibraryCreate extends AbstractPopupController {
 	@FXML
 	private Button btnAceptar;
 
+	/**
+	 * Constructor
+	 */
 	public ControllerLibraryCreate() {
 		popup = UtilsPopup.popup;
 		gApp = Utils.gApp;
 	}
 
+	/**
+	 * Initializer
+	 */
 	public void initialize() {
 		btnCancelar.setOnMouseClicked(event -> {
 			popup.getStage().close();
 		});
 
+		/*
+		 * If the folder name is empty, or the library exists, it shows an error.
+		 * 
+		 * Else, it creates the library and the folder for the miniatures
+		 */
 		btnAceptar.setOnMouseClicked(event -> {
 			Library lib = UtilsPopup.selectedLibrary;
 			String folderRoute = lib != null ? lib.getPath() : Utils.origin, folderName = txfNombre.getText();

@@ -6,6 +6,11 @@ import models.AbstractPopupController;
 import models.Video;
 import utils.UtilsPopup;
 
+/**
+ * Controller of the video exists view
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class ControllerVideoExists extends AbstractPopupController {
 
 	@FXML
@@ -14,10 +19,16 @@ public class ControllerVideoExists extends AbstractPopupController {
 	@FXML
 	private Button btnCancel;
 
+	/**
+	 * Constructor
+	 */
 	public ControllerVideoExists() {
 		popup = UtilsPopup.popup;
 	}
 
+	/**
+	 * Initializes the view
+	 */
 	@FXML
 	private void initialize() {
 		Video newVideo = UtilsPopup.video[1], supposedVideo = UtilsPopup.video[0];
@@ -25,6 +36,11 @@ public class ControllerVideoExists extends AbstractPopupController {
 			popup.getStage().close();
 		});
 
+		/**
+		 * If the video exists, it lets you move it.
+		 * 
+		 * If not, it lets you download it.
+		 */
 		if (supposedVideo.getVideo().exists()) {
 			btnAction.setText("Mover");
 			btnAction.setOnAction(event -> {

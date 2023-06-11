@@ -15,11 +15,12 @@ import utils.Utils;
 import utils.UtilsFirstBoot;
 import utils.UtilsPopup;
 
+/**
+ * Represents a video of the database
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class Video {
-
-	public void setLibrary(Library library) {
-		this.library = library;
-	}
 
 	private int id, idLibrary;
 	private String name, fileName, url, miniaturePath;
@@ -29,6 +30,17 @@ public class Video {
 	private boolean downloaded;
 	private long dateCreated;
 
+	/**
+	 * Constructor of a video
+	 * 
+	 * @param id          int
+	 * @param name        String
+	 * @param fileName    String
+	 * @param library     Library
+	 * @param url         String
+	 * @param downloaded  boolean
+	 * @param dateCreated long
+	 */
 	public Video(int id, String name, String fileName, Library library, String url, boolean downloaded,
 			long dateCreated) {
 		super();
@@ -37,9 +49,11 @@ public class Video {
 		this.fileName = fileName;
 		this.library = library;
 		this.downloaded = downloaded;
+		// The video file is assigned dinamically
 		video = new File(library.getPath() + "/" + fileName);
 		this.dateCreated = dateCreated;
 		this.url = url;
+		// The video miniature is assigned dinamically
 		miniaturePath = Utils.folderPath + System.getProperty("file.separator") + library.getId()
 				+ System.getProperty("file.separator") + name + ".jpeg";
 	}
@@ -55,59 +69,140 @@ public class Video {
 				+ System.getProperty("file.separator") + name + ".jpeg";
 	}
 
+	/**
+	 * Gets the name of the file
+	 * 
+	 * @return String
+	 */
 	public String getFileName() {
 		return fileName;
 	}
 
+	/**
+	 * Sets the name of the file
+	 * 
+	 * @param fileName String
+	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 
+	/**
+	 * Gets the URL of the video
+	 * 
+	 * @return String
+	 */
 	public String getUrl() {
 		return url;
 	}
 
+	/**
+	 * Gets the path of the miniature
+	 * 
+	 * @return String
+	 */
 	public String getMiniaturePath() {
 		return miniaturePath;
 	}
 
+	/**
+	 * Gets the id of the video in the database
+	 * 
+	 * @return int
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Gets the name of the video
+	 * 
+	 * @return String
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Gets the library
+	 * 
+	 * @return Library
+	 */
 	public Library getLibrary() {
 		return library;
 	}
 
+	/**
+	 * Sets the library of the video
+	 * 
+	 * @param library Library
+	 */
+	public void setLibrary(Library library) {
+		this.library = library;
+	}
+
+	/**
+	 * Gets the video file
+	 * 
+	 * @return File
+	 */
 	public File getVideo() {
 		return video;
 	}
 
+	/**
+	 * Gets the id of the library
+	 * 
+	 * @return int
+	 */
 	public int getIdLibrary() {
 		return idLibrary;
 	}
 
+	/**
+	 * Gets the categories of the video
+	 * 
+	 * @return List<Category>
+	 */
 	public List<Category> getCategories() {
 		return categories;
 	}
 
+	/**
+	 * Gets if the video is downloaded or not
+	 * 
+	 * @return boolean
+	 */
 	public boolean getDownloaded() {
 		return downloaded;
 	}
 
+	/**
+	 * Gets the creation date of the video
+	 * 
+	 * @return long
+	 */
 	public long getDateCreated() {
 		return dateCreated;
 	}
 
+	/**
+	 * Gets the root of the miniature
+	 * 
+	 * @return String
+	 */
 	private String getMiniatureRoot() {
 		return Utils.folderPath + System.getProperty("file.separator") + library.getId()
 				+ System.getProperty("file.separator");
 	}
 
+	/**
+	 * Sets the name of the video.
+	 * 
+	 * During the process, it changes the file name, renames the image and the video
+	 * 
+	 * @param name String
+	 */
 	public void setName(String name) {
 		this.fileName = name + ".mp4";
 		this.name = name;
@@ -117,10 +212,20 @@ public class Video {
 		video = new File(library.getPath() + "/" + fileName);
 	}
 
-	public void renameVideo() {
+	/**
+	 * Renames the video
+	 */
+	private void renameVideo() {
 		video.renameTo(new File(library.getPath() + "/" + fileName));
 	}
 
+	/**
+	 * Moves the video to a new library.
+	 * 
+	 * It also moves the image.
+	 * 
+	 * @param newLibrary Library
+	 */
 	public void moveVideo(Library newLibrary) {
 		try {
 			File newFile = new File(newLibrary.getPath() + "/" + getFileName());
@@ -140,6 +245,9 @@ public class Video {
 		}
 	}
 
+	/**
+	 * Lets the user watch the video
+	 */
 	public void watch() {
 		if (video.exists()) {
 			Runtime runtime = Runtime.getRuntime();

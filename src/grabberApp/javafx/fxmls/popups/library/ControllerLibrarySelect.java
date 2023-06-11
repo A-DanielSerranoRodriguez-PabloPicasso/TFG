@@ -13,6 +13,11 @@ import models.javafx.LineLibrary;
 import utils.ImgUtils;
 import utils.UtilsPopup;
 
+/**
+ * Controller of the library selector
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class ControllerLibrarySelect extends AbstractPopupController {
 
 	private List<Library> libraries;
@@ -39,13 +44,20 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 	@FXML
 	private Button btnBack;
 
+	/**
+	 * Constructor
+	 */
 	public ControllerLibrarySelect() {
 		popup = UtilsPopup.popup;
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
 	}
 
+	/**
+	 * Initializer
+	 */
 	public void initialize() {
+		// If the library has a parent, the back button is visible
 		if (UtilsPopup.selectedLibrary != null) {
 			if (UtilsPopup.selectedLibrary.getLibParent() != null)
 				btnBack.setVisible(false);
@@ -60,6 +72,9 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 
 		fillLibraries();
 
+		/*
+		 * When a library is selected, if it has sub libraries, the button is enabled.
+		 */
 		gvLibraries.setOnMouseClicked(event -> {
 			Library library = UtilsPopup.selectedLibrary;
 			List<Library> librar = getGLibrary().getChildren(UtilsPopup.selectedLibrary);
@@ -74,6 +89,9 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 		setBehaviourButtons();
 	}
 
+	/**
+	 * Sets the button behaviour
+	 */
 	private void setBehaviourButtons() {
 		btnCancel.setOnAction(event -> {
 			UtilsPopup.selectedLibrary = null;
@@ -84,6 +102,7 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 			closeView();
 		});
 
+		// Reloads the view with the sub libraries
 		btnListChildren.setOnAction(event -> {
 			previousLibrary = UtilsPopup.selectedLibrary;
 			currentLibrary = UtilsPopup.selectedLibrary;
@@ -96,6 +115,10 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 			fillLibraries();
 		});
 
+		/*
+		 * Goes back to the previous library. If it doesn't has sub libraries, the
+		 * button is hidden.
+		 */
 		btnBack.setOnAction(event -> {
 			UtilsPopup.selectedLibrary = currentLibrary;
 			previousLibrary = UtilsPopup.selectedLibrary.getLibParent();
@@ -114,6 +137,12 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 //				btnBack.setVisible(false);
 		});
 
+		/*
+		 * When the image is clicked, if the text bar is empty, it shows the root
+		 * libraries.
+		 * 
+		 * If not, search for libraries containing the text.
+		 */
 		imgSearch.setOnMouseClicked(event -> {
 			if (!txfSearchBar.getText().isEmpty()) {
 				UtilsPopup.selectedLibrary = null;
@@ -131,10 +160,16 @@ public class ControllerLibrarySelect extends AbstractPopupController {
 		});
 	}
 
+	/**
+	 * Closes the pop-up
+	 */
 	private void closeView() {
 		popup.getStage().close();
 	}
 
+	/**
+	 * Fills the libraries
+	 */
 	private void fillLibraries() {
 		gvLibraries.getChildren().clear();
 		int i = 0;

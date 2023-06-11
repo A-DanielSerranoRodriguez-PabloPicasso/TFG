@@ -14,6 +14,11 @@ import utils.Utils;
 import utils.UtilsDownload;
 import utils.UtilsPopup;
 
+/**
+ * Creates a popup JavaFX application
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class Popup extends Application {
 	private Stage primaryStage;
 	private BorderPane rootPane;
@@ -23,6 +28,11 @@ public class Popup extends Application {
 		launch(args);
 	}
 
+	/**
+	 * Starts the application.
+	 * 
+	 * We configure it assigning the GrabberApp as the main window.
+	 */
 	@Override
 	public void start(Stage arg0) throws Exception {
 		primaryStage = arg0;
@@ -30,11 +40,14 @@ public class Popup extends Application {
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
 		primaryStage.initOwner(Utils.gApp.getStage());
 		UtilsPopup.popup = this;
-		primaryStage.setResizable(false);
+//		primaryStage.setResizable(false);
 
 		initLayout();
 	}
 
+	/**
+	 * Initializes the layout.
+	 */
 	private void initLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -48,6 +61,9 @@ public class Popup extends Application {
 
 			primaryStage.setScene(new Scene(rootPane));
 
+			/*
+			 * Sets the page depending of the general page.
+			 */
 			switch (UtilsPopup.page) {
 			case SETUP:
 				primaryStage.setTitle("Crear origen");
@@ -93,6 +109,9 @@ public class Popup extends Application {
 		}
 	}
 
+	/**
+	 * Sets the view depending of the error page.
+	 */
 	private void errorSwitch() {
 		switch (UtilsPopup.errType) {
 		case VLC:
@@ -141,6 +160,11 @@ public class Popup extends Application {
 		viewSetCenter(Routes.getRoute("popup-error"));
 	}
 
+	/**
+	 * Allows to change the center view.
+	 * 
+	 * @param view String
+	 */
 	public void viewSetCenter(String view) {
 		try {
 			FXMLLoader loader = new FXMLLoader();

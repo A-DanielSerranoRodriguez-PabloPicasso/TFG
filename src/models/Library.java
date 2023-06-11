@@ -10,6 +10,11 @@ import dao.GLibraryImp;
 import dao.GVideo;
 import dao.GVideoImp;
 
+/**
+ * Represents a library of the databse
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class Library {
 
 	private int id, idParent;
@@ -18,6 +23,16 @@ public class Library {
 	private GLibrary gLibrary;
 	private GVideo gVideo;
 
+	/**
+	 * Constructor of a library
+	 * 
+	 * @param id       int
+	 * @param path     String
+	 * @param name     String
+	 * @param parent   String
+	 * @param idParent int
+	 * @param origin   String
+	 */
 	public Library(int id, String path, String name, String parent, int idParent, String origin) {
 		this.id = id;
 		this.path = path;
@@ -31,6 +46,15 @@ public class Library {
 		libParent = gLibrary.getByPath(parent);
 	}
 
+	/**
+	 * Constructor of a library without id
+	 * 
+	 * @param path     String
+	 * @param name     String
+	 * @param parent   String
+	 * @param idParent int
+	 * @param origin   String
+	 */
 	public Library(String path, String name, String parent, int idParent, String origin) {
 		this.path = path;
 		this.name = name;
@@ -43,38 +67,83 @@ public class Library {
 		libParent = gLibrary.getByPath(parent);
 	}
 
+	/**
+	 * Returns the id
+	 * 
+	 * @return int
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Returns the name
+	 * 
+	 * @return String
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Returns the path
+	 * 
+	 * @return String
+	 */
 	public String getPath() {
 		return path;
 	}
 
+	/**
+	 * Returns the parent
+	 * 
+	 * @return String
+	 */
 	public String getParent() {
 		return parent;
 	}
 
+	/**
+	 * Returns the name + path
+	 * 
+	 * @return String
+	 */
 	public String getNamePath() {
 		return namePath;
 	}
 
+	/**
+	 * Returns the parent library
+	 * 
+	 * @return Library
+	 */
 	public Library getLibParent() {
 		return libParent;
 	}
 
+	/**
+	 * Returns the id of the parent library
+	 * 
+	 * @return int
+	 */
 	public int getIdParent() {
 		return idParent;
 	}
 
+	/**
+	 * Returns the origin folder
+	 * 
+	 * @return String
+	 */
 	public String getOrigin() {
 		return origin;
 	}
 
+	/**
+	 * Returns a tree from the first parent to this library
+	 * 
+	 * @return String
+	 */
 	public String getTree() {
 		String tree = name;
 		if (libParent != null) {
@@ -85,6 +154,11 @@ public class Library {
 		return tree;
 	}
 
+	/**
+	 * Changes the name of the library
+	 * 
+	 * @param name String
+	 */
 	public void setName(String name) {
 		this.name = name;
 		String oldPath = path;
@@ -108,6 +182,11 @@ public class Library {
 		gVideo.update(this, gVideo.getByLibrary(this));
 	}
 
+	/**
+	 * Sets the new path of the library
+	 * 
+	 * @param path String
+	 */
 	public void setPath(String path) {
 		this.path = path;
 	}

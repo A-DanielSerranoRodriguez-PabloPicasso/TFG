@@ -23,6 +23,11 @@ import utils.Utils;
 import utils.UtilsDownload;
 import utils.UtilsPopup;
 
+/**
+ * Controller of the download pop-up
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class ControllerDownload extends AbstractPopupController {
 
 	@FXML
@@ -34,6 +39,9 @@ public class ControllerDownload extends AbstractPopupController {
 	@FXML
 	private TextField txfUrl;
 
+	/**
+	 * Constructor
+	 */
 	public ControllerDownload() {
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
@@ -41,6 +49,10 @@ public class ControllerDownload extends AbstractPopupController {
 		gApp = Utils.gApp;
 	}
 
+	/**
+	 * Initializer. If we press the download button of the library, we set the video
+	 * target directly and hide the library selector.
+	 */
 	public void initialize() {
 		if (UtilsDownload.toTarget)
 			UtilsPopup.selectedLibrary = UtilsDownload.targetLibrary;
@@ -48,6 +60,9 @@ public class ControllerDownload extends AbstractPopupController {
 			vbComponents.getChildren().add(vbComponents.getChildren().size() - 1, new LibrarySearcher(null));
 	}
 
+	/**
+	 * Handles the cancel request.
+	 */
 	@FXML
 	private void handleCancelar() {
 		popup.getStage().setOnCloseRequest(event -> {
@@ -58,6 +73,13 @@ public class ControllerDownload extends AbstractPopupController {
 		popup.getStage().close();
 	}
 
+	/**
+	 * Handles the accept request.
+	 * 
+	 * If the URL, name, or library is empty, we show an error.
+	 * 
+	 * Else, we start the download process.
+	 */
 	@FXML
 	private void handleAceptar() {
 		if (txfUrl.getText().isEmpty()) {
@@ -126,7 +148,7 @@ public class ControllerDownload extends AbstractPopupController {
 					mbDownloads.getItems().add(0, cmi);
 
 					mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) + 1));
-					hBox.getChildren().add(btnVer);
+//					hBox.getChildren().add(btnVer);
 					hBox.getChildren().add(btnRemove);
 
 					btnRemove.setOnAction(event -> {

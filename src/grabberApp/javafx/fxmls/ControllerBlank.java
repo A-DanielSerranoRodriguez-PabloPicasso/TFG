@@ -10,12 +10,27 @@ import utils.Routes;
 import utils.Utils;
 import utils.UtilsPopup;
 
+/**
+ * Controller of the blank view
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class ControllerBlank extends AbstractController {
 
+	/**
+	 * Constructor
+	 */
 	public ControllerBlank() {
 		gApp = Utils.gApp;
 	}
 
+	/**
+	 * Initializer.
+	 * 
+	 * Once the view is shown, we move to the preparing view and we show the setup.
+	 * 
+	 * If the user hasn't created an origin, we exit the app.
+	 */
 	public void initialize() {
 		gApp.getStage().setOnShown(arg0 -> {
 			File dbFile = new File(Utils.dbFilePath);

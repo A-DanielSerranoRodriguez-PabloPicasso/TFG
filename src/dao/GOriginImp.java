@@ -29,7 +29,7 @@ public class GOriginImp extends GGeneral implements GOrigin {
 		String result = null;
 		try {
 			ResultSet rs = conn.createStatement().executeQuery("select * from " + table + ";");
-			if (rs.next())
+			while (rs.next())
 				result = rs.getString(1);
 		} catch (SQLException e) {
 			e.printStackTrace();

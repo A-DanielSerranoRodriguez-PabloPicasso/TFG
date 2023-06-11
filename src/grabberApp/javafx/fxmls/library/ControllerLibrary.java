@@ -22,7 +22,15 @@ import utils.Utils;
 import utils.UtilsDownload;
 import utils.UtilsPopup;
 
+/**
+ * Controller of the Library.
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class ControllerLibrary extends AbstractController {
+	/*
+	 * Depending of the VideoPane, we show on grid or another.
+	 */
 	private enum VideoPane {
 		FLOW, GRID
 	}
@@ -71,6 +79,11 @@ public class ControllerLibrary extends AbstractController {
 	private GridVideos gridVideos;
 	private FlowVideos flowVideos;
 
+	/**
+	 * Constructor.
+	 * 
+	 * It puts the default pane as the Flow.
+	 */
 	public ControllerLibrary() {
 		gLibrary = getGLibrary();
 		gVideo = getGVideo();
@@ -87,6 +100,9 @@ public class ControllerLibrary extends AbstractController {
 		lblBreadcrumb = new Label();
 	}
 
+	/**
+	 * Initializer.
+	 */
 	public void initialize() {
 		vbVideos.getChildren().add(gridVideos);
 		vbVideos.getChildren().add(flowVideos);
@@ -128,6 +144,9 @@ public class ControllerLibrary extends AbstractController {
 
 		fillLibraries();
 
+		/*
+		 * If the library has a parent, shows the back button and the breadcrumb.
+		 */
 		if (library.getLibParent() != null) {
 			if (!hBoxBreadcrumb.getChildren().contains(btnBack))
 				hBoxBreadcrumb.getChildren().add(btnBack);
@@ -148,6 +167,9 @@ public class ControllerLibrary extends AbstractController {
 		fillVideos();
 	}
 
+	/**
+	 * Reloads the library view.
+	 */
 	@Override
 	public void reload() {
 		if (library.getLibParent() != null) {
@@ -171,6 +193,11 @@ public class ControllerLibrary extends AbstractController {
 		fillLibraries();
 	}
 
+	/**
+	 * Fills the videos.
+	 * 
+	 * Depending on the pane, changes the image of the button.
+	 */
 	private void fillVideos() {
 		videos = gVideo.getByLibrary(library);
 
@@ -195,6 +222,9 @@ public class ControllerLibrary extends AbstractController {
 		}
 	}
 
+	/**
+	 * Handles the swap of the video pane.
+	 */
 	@FXML
 	private void handleSwapVideoPane() {
 		switch (videoPane) {
@@ -214,6 +244,9 @@ public class ControllerLibrary extends AbstractController {
 		fillVideos();
 	}
 
+	/**
+	 * Fills the library pane.
+	 */
 	private void fillLibraries() {
 		gpLibraries.getChildren().clear();
 		libraries = gLibrary.getChildren(library);

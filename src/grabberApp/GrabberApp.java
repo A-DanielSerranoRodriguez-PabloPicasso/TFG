@@ -17,6 +17,11 @@ import utils.Routes;
 import utils.Utils;
 import utils.UtilsFirstBoot;
 
+/**
+ * Main app
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class GrabberApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootPane;
@@ -29,6 +34,11 @@ public class GrabberApp extends Application {
 		launch(args);
 	}
 
+	/**
+	 * Starts the app.
+	 * 
+	 * Sets a minimum height and width, an icon and a title.
+	 */
 	@Override
 	public void start(Stage arg0) throws Exception {
 		primaryStage = arg0;
@@ -49,6 +59,11 @@ public class GrabberApp extends Application {
 		initLayout();
 	}
 
+	/**
+	 * Initializer of the layout.
+	 * 
+	 * If an origin has been set, we go to the landpage.
+	 */
 	private void initLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -79,6 +94,11 @@ public class GrabberApp extends Application {
 		}
 	}
 
+	/**
+	 * Changes the top pane.
+	 * 
+	 * @param view String
+	 */
 	public void viewSetTop(String view) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -96,6 +116,11 @@ public class GrabberApp extends Application {
 		}
 	}
 
+	/**
+	 * Changes the middle pane.
+	 * 
+	 * @param view String
+	 */
 	public void viewSetCenter(String view) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -113,19 +138,36 @@ public class GrabberApp extends Application {
 		}
 	}
 
+	/**
+	 * Returns the primary stage
+	 * 
+	 * @return Stage
+	 */
 	public Stage getStage() {
 		return primaryStage;
 	}
 
+	/**
+	 * Returns the current library
+	 * 
+	 * @return Library
+	 */
 	public Library getCurrentLibrary() {
 		return currentLibrary;
 	}
 
+	/**
+	 * Sets the current library
+	 * 
+	 * @param library Library
+	 */
 	public void setCurrentLibrary(Library library) {
 		this.currentLibrary = library;
 	}
 
 	/**
+	 * Returns the libraries
+	 * 
 	 * @return the libraries
 	 */
 	public List<Library> getLibraries() {
@@ -133,6 +175,8 @@ public class GrabberApp extends Application {
 	}
 
 	/**
+	 * Sets the libraries
+	 * 
 	 * @param libraries the libraries to set
 	 */
 	public void setLibraries(List<Library> libraries) {

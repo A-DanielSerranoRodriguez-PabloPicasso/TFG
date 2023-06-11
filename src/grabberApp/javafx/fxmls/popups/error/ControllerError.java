@@ -1,14 +1,9 @@
 package grabberApp.javafx.fxmls.popups.error;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,9 +11,15 @@ import models.AbstractPopupController;
 import models.Video;
 import models.javafx.CustomMenuItem;
 import utils.Grabber;
+import utils.ImgUtils;
 import utils.Utils;
 import utils.UtilsPopup;
 
+/**
+ * Controller of the error pop-up
+ * 
+ * @author Daniel Serrano Rodriguez
+ */
 public class ControllerError extends AbstractPopupController {
 
 	private boolean letDownload;
@@ -37,24 +38,24 @@ public class ControllerError extends AbstractPopupController {
 	@FXML
 	private ImageView imgWarning;
 
+	/**
+	 * Constructor
+	 */
 	public ControllerError() {
 		popup = UtilsPopup.popup;
 		gApp = Utils.gApp;
 		letDownload = false;
 	}
 
+	/**
+	 * Initializer
+	 */
 	public void initialize() {
-		FileInputStream fis = null;
-		File file = new File(gApp.getClass().getResource("/img/icon/warning.png").getPath());
+		imgWarning.setImage(ImgUtils.getInternalImage("/img/icon/warning.png"));
 
-		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		imgWarning.setImage(new Image(fis));
-
+		/*
+		 * Depending of the error type, it shows one error or another
+		 */
 		switch (UtilsPopup.errType) {
 		case VLC:
 			lblError.setText("Es necesario instalar VLC para reproducir videos");
@@ -92,6 +93,7 @@ public class ControllerError extends AbstractPopupController {
 			lblError.setText("Ya existe un video con ese nombre en la biblioteca");
 			break;
 
+		// If the video isn't downloaded, it lets you do so
 		case VIDEO_NOT_FOUND:
 			lblError.setText("Video no encontrado en el equipo.\n¿Desde descargarlo?");
 			letDownload = true;
@@ -106,6 +108,9 @@ public class ControllerError extends AbstractPopupController {
 
 	@FXML
 	private void handleAccept() {
+		/*
+		 * If the video is missing, and the user wants, the video gets downloaded
+		 */
 		if (letDownload) {
 			MenuButton mbDownloads = Utils.mbDownloads;
 			HBox hBox = new HBox();
@@ -133,6 +138,9 @@ public class ControllerError extends AbstractPopupController {
 		popup.getStage().close();
 	}
 
+	/**
+	 * Closes the pop-up
+	 */
 	@FXML
 	private void handleCancel() {
 		UtilsPopup.video = null;

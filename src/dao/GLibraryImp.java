@@ -184,12 +184,15 @@ public class GLibraryImp extends GGeneral implements GLibrary {
 		}
 
 		List<Video> videos = GVideoImp.getGestor().getByLibrary(library);
-		for (Video video : videos) {
-			GVideoImp.getGestor().update(video);
-		}
+//		for (Video video : videos) {
+//			GVideoImp.getGestor().update(video);
+//		}
 
 		List<Library> libraries = getChildren(library);
 
+		/*
+		 * The sublibraries are updated
+		 */
 		for (Library lib : libraries) {
 			lib.setPath(library.getPath() + System.getProperty("file.separator") + lib.getName());
 			update(lib);
