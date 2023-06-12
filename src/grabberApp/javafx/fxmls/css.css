@@ -99,3 +99,12 @@ TextField{
 .btnIcon{
 	-fx-background-color: #000009;
 }
+
+.scroll-pane .scroll-bar{
+	-fx-background-color: #29292A;
+}
+
+.scroll-pane .scroll-bar .thumb{
+	-fx-background-color: #141418;
+}
+
