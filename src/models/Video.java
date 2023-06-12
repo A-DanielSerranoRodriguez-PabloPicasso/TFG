@@ -249,7 +249,18 @@ public class Video {
 	 * Lets the user watch the video
 	 */
 	public void watch() {
-		if (video.exists()) {
+		File libraryFile = new File(library.getPath());
+		if (!libraryFile.exists()) {
+			UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
+			UtilsPopup.errType = UtilsPopup.ERR_TYPE.LIBRARY_NOT_FOUND;
+			UtilsPopup.selectedLibrary = library;
+
+			try {
+				new Popup().start(new Stage());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if (video.exists()) {
 			Runtime runtime = Runtime.getRuntime();
 			try {
 				if (UtilsFirstBoot.isOsWindows()) {

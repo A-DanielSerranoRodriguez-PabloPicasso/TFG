@@ -8,8 +8,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import models.AbstractPopupController;
+import models.Library;
 import models.Video;
 import models.javafx.CustomMenuItem;
+import utils.FileUtils;
 import utils.Grabber;
 import utils.ImgUtils;
 import utils.Utils;
@@ -22,9 +24,10 @@ import utils.UtilsPopup;
  */
 public class ControllerError extends AbstractPopupController {
 
-	private boolean letDownload;
+	private boolean isDownload, isCreateLibrary;
 
 	private Video video;
+	private Library library;
 
 	@FXML
 	private Label lblError;
@@ -44,7 +47,8 @@ public class ControllerError extends AbstractPopupController {
 	public ControllerError() {
 		popup = UtilsPopup.popup;
 		gApp = Utils.gApp;
-		letDownload = false;
+		isDownload = false;
+		isCreateLibrary = false;
 	}
 
 	/**
@@ -96,9 +100,19 @@ public class ControllerError extends AbstractPopupController {
 		// If the video isn't downloaded, it lets you do so
 		case VIDEO_NOT_FOUND:
 			lblError.setText("Video no encontrado en el equipo.\n¿Desde descargarlo?");
-			letDownload = true;
+			isDownload = true;
 			video = UtilsPopup.video[0];
 			btnCancel.setVisible(true);
+			break;
+
+		// If the library is missing, the user can create it again
+		case LIBRARY_NOT_FOUND:
+			lblError.setText("Biblioteca no disponible.\n¿Desdea volver a crearla?");
+			isCreateLibrary = true;
+			library = UtilsPopup.selectedLibrary;
+			btnCancel.setVisible(true);
+			btnCancel.setText("No");
+			btnAccept.setText("Sí");
 			break;
 
 		default:
@@ -111,7 +125,7 @@ public class ControllerError extends AbstractPopupController {
 		/*
 		 * If the video is missing, and the user wants, the video gets downloaded
 		 */
-		if (letDownload) {
+		if (isDownload) {
 			MenuButton mbDownloads = Utils.mbDownloads;
 			HBox hBox = new HBox();
 			Button btnRemove = new Button("X"), btnVer = new Button("Ver");
@@ -134,8 +148,14 @@ public class ControllerError extends AbstractPopupController {
 				mbDownloads.setText(Integer.toString(Integer.parseInt(mbDownloads.getText()) - 1));
 			});
 			grabber.run();
-		}
-		popup.getStage().close();
+			
+			/*
+			 * If the library is missing, and the user wants, the folder gets created again
+			 */
+		} else if (isCreateLibrary)
+			FileUtils.createFolder(library.getPath());
+
+		popup.close();
 	}
 
 	/**
@@ -144,7 +164,9 @@ public class ControllerError extends AbstractPopupController {
 	@FXML
 	private void handleCancel() {
 		UtilsPopup.video = null;
-		letDownload = false;
+		UtilsPopup.selectedLibrary = null;
+		isDownload = false;
+		isCreateLibrary = false;
 		handleAccept();
 	}
 }

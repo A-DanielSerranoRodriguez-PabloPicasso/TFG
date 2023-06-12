@@ -2,6 +2,7 @@ package models.javafx;
 
 import java.io.File;
 
+import grabberApp.javafx.fxmls.popups.Popup;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,11 +10,13 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import models.AbstractController;
 import models.Library;
 import utils.FileUtils;
 import utils.Routes;
 import utils.Utils;
+import utils.UtilsPopup;
 
 /**
  * Library pill to manage and access them
@@ -50,12 +53,8 @@ public class LibraryPill extends HBox {
 
 		btnLibrary = new Button(library.getName());
 		btnLibrary.setWrapText(false);
-		// TODO? alerta biblioteca no disponible
-		if (!libraryFile.exists())
-			btnLibrary.setDisable(true);
 		mbtnMenu = new MenuButton();
 		miRename = new MenuItem("Renombrar");
-		// TODO? alerta biblioteca no disponible
 		if (!libraryFile.exists())
 			miRename.setDisable(true);
 		miDelete = new MenuItem("Eliminar");
@@ -87,8 +86,20 @@ public class LibraryPill extends HBox {
 	private void setBehaviourButtons() {
 		// When clicked, we access the library view
 		btnLibrary.setOnMouseClicked(event -> {
-			controller.gApp.setCurrentLibrary(library);
-			controller.gApp.viewSetCenter(Routes.getRoute("library"));
+			if (!libraryFile.exists()) {
+				UtilsPopup.page = UtilsPopup.POPUP_PAGE.ERR;
+				UtilsPopup.errType = UtilsPopup.ERR_TYPE.LIBRARY_NOT_FOUND;
+				UtilsPopup.selectedLibrary = library;
+
+				try {
+					new Popup().start(new Stage());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				controller.gApp.setCurrentLibrary(library);
+				controller.gApp.viewSetCenter(Routes.getRoute("library"));
+			}
 		});
 
 		// When renaming, we show the the necessary components

@@ -182,7 +182,19 @@ public class Popup extends Application {
 		}
 	}
 
+	/**
+	 * Returns the primary stage
+	 * 
+	 * @return Stage
+	 */
 	public Stage getStage() {
 		return primaryStage;
+	}
+
+	/**
+	 * Closes the pop-up
+	 */
+	public void close() {
+		primaryStage.close();
 	}
 }
